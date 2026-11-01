@@ -13,7 +13,17 @@ tests or validation evidence exist.
 | changed | Contract changed after earlier implementation |
 | retired | No longer part of the product contract |
 
-## Matrix
+## Active SPEC-001 proof
+
+Current contracts supersede the unsafe details in historical snapshots below.
+The authoritative per-criterion status, exact commands, source SHA and artifact
+hashes are in [SPEC-001 acceptance](validation/SPEC-001-acceptance.md).
+
+| Story | Current contract | Proof | Status |
+| --- | --- | --- | --- |
+| SPEC-001 | Authenticated, loopback-first bounded proxy; additive truthful FinOps; offline eval/scan defaults; guarded opt-in live paths; supervised terminal; source-only CI | Offline Rust regressions, real PTY/headless process flow, synthetic migration/concurrency/backup, security/license/archive gates | See acceptance matrix for actual PASS/FAIL/BLOCKED/NOT_RUN; live inference/scans NOT_RUN; project license BLOCKED |
+
+## Historical baseline snapshots (not current verification)
 
 | Story | Contract | Unit | Integration | E2E | Platform | Status | Evidence |
 | --- | --- | --- | --- | --- | --- | --- | --- |

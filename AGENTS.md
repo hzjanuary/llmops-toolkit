@@ -1,11 +1,16 @@
 # Agent Operating Guide
 
-This repository is in Harness v0. There is no product implementation yet.
+The repository has an implemented Rust prototype. SPEC-001 explicitly authorizes
+its secure local-first refactor, regression tests and source CI. Preserve useful
+features, historical stories/ADRs, and all operator data. Do not introduce a RAG
+engine, general gateway, UI framework or agent orchestration.
 
-The current job of agents is to preserve and grow the collaboration harness
-before writing application code. Do not scaffold application source folders,
-platform shells, package scripts, CI, or tests unless a later story explicitly
-moves the project into implementation.
+Default development proof is entirely offline: zero real LLM/paid calls, external
+target scans or model downloads. Never auto-load .env, delete databases, rewrite
+history, suppress scanners, publish packages/images, tag, release, deploy or merge
+under this task. Use a feature branch; a Draft PR is the stop boundary. Main-branch
+rulesets/settings require a separate owner decision. Check ownership before
+activating LICENSE.proposed; green source CI is not legal/release approval.
 
 ## Source Of Truth
 
@@ -73,3 +78,17 @@ A task is done only when:
 - Validation commands were run when they exist.
 - Missing harness capabilities were added to `docs/HARNESS_BACKLOG.md`.
 - The final response says what changed and what was not attempted.
+
+## Current verification
+
+Read CONTRIBUTING.md for exact pinned tool, offline source and security commands.
+`python3 scripts/verify.py --output /tmp/UNIQUE-EVIDENCE-DIRECTORY` requires a
+committed clean tracked tree; it records the actual tested SHA and log hashes.
+Fetch both lockfile dependencies first. Keep the pre-existing untracked spec
+input outside agent commits unless the owner specifically selects it for
+publication. Never stage everything indiscriminately.
+
+Use PASS/FAIL/BLOCKED/NOT_RUN in SPEC-001 acceptance evidence. Preserve failures;
+record source SHA, exact command, exit code and immutable log/artifact digest.
+Local secrets findings must be redacted; genuine credentials require private
+owner rotation/review, not printed values or automatic history rewriting.

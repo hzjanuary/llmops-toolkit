@@ -1,5 +1,10 @@
 # Harness
 
+Current project state: implementation exists and SPEC-001 authorizes secure
+refactor, focused tests and source CI. The Harness v0 sections below describe
+the original generic bootstrap, not a ban on current authorized work. See
+CONTRIBUTING.md and the SPEC-001 initiative for executable validation.
+
 The project goal is to provide a reusable operating harness that lets humans and
 agents turn a future product spec into safe, validated work.
 
@@ -153,8 +158,9 @@ either improve the harness directly or add a proposal to `HARNESS_BACKLOG.md`.
 
 ## Future Validation Ladder
 
-No validation scripts exist yet. When implementation begins, the expected ladder
-is:
+SPEC-001 adds scripts/verify.py, runtime_smoke.py, source_gate.py and
+license_inventory.py, plus pinned security tools and GitHub Source CI. The
+original conceptual ladder below remains historical guidance:
 
 ```text
 validate:quick

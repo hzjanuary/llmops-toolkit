@@ -45,3 +45,14 @@ test:platform
 test:release
   full suite, log checks, and performance smoke
 ```
+
+## SPEC-001 executable validation (current project)
+
+The installer text above is historical upstream harness context, not a command
+required for this product. Do not pipe installers into a shell for validation.
+Current commands: see CONTRIBUTING.md. verify.py runs offline source checks;
+runtime_smoke.py uses only synthetic local mocks and temporary SQLite/PTY state;
+license_inventory.py checks both lockfiles' declared metadata; source_gate.py
+verifies complete Git archives; install_security_tools.py installs checksum-pinned
+Gitleaks and pinned cargo-audit outside the checkout. Nothing publishes a binary,
+package or release. The old mock_script.py now runs only an offline eval example.

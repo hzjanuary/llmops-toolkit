@@ -1,74 +1,38 @@
-# RAG Evaluation Engine
+# RAG evaluation contract — SPEC-001
 
-Status: implemented by `US-031-rag-evaluation-engine`.
+Input remains a JSON array of question/context/answer string records. Strict
+validation rejects unknown fields, duplicate struct fields, malformed JSON,
+empty arrays/fields, NUL content, more than 100 rows, fields above 16384 bytes and
+files above 1 MiB. Input must be a regular file, not a symlink/device/FIFO.
+Local filesystem races are outside the trust boundary.
 
-## Purpose
+Default `eval --dataset PATH` uses lexical_subset_heuristic_v1: normalized
+alphanumeric answer words must be a subset of context words to score 1, otherwise
+0. No lexical words causes abstention. It does not understand entailment,
+negation or paraphrase and must never be called ground-truth faithfulness.
+Question is required and validated but is not part of context/answer scoring.
 
-The RAG evaluation engine is a local CLI workflow for judging whether generated
-answers are faithful to retrieved context. It reads a JSON dataset from disk,
-sends each record to an OpenAI Chat Completions judge, and prints an aggregate
-faithfulness score.
+Output JSON includes schema/method/limitations, original dataset SHA-256, ordered
+row indices and nullable scores, evaluated/abstention counts and mean over scored
+rows (null if none). No dataset content/path is printed. Integer score sums and
+input ordering make offline results reproducible. No provider is initialized
+for the offline path. Hashes of low-entropy data can still reveal content.
 
-## CLI Contract
+Live binary LLM-as-judge is separate: requires --judge, --consent-send-dataset,
+--reviewed-config, --provider openai, exact --model, reviewed versioned --pricing,
+explicit --max-live-requests (1..100), --max-judge-tokens (1..256), positive bounded
+--max-estimated-usd, independent RAGOPS_PROXY_TOKEN and OPENAI_API_KEY. The entire
+dataset is validated against request count before any egress. Unknown-model cost
+policy is not allowed. Context/answer is sent as untrusted JSON under a system
+instruction; binary replies other than exactly 0/1 are abstentions/errors. This
+does not eliminate prompt injection or nondeterministic judgments.
 
-- `cargo run -- eval --dataset <path>` runs the evaluator.
-- `<path>` must point to a local JSON file.
-- The JSON file must be an array of records.
-
-Dataset record shape:
-
-```json
-{
-  "question": "What is the capital of France?",
-  "context": "France's capital city is Paris.",
-  "answer": "Paris."
-}
-```
-
-## Evaluation Contract
-
-Each record is sent to `https://api.openai.com/v1/chat/completions` with
-`Authorization: Bearer $OPENAI_API_KEY`.
-
-The judge prompt is:
-
-```text
-Evaluate if answer is fully supported by context. Return ONLY 1 for yes, 0 for no. Context: {context}. Answer: {answer}.
-```
-
-The evaluator parses the first returned assistant message as an integer score:
-
-- `1`: answer is fully supported by the supplied context.
-- `0`: answer is not fully supported by the supplied context.
-
-Any other judge output is treated as an evaluation error.
-
-## Report Contract
-
-The evaluator prints:
-
-- Total evaluated records.
-- Average Faithfulness score.
-
-Empty datasets produce `0` evaluated records and an average score of `0.000`.
-
-## Configuration
-
-| Variable | Required | Default | Purpose |
-| --- | --- | --- | --- |
-| `OPENAI_API_KEY` | yes | none | OpenAI API key used for judge calls. |
-
-The evaluator attempts to load `.env` before reading `OPENAI_API_KEY`.
-
-## Data Handling
-
-US-031 does not persist questions, contexts, answers, judge responses, or
-scores. Evaluation results are printed to stdout only.
-
-## Non-Goals
-
-- Persistent evaluation history.
-- Dashboard visualization.
-- Multi-metric evaluation.
-- Multi-provider judging.
-- Retry policy or rate-limit scheduling.
+Live calls reuse the bounded no-redirect proxy transport and conservative
+reservation policy; no automatic retry. Unknown/mismatched model or unavailable
+usage stops subsequent judging; remaining rows are explicitly not attempted. Receipts live only in a temporary
+in-memory database for judging. Output labels method/model, price provenance,
+nullable estimated cost and failed/abstained rows. Privacy consent acknowledges
+provider processing of context/answer; do not use private data without review.
+Actual live inference remains NOT_RUN by SPEC-001 hard limits; local synthetic
+judge-adapter proof is separate. There is no claim that offline heuristic scores
+are a substitute for live or human faithfulness validation.
