@@ -7,7 +7,7 @@ required or published. Tested platform: Linux x86_64, Rust 1.99.0, Python 3.12+.
 1. Fetch locked dependencies, build offline, and run the offline checks in README.
 2. Use a private working directory and `umask 077`. Keep existing .env, session,
    database, WAL/SHM and backup files outside source commits. No command auto-loads
-   .env. `RAGOPS_DB_PATH` or global `--db` selects the file.
+   .env. `LLMOPS_DB_PATH` or global `--db` selects the file.
 3. Back up existing SQLite data with SQLite's backup API (Python sqlite3 backup
    or the `backup` command) to a **new** file before starting the refactored server.
    Do not copy only the main file while WAL writes are active.
@@ -19,7 +19,7 @@ required or published. Tested platform: Linux x86_64, Rust 1.99.0, Python 3.12+.
 
 This documentation is not a development test command. No live request was made
 for SPEC-001. Obtain independently generated, high-entropy owner and provider
-credentials. Supply `RAGOPS_PROXY_TOKEN` and `OPENAI_API_KEY` through a protected
+credentials. Supply `LLMOPS_PROXY_TOKEN` and `OPENAI_API_KEY` through a protected
 environment, not CLI arguments or shared shell-history commands. Both must be
 32–512 non-space ASCII characters and distinct. Restrict the provider account's
 spending and permissions outside the application.
@@ -31,7 +31,7 @@ compatibility with non-streaming text Chat Completions. Use a small output cap,
 attempt cap and reservation budget, for example this **server-only** shape:
 
 ```text
-ragops-harness --db /private/operator/telemetry.sqlite3 serve \
+llmops-toolkit --db /private/operator/telemetry.sqlite3 serve \
   --enable-provider --model REVIEWED_EXACT_MODEL --pricing /private/operator/prices.json \
   --max-output-tokens 128 --max-requests 10 --max-estimated-usd 0.25 --no-tui
 ```
@@ -96,4 +96,10 @@ is MIT, Copyright (c) 2026 Hoang Nguyen; retain LICENSE and NOTICE. A full Git c
 is needed for history/provenance audits; source archives contain the selected
 snapshot, not the full Git history. scripts/verify_public_archives.py compares
 both archive formats against an exact local Git commit without extracting them.
-No external Harness installer or hidden update mechanism is required.
+No external workflow installer or hidden update mechanism is required.
+
+Current LLMOPS_* environment names retain deprecated RAGOPS_* aliases: use the
+current value when present, legacy fallback when absent, accept equal pairs and
+reject conflicting pairs without logging values. See README environment table.
+The default ragops_harness.sqlite3 filename remains unchanged intentionally; no
+branding-driven database migration, move or rename occurs.

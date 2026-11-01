@@ -1,27 +1,12 @@
-# Test Matrix
+# LLMOps Toolkit test matrix
 
-This file maps product behavior to proof. Do not mark a row implemented until
-tests or validation evidence exist.
+Current verification is source-bound: use PASS/FAIL/BLOCKED/NOT_RUN with exact
+command, exit, SHA and evidence. Historical snapshots below remain unchanged.
 
-## Status Values
-
-| Status | Meaning |
-| --- | --- |
-| planned | Accepted as intended behavior, not implemented |
-| in_progress | Actively being built |
-| implemented | Implemented and proof exists |
-| changed | Contract changed after earlier implementation |
-| retired | No longer part of the product contract |
-
-## Active SPEC-001 proof
-
-Current contracts supersede the unsafe details in historical snapshots below.
-The authoritative per-criterion status, exact commands, source SHA and artifact
-hashes are in [SPEC-001 acceptance](validation/SPEC-001-acceptance.md).
-
-| Story | Current contract | Proof | Status |
-| --- | --- | --- | --- |
-| SPEC-001 | Authenticated, loopback-first bounded proxy; additive truthful FinOps; offline eval/scan defaults; guarded opt-in live paths; supervised terminal; source-only CI | Offline Rust regressions, real PTY/headless process flow, synthetic migration/concurrency/backup, security/license/archive gates | See acceptance matrix for actual PASS/FAIL/BLOCKED/NOT_RUN; live inference/scans NOT_RUN; official owner-confirmed MIT grant installed (S30 PASS); new publication commits require fresh gates |
+| Initiative | Current contract | Proof |
+| --- | --- | --- |
+| REBRAND-001 | Package/CLI/TUI identity; current/deprecated environment aliases; fail-closed conflicts; unchanged default DB; independent source tooling and audited scaffolding retirement | [Rebrand acceptance](validation/REBRAND-001-acceptance.md), offline Rust environment regressions, process smoke, identity/history/link/license/archive/security gates |
+| SPEC-001 / OSS-001 | Authenticated loopback-first bounded proxy; truthful FinOps; offline heuristics; guarded live paths; supervised TTY | [Preserved exact 38-row matrix](validation/SPEC-001-acceptance.md): historical 37 PASS / 1 NOT_RUN on its recorded source, never reassigned to rebrand SHA |
 
 ## Historical baseline snapshots (not current verification)
 

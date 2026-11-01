@@ -1,9 +1,8 @@
-# RAGOps Harness
+# LLMOps Toolkit
 
 A small, local-first Rust toolkit for non-streaming OpenAI Chat Completions
 proxy telemetry, SQLite FinOps, terminal monitoring, reproducible RAG evaluation
-and bounded safety-response heuristics. It is a prototype under secure OSS
-refactor, not security-certified software. It is not a RAG engine, general AI
+and bounded safety-response heuristics. It is a source-preview toolkit, not security-certified software. It is not a RAG engine, general AI
 gateway or multi-agent operating system.
 
 SPEC-001 retains the existing Rust/Tokio/Axum/Reqwest/SQLite CLI. Default commands
@@ -44,7 +43,7 @@ cargo run --locked --offline -- --db ./ragops_harness.sqlite3 dashboard --json
 ```
 
 The server binds `127.0.0.1:8000`. Forwarding is disabled until `--enable-provider`
-is supplied with independent `RAGOPS_PROXY_TOKEN` and `OPENAI_API_KEY` credentials,
+is supplied with independent `LLMOPS_PROXY_TOKEN` and `OPENAI_API_KEY` credentials,
 at least one exact `--model`, and reviewed pricing (or proxy-only explicit
 `--allow-unknown-price`). Tokens must be 32–512 non-space ASCII characters;
 choose high-entropy secrets. Keys are read only from the process environment;
@@ -69,6 +68,24 @@ spending cap or an OS/network service limit.
 TTY serve mode uses an alternate screen and refreshes every two seconds. Non-TTY
 and `--no-tui` mode run headless without terminal escapes. SIGINT/SIGTERM initiate
 graceful shutdown and restoration; SIGKILL/power loss cannot restore a terminal.
+
+## Environment and database compatibility
+
+| Current name | Deprecated alias | Purpose |
+| --- | --- | --- |
+| LLMOPS_DB_PATH | RAGOPS_DB_PATH | SQLite path |
+| LLMOPS_PROXY_TOKEN | RAGOPS_PROXY_TOKEN | Owner credential for proxy/judge |
+| LLMOPS_SCAN_TOKEN | RAGOPS_SCAN_TOKEN | Exact-target scanner credential |
+
+Current names are preferred; a legacy alias works when the current name is
+absent. Equal pairs are accepted; conflicting pairs fail closed before operator
+I/O, even with --db. Values are never included in errors. OPENAI_API_KEY remains
+the provider credential. No command automatically loads .env.
+
+`--db` otherwise overrides the environment. The default **ragops_harness.sqlite3**
+is deliberately unchanged for existing users: branding never moves/renames a DB,
+opens a new differently named default, or changes schema/rows/timestamps/receipts.
+The executable is now `llmops-toolkit`; update local launcher paths explicitly.
 
 ## Truthful FinOps
 
@@ -117,7 +134,7 @@ only, fixed chat path, no credentials/query/fragment, no redirects, no DNS,
 no link-local/metadata/mapped destinations. Non-loopback targets also require
 HTTPS and `--allow-non-loopback-target`. At most five serial requests, 64 output
 tokens by default, 64 KiB response and ten seconds per case. Optional
-`RAGOPS_SCAN_TOKEN` is target-specific; provider credentials are never reused.
+`LLMOPS_SCAN_TOKEN` is target-specific; provider credentials are never reused.
 See [scanner contract](docs/product/red-team-engine.md).
 
 ## Evidence and project docs
@@ -126,6 +143,8 @@ See [scanner contract](docs/product/red-team-engine.md).
   [baseline audit](docs/validation/SPEC-001-baseline.md).
 - [Architecture](docs/ARCHITECTURE.md), [threat model](docs/THREAT_MODEL.md),
   [privacy/operator guide](docs/SELF_HOSTING.md), [security policy](SECURITY.md).
+- [Development](docs/DEVELOPMENT.md), [maintenance](docs/MAINTENANCE.md),
+  [REBRAND-001 acceptance](docs/validation/REBRAND-001-acceptance.md).
 - [Contributing and verification](CONTRIBUTING.md), [test matrix](docs/TEST_MATRIX.md),
   [Vietnamese handoff](docs/validation/SPEC-001-handoff-vi.md).
 - [High-risk plan](docs/stories/initiatives/SPEC-001/execplan.md) and historical
@@ -133,14 +152,17 @@ See [scanner contract](docs/product/red-team-engine.md).
 
 ## License and release status
 
-RAGOps Harness is licensed under the [MIT License](LICENSE):
+LLMOps Toolkit is licensed under the [MIT License](LICENSE):
 `Copyright (c) 2026 Hoang Nguyen`, explicitly confirmed by the owner.
 [NOTICE](NOTICE) and the [provenance review](docs/legal/PROVENANCE_REVIEW.md)
 distinguish project rights, historical workflow material and third-party
 obligations without inferring copyright from Git usernames or URLs.
 
-A source-only v0.1.0 pre-release is authorized after final review and exact-source
-local/GitHub gates. The release metadata is the authority for actual publication.
-No binary/package/image/deployment or repository settings change is authorized.
-Separate Harness cleanup is gated on successful publication and verification of
-both public source archives.
+The historical `v0.1.0 — Initial RAGOps Harness Source Preview` release and its
+annotated tag retain their original source identity; this rebranding does not
+modify that release or publish another one. See [release history](docs/releases/README.md).
+The canonical repository is [hzjanuary/llmops-toolkit](https://github.com/hzjanuary/llmops-toolkit),
+repository ID 1245373914. No external development-workflow installer or runtime
+is needed. REBRAND-001 stops at a Draft PR with exact-source CI for owner review.
+No merge/tag/release, binary/package/image publication, deployment or repository
+settings change is included.

@@ -1,4 +1,4 @@
-# RAG evaluation contract — SPEC-001
+# RAG evaluation contract — LLMOps Toolkit
 
 Input remains a JSON array of question/context/answer string records. Strict
 validation rejects unknown fields, duplicate struct fields, malformed JSON,
@@ -21,7 +21,7 @@ for the offline path. Hashes of low-entropy data can still reveal content.
 Live binary LLM-as-judge is separate: requires --judge, --consent-send-dataset,
 --reviewed-config, --provider openai, exact --model, reviewed versioned --pricing,
 explicit --max-live-requests (1..100), --max-judge-tokens (1..256), positive bounded
---max-estimated-usd, independent RAGOPS_PROXY_TOKEN and OPENAI_API_KEY. The entire
+--max-estimated-usd, independent LLMOPS_PROXY_TOKEN and OPENAI_API_KEY. The entire
 dataset is validated against request count before any egress. Unknown-model cost
 policy is not allowed. Context/answer is sent as untrusted JSON under a system
 instruction; binary replies other than exactly 0/1 are abstentions/errors. This
@@ -36,3 +36,9 @@ provider processing of context/answer; do not use private data without review.
 Actual live inference remains NOT_RUN by SPEC-001 hard limits; local synthetic
 judge-adapter proof is separate. There is no claim that offline heuristic scores
 are a substitute for live or human faithfulness validation.
+
+Current LLMOPS_* environment names retain deprecated RAGOPS_* aliases: use the
+current value when present, legacy fallback when absent, accept equal pairs and
+reject conflicting pairs without logging values. See README environment table.
+The default ragops_harness.sqlite3 filename remains unchanged intentionally; no
+branding-driven database migration, move or rename occurs.

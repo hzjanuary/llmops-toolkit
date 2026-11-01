@@ -1,25 +1,24 @@
-RAGOps Harness — project and third-party notices
+LLMOps Toolkit — project and third-party notices
 
 Project copyright
 Copyright (c) 2026 Hoang Nguyen
-The public copyright-holder text is explicitly confirmed by the repository owner.
-The owner declares RAGOps independently developed and owns its RAGOps-specific
+The repository owner explicitly declares this independently developed project's
 application code, Rust modules, tests, product documentation, scripts and
-configuration. See docs/legal/OWNER_DECLARATION.md and PROVENANCE_REVIEW.md.
+configuration owned by Hoang Nguyen. See docs/legal/OWNER_DECLARATION.md and
+PROVENANCE_REVIEW.md. Rights are not inferred from usernames or historical URLs.
 
 Project license
-RAGOps Harness is licensed under the MIT License in the root LICENSE file.
-The project grant does not replace third-party dependency licenses or notices.
+LLMOps Toolkit uses the unchanged MIT grant in root LICENSE. The project grant
+does not replace third-party dependency licenses or notices. The historical
+v0.1.0 release retains its original product/source identity and grant.
 
-Historical development workflow materials
-The historical harness-experimental URL identifies a Codex development/workflow
-environment used by the owner. It is not a third-party RAGOps runtime dependency,
-product component or external orchestration service. The URL does not establish
-RAGOps ownership by any other GitHub user. The earlier NOTICE implication of an
-external ownership clearance requirement based solely on that URL is withdrawn.
-Historical workflow templates, stories, decisions and evidence remain preserved.
-Their file-level lineage is recorded without asserting that every historical
-phrase was independently authored or inventing an external source attribution.
+Development records
+Historical development-workflow material is not a runtime dependency, product
+component, external service or required installer. Generic scaffolding and
+obsolete installer/task copies are retired from the current tree; original
+blobs/hashes/source/removal records remain in Git and RETIREMENT_RECORD.json.
+Product history and dependency records remain, without claiming independently
+proved authorship of every historical generic phrase.
 
 Third-party dependencies
 Dependency names, versions, checksums, upstream repositories and declared SPDX

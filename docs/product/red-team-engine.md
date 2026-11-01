@@ -1,4 +1,4 @@
-# Bounded safety-response heuristics — SPEC-001
+# Bounded safety-response heuristics — LLMOps Toolkit
 
 `scan` defaults to three offline synthetic fixtures. Optional --fixtures reads
 1..5 strict status/body fixtures from a bounded regular JSON file. Files cap at
@@ -18,7 +18,7 @@ actual owner permission, plus explicit --model. Literal IP only, exact
 Link-local, metadata, unspecified, multicast, broadcast and IPv4-mapped IPv6
 addresses are rejected. Non-loopback IPs additionally need HTTPS and explicit
 --allow-non-loopback-target. No TLS verification bypass exists. Optional
-RAGOPS_SCAN_TOKEN is used only for that exact target; provider credentials and
+LLMOPS_SCAN_TOKEN is used only for that exact target; provider credentials and
 owner-proxy credentials are not silently reused.
 
 At most five serial fixed inherited probes, no retries, 100 ms between cases,
@@ -27,3 +27,9 @@ At most five serial fixed inherited probes, no retries, 100 ms between cases,
 as inconclusive and never followed. Authorization is a user assertion, not proof
 that the target owner consented; operator must possess actual permission and
 review billing/privacy first. No external scan was executed for SPEC-001.
+
+Current LLMOPS_* environment names retain deprecated RAGOPS_* aliases: use the
+current value when present, legacy fallback when absent, accept equal pairs and
+reject conflicting pairs without logging values. See README environment table.
+The default ragops_harness.sqlite3 filename remains unchanged intentionally; no
+branding-driven database migration, move or rename occurs.

@@ -1,4 +1,4 @@
-# Security policy
+# LLMOps Toolkit security policy
 
 This source preview has no production security certification or support SLA.
 The v0.1.0 source preview is assessed only by the recorded offline/source gates;
@@ -31,3 +31,7 @@ for trust boundaries, privacy and residual risks.
 
 Project source uses the owner-confirmed MIT grant in LICENSE. That grant does not
 replace third-party terms or provide independent security certification.
+
+LLMOPS_* and deprecated RAGOPS_* aliases are checked before operator I/O;
+conflicting pairs fail closed with no values in diagnostics. No .env auto-load,
+credential CLI flag or branding-driven SQLite file/schema migration is added.

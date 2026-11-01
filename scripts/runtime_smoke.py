@@ -263,6 +263,7 @@ with tempfile.TemporaryDirectory(prefix="llmops-offline-smoke-") as tmp:
     assert refusal.returncode != 0
 
     first = run(binary, "eval", "--dataset", "examples/dataset.json").stdout
+    assert run("python3", "mock_script.py").stdout == first
     assert first == run(binary, "eval", "--dataset", "examples/dataset.json").stdout
     assert json.loads(first)["method"] == "lexical_subset_heuristic_v1"
     scan = json.loads(run(binary, "scan").stdout)

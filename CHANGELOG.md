@@ -1,5 +1,18 @@
 # Changelog
 
+## Unreleased
+
+- Rename current product/package/CLI to LLMOps Toolkit / llmops-toolkit.
+- Prefer LLMOPS_DB_PATH/PROXY_TOKEN/SCAN_TOKEN; preserve deprecated RAGOPS_*
+  aliases, reject conflicting pairs before I/O and redact credential diagnostics.
+- Intentionally keep ragops_harness.sqlite3 as the default filename; no automatic
+  database rename/move or schema/data change.
+- Retire generic workflow templates/docs/decisions and obsolete installer/task
+  attachments; preserve their blob hashes/Git history and all product evidence.
+- Document the actual independent Rust development and maintenance workflow;
+  keep active verification scripts, MIT and dependency obligations unchanged.
+- Preserve the original v0.1.0 annotated tag, release notes and source identity.
+
 ## 0.1.0 — Initial RAGOps Harness Source Preview
 
 Prepared for the owner-authorized source-only GitHub pre-release. The actual

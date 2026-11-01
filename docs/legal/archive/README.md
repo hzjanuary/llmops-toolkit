@@ -1,14 +1,12 @@
-# Preserved development records
+# Retained historical dependency records
 
-These files are historical snapshots, not active setup commands or current
-license status. Exact source commit/path/SHA-256 are in ../RETIREMENT_RECORD.json.
+`dependency-inventory-before-crate-retirement.json` is preserved byte-for-byte
+from the earlier source. It includes both former dependency graphs and the
+then-pending project-license status; current MIT/dependencies are described in
+../dependency-inventory.json and ../OWNER_DECLARATION.md.
 
-- dependency-inventory-before-crate-retirement.json preserves the full former
-  root + nested-crate inventory, including its then-pending project status.
-  Current project MIT and retained dependencies are in ../dependency-inventory.json.
-- legacy-scripts-readme.txt preserves obsolete installer examples verbatim.
-  Do not execute them. RAGOps runtime, source CI and release process do not fetch
-  or require those external scripts.
-- The exact old root task is preserved in the US-043 historical story packet.
-
-Retirement removes unused current scaffolding, not history or attribution.
+Obsolete installer and copied task attachments are no longer distributed in the
+current tree. Their original paths, Git blob IDs, SHA-256, source and removal
+commits remain in ../RETIREMENT_RECORD.json; exact content is recoverable from
+Git history. This removes setup ambiguity without rewriting history, altering
+the v0.1.0 source snapshot or discarding dependency obligations.

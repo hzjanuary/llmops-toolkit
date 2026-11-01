@@ -1,4 +1,4 @@
-# Threat model and operator privacy
+# LLMOps Toolkit threat model and operator privacy
 
 Scope: one trusted local operator, a local proxy caller, an untrusted provider
 response, an explicitly authorized scanner target, local files, and source CI.
@@ -25,3 +25,7 @@ No external LLM request, paid call or external target scan was used as proof.
 Offline tests use loopback mocks and synthetic temporary databases. No production
 security assessment, penetration-test certification, streaming accounting or
 cross-platform support claim is made.
+
+LLMOPS_* and deprecated RAGOPS_* aliases are checked before operator I/O;
+conflicting pairs fail closed with no values in diagnostics. No .env auto-load,
+credential CLI flag or branding-driven SQLite file/schema migration is added.
