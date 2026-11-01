@@ -23,7 +23,8 @@ evidence = {"schema_version": 1, "source_sha": sha,
             "started_utc": datetime.now(timezone.utc).isoformat(),
             "rustc": subprocess.check_output(["rustc", "--version"]).decode().strip(), "checks": []}
 env = dict(os.environ)
-for key in ("OPENAI_API_KEY", "RAGOPS_PROXY_TOKEN", "RAGOPS_SCAN_TOKEN", "RAGOPS_DB_PATH"):
+for key in ("OPENAI_API_KEY", "RAGOPS_PROXY_TOKEN", "RAGOPS_SCAN_TOKEN", "RAGOPS_DB_PATH",
+            "LLMOPS_PROXY_TOKEN", "LLMOPS_SCAN_TOKEN", "LLMOPS_DB_PATH"):
     env.pop(key, None)
 
 
@@ -60,9 +61,10 @@ check("tests", ["cargo", "test", "--locked", "--offline"])
 check("build", ["cargo", "build", "--locked", "--offline"])
 check("runtime", ["python3", "scripts/runtime_smoke.py"])
 check("licenses", ["python3", "scripts/license_inventory.py"])
+check("rebrand", ["python3", "scripts/rebrand_gate.py"])
 check("source-archive", ["python3", "scripts/source_gate.py", "--revision", sha, "--output", str(output / "archive")])
 check("public-archive-verifier", ["python3", "scripts/verify_public_archives.py", "--self-test", "--revision", sha, "--output", str(output / "public-archive-verifier.json")])
-with tempfile.TemporaryDirectory(prefix="ragops-verified-archive-") as temp:
+with tempfile.TemporaryDirectory(prefix="llmops-verified-archive-") as temp:
     temp_path = Path(temp)
     with tarfile.open(output / "archive/reviewed-source.tar") as archive:
         archive.extractall(temp_path, filter="data")

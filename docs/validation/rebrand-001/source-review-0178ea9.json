@@ -1,0 +1,36 @@
+{
+  "reviewed_sha": "0178ea96657b4f2c3765abea6cfd15f0dc9628f3",
+  "baseline_sha": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+  "diff_sha256": "5cb49f4debc34f517c62de060c4553ccb3d24da618bfd26d7f9803a5b3fb57bd",
+  "exact_deleted_paths": [
+    "docs/FEATURE_INTAKE.md",
+    "docs/GLOSSARY.md",
+    "docs/HARNESS.md",
+    "docs/HARNESS_BACKLOG.md",
+    "docs/decisions/0001-harness-first-development.md",
+    "docs/decisions/0002-post-spec-product-lifecycle.md",
+    "docs/decisions/0003-generic-spec-intake-harness.md",
+    "docs/legal/archive/legacy-scripts-readme.txt",
+    "docs/stories/epics/E04-dashboard/US-043-unified-live-tui-monitor/legacy-agent-requirement.md",
+    "docs/templates/decision.md",
+    "docs/templates/high-risk-story/design.md",
+    "docs/templates/high-risk-story/execplan.md",
+    "docs/templates/high-risk-story/overview.md",
+    "docs/templates/high-risk-story/validation.md",
+    "docs/templates/spec-intake.md",
+    "docs/templates/story.md",
+    "docs/templates/validation-report.md"
+  ],
+  "checks": [
+    "17 deletions exactly match authorized retirement metadata",
+    "Runtime defaults/auth/budgets/transport policy retained; added central current/deprecated alias resolution",
+    "No DB/schema/row timestamp migration edits",
+    "All249 registry package records unchanged; root identity only",
+    "All121 protected source/evidence files and historical matrix rows hash equal baseline",
+    "Official MIT unchanged; third-party obligations preserved",
+    "Six original active validation scripts plus new gate executable",
+    "No pre-existing untracked input or ignored operator/evidence file staged",
+    "No external repository/permission or GitHub metadata mutation",
+    "New Draft PR only; no merge/tag/release/settings authorization"
+  ]
+}

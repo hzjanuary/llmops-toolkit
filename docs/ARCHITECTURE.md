@@ -1,4 +1,4 @@
-# Architecture
+# LLMOps Toolkit architecture
 
 SPEC-001 keeps the root Rust binary, Tokio, Axum, Reqwest and bundled SQLite.
 Its public surfaces are CLI/terminal and two HTTP routes. There is no browser
@@ -15,6 +15,7 @@ CLI scan -> offline fixtures OR exactly authorized literal-IP chat endpoint
 | Module | Responsibility |
 | --- | --- |
 | main | CLI dispatch, signal supervision, TTY guard, graceful shutdown |
+| environment | Current/deprecated environment aliases, conflict rejection, compatible DB default |
 | config | Parsed bounds, network exposure policy, bounded regular-file inputs |
 | proxy | Independent bearer auth, typed text requests, model/budget gates, receipts |
 | http_client | Rust TLS, no redirects/proxies, deadlines, bounded body reads |
@@ -59,9 +60,15 @@ There is no claim of bounded total TCP connections; use an OS/reverse-proxy limi
 if exposing the service. Application body and provider concurrency are bounded.
 
 [ADR 0010](decisions/0010-secure-local-oss-refactor.md) supersedes the unsafe
-runtime details of ADRs 0004/0005/0006/0009. All historical ADRs and stories remain
-for provenance. The unused independent rag-harness/ Hello World crate is retired;
-root Cargo/runtime never depended on it. Current CI/audits/inventory cover the
-retained root crate. The complete former inventory, obsolete installer README
-and old task text remain archived with source hashes in the retirement record.
-No runtime source, database migration or active protocol/template was removed.
+runtime details of ADRs 0004/0005/0006/0009. Product ADRs 0004 onward and technical stories remain
+for provenance. REBRAND-001 retires generic process templates and obsolete
+installer/task attachments from the current tree; their Git blobs/hashes remain
+in the retirement record. Root runtime never depended on the previously retired
+Hello World crate. CI audits the retained root lockfile; the complete former
+dependency inventory remains archived. No external installer is fetched.
+
+[ADR 0011](decisions/0011-product-rebrand-and-environment-compatibility.md)
+records LLMOps Toolkit identity and environment compatibility. Aliases resolve
+once before dispatch/DB/network I/O; conflict errors are fixed and redacted.
+The explicit --db option otherwise precedes environment and the unchanged
+ragops_harness.sqlite3 default. Branding changes no DB schema version or rows.

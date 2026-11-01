@@ -105,7 +105,7 @@ def verify(sha, tree, zip_path, tar_path):
 
 
 def self_test(sha, tree):
-    with tempfile.TemporaryDirectory(prefix="ragops-archive-verifier-") as temp:
+    with tempfile.TemporaryDirectory(prefix="llmops-archive-verifier-") as temp:
         base = Path(temp)
         zip_path, tar_path = base / "fixture.zip", base / "fixture.tar.gz"
         zip_path.write_bytes(subprocess.check_output(["git", "archive", "--format=zip", "--prefix=zip-fixture/", sha]))

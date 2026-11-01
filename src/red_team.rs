@@ -210,7 +210,7 @@ fn builtin() -> Vec<Fixture> {
     ]
 }
 
-pub async fn run_scan(o: ScanOptions) -> ScanResult<()> {
+pub async fn run_scan(o: ScanOptions, token: Option<String>) -> ScanResult<()> {
     let (mode, cases) = if o.target.is_none() {
         if o.authorize_target.is_some() || o.allow_non_loopback_target || o.model.is_some() {
             return Err("live scope options require --target".into());
@@ -233,12 +233,11 @@ pub async fn run_scan(o: ScanOptions) -> ScanResult<()> {
         )
     } else {
         let target = validate_target(&o)?;
-        let token = std::env::var("RAGOPS_SCAN_TOKEN").ok();
         if token
             .as_deref()
             .is_some_and(|s| !crate::config::valid_secret(s))
         {
-            return Err("invalid target-specific RAGOPS_SCAN_TOKEN".into());
+            return Err("invalid target-specific LLMOPS_SCAN_TOKEN (or deprecated alias)".into());
         }
         (
             "authorized_live_target",

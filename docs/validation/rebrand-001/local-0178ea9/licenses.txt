@@ -1,0 +1,1 @@
+PASS: retained root lockfile license inventory matches reviewed declared SPDX expressions; installed owner-confirmed MIT grant verified

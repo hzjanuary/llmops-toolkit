@@ -1,0 +1,157 @@
+{
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": "checkout",
+      "exit_code": 0,
+      "id": "format",
+      "log": "format.txt",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--offline",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "checkout",
+      "exit_code": 0,
+      "id": "clippy",
+      "log": "clippy.txt",
+      "log_sha256": "beed191cf5cd39a57477a6d66e9acb53f3b4efe7566a30e0ada805357a0fe6ff",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline"
+      ],
+      "cwd": "checkout",
+      "exit_code": 0,
+      "id": "tests",
+      "log": "tests.txt",
+      "log_sha256": "ca7ac6d97794fe66afcb52c6805a86e4e414071850ce81da046d21f249c6b65d",
+      "status": "PASS",
+      "untrimmed_log": "tests.untrimmed.b64",
+      "untrimmed_log_encoding": "base64",
+      "untrimmed_log_sha256": "65703c568a348165d9fb5feab8a3a14a6ec5c73fb7744342ff33783fb8b6e38e"
+    },
+    {
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "--offline"
+      ],
+      "cwd": "checkout",
+      "exit_code": 0,
+      "id": "build",
+      "log": "build.txt",
+      "log_sha256": "b2c020f27a01faabb96e5d55c11fd219cf7c484c9cf34b3342bfc8444d934c89",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/runtime_smoke.py"
+      ],
+      "cwd": "checkout",
+      "exit_code": 0,
+      "id": "runtime",
+      "log": "runtime.txt",
+      "log_sha256": "633bbb695f702537a0df2ed5929c04d6b423fc30ef3522a6d73f59dd79e55f77",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/license_inventory.py"
+      ],
+      "cwd": "checkout",
+      "exit_code": 0,
+      "id": "licenses",
+      "log": "licenses.txt",
+      "log_sha256": "9fd4d4824a03f17ca492747eb773701a50156b44613ca8ad13b82b5d8a095e11",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/rebrand_gate.py"
+      ],
+      "cwd": "checkout",
+      "exit_code": 0,
+      "id": "rebrand",
+      "log": "rebrand.txt",
+      "log_sha256": "fe266241b64328ae7ed9343b0176f4e2fde5bf538086a5aedfead0f3e1ad041c",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/source_gate.py",
+        "--revision",
+        "0178ea96657b4f2c3765abea6cfd15f0dc9628f3",
+        "--output",
+        "/tmp/llmops-rebrand-local-0178ea9/archive"
+      ],
+      "cwd": "checkout",
+      "exit_code": 0,
+      "id": "source-archive",
+      "log": "source-archive.txt",
+      "log_sha256": "ed59f8963edb10eee0a0abfdeb3e0c08caf5d51b7babcee5937560022130bf02",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/verify_public_archives.py",
+        "--self-test",
+        "--revision",
+        "0178ea96657b4f2c3765abea6cfd15f0dc9628f3",
+        "--output",
+        "/tmp/llmops-rebrand-local-0178ea9/public-archive-verifier.json"
+      ],
+      "cwd": "checkout",
+      "exit_code": 0,
+      "id": "public-archive-verifier",
+      "log": "public-archive-verifier.txt",
+      "log_sha256": "d8c542fc4a5827cb72b100cb5999762e30340909c1f271c94ef550e80a7cf95f",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "--offline",
+        "--target-dir",
+        "/tmp/llmops-verified-archive-2cw66_6w/target"
+      ],
+      "cwd": "verified-source-archive",
+      "exit_code": 0,
+      "id": "clean-archive-build",
+      "log": "clean-archive-build.txt",
+      "log_sha256": "f517ac524f53bb6b416d889e7e26528bfce9dfbc906a746b97f605a0dcb7aff2",
+      "status": "PASS"
+    }
+  ],
+  "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+  "schema_version": 1,
+  "source_sha": "0178ea96657b4f2c3765abea6cfd15f0dc9628f3",
+  "started_utc": "2026-11-01T09:47:09.024431+00:00"
+}

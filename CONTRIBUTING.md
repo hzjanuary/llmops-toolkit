@@ -1,58 +1,54 @@
-# Contributing
+# Contributing to LLMOps Toolkit
 
-Read AGENTS.md, README.md, docs/HARNESS.md and docs/FEATURE_INTAKE.md before work.
-The owner declaration and exact public copyright confirmation are recorded in
-docs/legal/OWNER_DECLARATION.md. The project uses the MIT License in LICENSE;
-dependency terms remain separate in NOTICE and the legal inventory.
-
-Use a feature branch and reviewable commits. Keep current product docs, story
-packets and docs/TEST_MATRIX.md synchronized. Retain historical evidence, local
-operator files and migrations. Never put credentials, real datasets or SQLite
-files in commits. Do not auto-load .env, add live CI tests, rewrite history or
-publish packages/images/releases as part of a normal contribution.
+Read [AGENTS](AGENTS.md), [development](docs/DEVELOPMENT.md),
+[architecture](docs/ARCHITECTURE.md) and the affected product contract. Work on a
+feature branch and open a PR with focused commits. Keep product docs, tests and
+the test matrix current. Preserve historical evidence, migrations, operator
+data and untracked inputs; stage explicit paths only.
 
 ```bash
 cargo fetch --locked
 python3 scripts/license_inventory.py
-python3 scripts/verify.py --output /tmp/ragops-evidence-UNIQUE
+python3 scripts/verify.py --output /tmp/llmops-evidence-UNIQUE
 ```
 
-The output directory must not already exist. `verify.py` requires a committed,
-clean tracked tree and runs format, strict Clippy, offline tests/build, the real
-TTY/headless smoke, declared-license inventory, archive/tree comparison and a
-fresh offline build from the archive. The dedicated ignored fixture-setup test
-is invoked explicitly by `runtime_smoke.py`; it is never a hidden skipped PASS.
-Linux x86_64 and Python 3.12+ are the tested validation platform. Rust 1.99.0 is
-pinned; a lower MSRV has not been established.
+verify.py requires a committed clean tracked tree and a new evidence directory.
+It runs pinned format, strict Clippy, locked offline tests/build, synthetic
+loopback/SQLite/PTY/headless smoke, license/identity/reference checks, exact Git
+archive verification and a fresh offline archive build. Runtime smoke explicitly
+runs the ignored fixture helper. It clears LLMOPS_* and deprecated RAGOPS_*
+credential/database variables; never provide real credentials to tests.
 
 ```bash
-python3 scripts/install_security_tools.py /tmp/ragops-tools-UNIQUE
-/tmp/ragops-tools-UNIQUE/gitleaks git . --log-opts='--all --full-history' --redact
-/tmp/ragops-tools-UNIQUE/gitleaks dir . --redact
-/tmp/ragops-tools-UNIQUE/bin/cargo-audit audit --deny unsound --file Cargo.lock
+python3 scripts/install_security_tools.py /tmp/llmops-tools-UNIQUE
+/tmp/llmops-tools-UNIQUE/gitleaks git . --log-opts='--all --full-history' --redact
+/tmp/llmops-tools-UNIQUE/gitleaks dir . --redact
+/tmp/llmops-tools-UNIQUE/bin/cargo-audit audit --deny unsound --file Cargo.lock
+git diff --check
 ```
 
-Tool installation, initial crate fetching and advisory updates use network access;
-application validation performs no real provider calls or external scans. Do not
-restore the retired nested Hello World crate as a product. Its former dependency
-metadata and old task text remain in the historical legal/story archives. The
-current retained root lockfile is fully audited and inventoried.
+Tool installation, registry fetch and advisory updates use network access, not
+inference. Never run real/paid LLM requests, external scans or model downloads
+in tests/CI. Keep secure proxy defaults and all resource/privacy gates. No .env
+auto-loading, destructive DB handling, secret printing or scanner suppression.
+The only retained dependency lockfile is root Cargo.lock; do not restore the toy
+crate. MIT and every third-party obligation remain separate; see LICENSE,
+NOTICE and docs/legal/dependency-inventory.json.
 
-A Draft PR should state the problem, resulting behavior, exact tested source SHA,
-commands/artifacts, material limits and remaining owner decisions. A green
-`verified-source` check is a source gate, not license approval or release approval.
-Ruleset proposals in docs/governance are never applied automatically.
+Record PASS/FAIL/BLOCKED/NOT_RUN with exact commands, source SHA, exit codes and
+log/artifact digests. Retain failed attempts and byte-exact raw logs where
+presentation differs. Verify offline-source, security and verified-source for
+the actual PR HEAD, then download/hash their artifacts. Historical SPEC-001
+results and v0.1.0 identity must not be rewritten or assigned to new source.
 
-For owner-authorized source publication, verify both public formats with:
+For an explicitly authorized archive review:
 
 ```text
-python3 scripts/verify_public_archives.py --revision REVIEWED_MAIN_SHA \
+python3 scripts/verify_public_archives.py --revision REVIEWED_SHA \
   --zip DOWNLOADED_SOURCE.zip --tar-gz DOWNLOADED_SOURCE.tar.gz \
   --output NEW_VERIFICATION_RECORD.json
 ```
 
-The tool reads archives without extraction, checks every path/content/executable
-bit against the exact Git commit, rejects operator paths and verifies LICENSE.
-Its offline prefix/tamper self-test is part of verify.py. A normal tag/release is
-only permitted by an explicit owner instruction after all review/source rules
-pass. Ordinary contributions do not acquire publication authorization.
+No external installer or workflow checkout is needed. Ordinary contributions
+do not authorize merge, release/tag, deployment, package/binary/image publication
+or repository settings changes. REBRAND-001 stops at one Draft PR.

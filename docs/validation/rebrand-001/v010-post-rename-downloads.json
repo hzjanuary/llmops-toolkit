@@ -1,0 +1,12 @@
+[
+  {
+    "anonymous_http": 200,
+    "url": "https://github.com/hzjanuary/llmops-toolkit/archive/refs/tags/v0.1.0.zip",
+    "sha256": "a5c689db9d8535e7ebda1bd41f94e81a4035d93b80f5e0886b127770f669b280"
+  },
+  {
+    "anonymous_http": 200,
+    "url": "https://github.com/hzjanuary/llmops-toolkit/archive/refs/tags/v0.1.0.tar.gz",
+    "sha256": "af07f3d4889a0579e02af4d0aa4a060aa51575d57f9846a90796e6106ccfbf38"
+  }
+]

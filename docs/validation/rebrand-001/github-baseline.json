@@ -1,0 +1,46 @@
+{
+  "repository": {
+    "id": 1245373914,
+    "name": "llmops-toolkit",
+    "full_name": "hzjanuary/llmops-toolkit",
+    "default_branch": "main",
+    "description": "Local-first Rust CLI/TUI for OpenAI Chat Completions proxy telemetry, SQLite FinOps, offline RAG evaluation, and bounded LLM safety testing.",
+    "topics": [
+      "ai-safety-testing",
+      "axum",
+      "cli",
+      "developer-tools",
+      "llm-cost-tracking",
+      "llm-evaluation",
+      "llm-finops",
+      "llm-observability",
+      "llmops",
+      "local-first",
+      "openai-api",
+      "prompt-testing",
+      "rag-evaluation",
+      "rust",
+      "rust-lang",
+      "self-hosted",
+      "sqlite",
+      "tui"
+    ]
+  },
+  "release": {
+    "id": 430400350,
+    "name": "v0.1.0 \u2014 Initial RAGOps Harness Source Preview",
+    "tag_name": "v0.1.0",
+    "draft": false,
+    "prerelease": true,
+    "published_at": "2026-11-01T06:19:36Z",
+    "target_commitish": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+    "assets": []
+  },
+  "release_body_sha256": "bd9c2e32900c9d931a64eeee6adea335a4888b8eb8b19806169a002c64d054ae",
+  "baseline_main": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+  "tag_object": "1007928827bf2a1490e25c8775c3dc43737bd366",
+  "tag_peeled_commit": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+  "rulesets": [],
+  "old_repository_url_redirects_to_same_id": true,
+  "mutations": "Only local feature branch and local origin URL updated; no GitHub metadata/settings/release change."
+}

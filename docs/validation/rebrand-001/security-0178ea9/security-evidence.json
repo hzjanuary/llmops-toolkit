@@ -1,0 +1,66 @@
+{
+  "source_sha": "0178ea96657b4f2c3765abea6cfd15f0dc9628f3",
+  "checked_utc": "2026-11-01T09:51:40.254014+00:00",
+  "root_lock_sha256": "bfae2bde1d5f5c4f460c56e6aec2a67c472567579b5f947c610f3b07f86229af",
+  "checks": [
+    {
+      "id": "history",
+      "command": [
+        "/tmp/llmops-rebrand-security-tools/gitleaks",
+        "git",
+        ".",
+        "--log-opts=--all --full-history",
+        "--redact",
+        "--no-banner",
+        "--report-format",
+        "json",
+        "--report-path",
+        "local-evidence/rebrand-001/security-0178ea9/history.json"
+      ],
+      "exit_code": 0,
+      "report": "history.json",
+      "report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "log": "history.txt",
+      "log_sha256": "16aae4b8e75ab98f42409d5d82193c5af288ce445dd1037c156e2659110bff20"
+    },
+    {
+      "id": "tree",
+      "command": [
+        "/tmp/llmops-rebrand-security-tools/gitleaks",
+        "dir",
+        ".",
+        "--redact",
+        "--no-banner",
+        "--report-format",
+        "json",
+        "--report-path",
+        "local-evidence/rebrand-001/security-0178ea9/tree.json"
+      ],
+      "exit_code": 0,
+      "report": "tree.json",
+      "report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "log": "tree.txt",
+      "log_sha256": "cbac7260e3b70b0d55c46f5aa7318495dff32328bd7d9d627cf93a69123423d6"
+    },
+    {
+      "id": "root-audit",
+      "command": [
+        "/tmp/llmops-rebrand-security-tools/bin/cargo-audit",
+        "audit",
+        "--deny",
+        "unsound",
+        "--file",
+        "Cargo.lock",
+        "--json"
+      ],
+      "exit_code": 0,
+      "report": "root-audit.json",
+      "report_sha256": "b2b6ce8ca7efbf200bf74f79bb88c67b362a4ef44e744c44cad57b1863b16049",
+      "log": "root-audit.txt",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "gitleaks_version": "8.30.0",
+  "cargo_audit_version": "cargo-audit 0.22.2",
+  "note": "Source runtime/lock matches recorded HEAD; later current-doc clarification is separate from this SHA. Final proposed Git source is scanned before push and exact PR SHA is checked by CI."
+}

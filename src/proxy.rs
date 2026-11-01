@@ -433,7 +433,7 @@ pub fn router(state: AppState) -> Router {
     Router::new()
         .route(
             "/health",
-            get(|| async { Json(json!({"status":"ok","service":"ragops-harness"})) }),
+            get(|| async { Json(json!({"status":"ok","service":env!("CARGO_PKG_NAME")})) }),
         )
         .route("/v1/chat/completions", post(chat_completions))
         .with_state(state)
@@ -818,7 +818,7 @@ pub(crate) mod tests {
     #[tokio::test]
     #[ignore = "Run by scripts/runtime_smoke.py with an isolated synthetic database"]
     async fn prepare_full_flow_receipt() {
-        let path = std::env::var("RAGOPS_TEST_DB").expect("isolated synthetic path required");
+        let path = std::env::var("LLMOPS_TEST_DB").expect("isolated synthetic path required");
         assert!(
             !std::path::Path::new(&path).exists(),
             "fixture must never overwrite a database"

@@ -1,0 +1,768 @@
+{
+  "source_sha": "bec04674eb26a94feabc140c03c59d132bab2c49",
+  "run": {
+    "id": 41295320982,
+    "name": "Source CI",
+    "node_id": "WFR_kwLOSjrl2s8AAAAJnWSXlg",
+    "head_branch": "chore/llmops-toolkit-rebrand-cleanup",
+    "head_sha": "bec04674eb26a94feabc140c03c59d132bab2c49",
+    "path": ".github/workflows/source-ci.yml",
+    "display_title": "Rebrand LLMOps Toolkit and retire obsolete workflow scaffolding",
+    "run_number": 7,
+    "event": "pull_request",
+    "status": "completed",
+    "conclusion": "success",
+    "workflow_id": 403275517,
+    "check_suite_id": 111923820780,
+    "check_suite_node_id": "CS_kwDOSjrl2s8AAAAaDy347A",
+    "url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/actions/runs/41295320982",
+    "html_url": "https://github.com/hzjanuary/llmops-toolkit/actions/runs/41295320982",
+    "pull_requests": [
+      {
+        "url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/pulls/2",
+        "id": 5106292615,
+        "number": 2,
+        "head": {
+          "ref": "chore/llmops-toolkit-rebrand-cleanup",
+          "sha": "bec04674eb26a94feabc140c03c59d132bab2c49",
+          "repo": {
+            "id": 1245373914,
+            "url": "https://api.github.com/repos/hzjanuary/llmops-toolkit",
+            "name": "llmops-toolkit"
+          }
+        },
+        "base": {
+          "ref": "main",
+          "sha": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+          "repo": {
+            "id": 1245373914,
+            "url": "https://api.github.com/repos/hzjanuary/llmops-toolkit",
+            "name": "llmops-toolkit"
+          }
+        }
+      }
+    ],
+    "created_at": "2026-11-01T09:57:21Z",
+    "updated_at": "2026-11-01T10:00:08Z",
+    "actor": {
+      "login": "hzjanuary",
+      "id": 155146535,
+      "node_id": "U_kgDOCT9ZJw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/155146535?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/hzjanuary",
+      "html_url": "https://github.com/hzjanuary",
+      "followers_url": "https://api.github.com/users/hzjanuary/followers",
+      "following_url": "https://api.github.com/users/hzjanuary/following{/other_user}",
+      "gists_url": "https://api.github.com/users/hzjanuary/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/hzjanuary/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/hzjanuary/subscriptions",
+      "organizations_url": "https://api.github.com/users/hzjanuary/orgs",
+      "repos_url": "https://api.github.com/users/hzjanuary/repos",
+      "events_url": "https://api.github.com/users/hzjanuary/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/hzjanuary/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "run_attempt": 1,
+    "referenced_workflows": [],
+    "run_started_at": "2026-11-01T09:57:21Z",
+    "triggering_actor": {
+      "login": "hzjanuary",
+      "id": 155146535,
+      "node_id": "U_kgDOCT9ZJw",
+      "avatar_url": "https://avatars.githubusercontent.com/u/155146535?v=4",
+      "gravatar_id": "",
+      "url": "https://api.github.com/users/hzjanuary",
+      "html_url": "https://github.com/hzjanuary",
+      "followers_url": "https://api.github.com/users/hzjanuary/followers",
+      "following_url": "https://api.github.com/users/hzjanuary/following{/other_user}",
+      "gists_url": "https://api.github.com/users/hzjanuary/gists{/gist_id}",
+      "starred_url": "https://api.github.com/users/hzjanuary/starred{/owner}{/repo}",
+      "subscriptions_url": "https://api.github.com/users/hzjanuary/subscriptions",
+      "organizations_url": "https://api.github.com/users/hzjanuary/orgs",
+      "repos_url": "https://api.github.com/users/hzjanuary/repos",
+      "events_url": "https://api.github.com/users/hzjanuary/events{/privacy}",
+      "received_events_url": "https://api.github.com/users/hzjanuary/received_events",
+      "type": "User",
+      "user_view_type": "public",
+      "site_admin": false
+    },
+    "jobs_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/actions/runs/41295320982/jobs",
+    "logs_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/actions/runs/41295320982/logs",
+    "check_suite_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/check-suites/111923820780",
+    "artifacts_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/actions/runs/41295320982/artifacts",
+    "cancel_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/actions/runs/41295320982/cancel",
+    "rerun_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/actions/runs/41295320982/rerun",
+    "previous_attempt_url": null,
+    "workflow_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/actions/workflows/403275517",
+    "head_commit": {
+      "id": "bec04674eb26a94feabc140c03c59d132bab2c49",
+      "tree_id": "4c4517d1da70c94e339584561e0dd1760b13c0e9",
+      "message": "test: record source-bound offline rebrand and security evidence",
+      "timestamp": "2026-11-01T09:54:49Z",
+      "author": {
+        "name": "hzjanuary",
+        "email": "nhhoang03012004@gmail.com"
+      },
+      "committer": {
+        "name": "hzjanuary",
+        "email": "nhhoang03012004@gmail.com"
+      }
+    },
+    "repository": {
+      "id": 1245373914,
+      "node_id": "R_kgDOSjrl2g",
+      "name": "llmops-toolkit",
+      "full_name": "hzjanuary/llmops-toolkit",
+      "private": false,
+      "owner": {
+        "login": "hzjanuary",
+        "id": 155146535,
+        "node_id": "U_kgDOCT9ZJw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/155146535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/hzjanuary",
+        "html_url": "https://github.com/hzjanuary",
+        "followers_url": "https://api.github.com/users/hzjanuary/followers",
+        "following_url": "https://api.github.com/users/hzjanuary/following{/other_user}",
+        "gists_url": "https://api.github.com/users/hzjanuary/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/hzjanuary/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/hzjanuary/subscriptions",
+        "organizations_url": "https://api.github.com/users/hzjanuary/orgs",
+        "repos_url": "https://api.github.com/users/hzjanuary/repos",
+        "events_url": "https://api.github.com/users/hzjanuary/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/hzjanuary/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/hzjanuary/llmops-toolkit",
+      "description": "Local-first Rust CLI/TUI for OpenAI Chat Completions proxy telemetry, SQLite FinOps, offline RAG evaluation, and bounded LLM safety testing.",
+      "fork": false,
+      "url": "https://api.github.com/repos/hzjanuary/llmops-toolkit",
+      "forks_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/forks",
+      "keys_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/keys{/key_id}",
+      "collaborators_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/collaborators{/collaborator}",
+      "teams_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/teams",
+      "hooks_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/hooks",
+      "issue_events_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/issues/events{/number}",
+      "events_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/events",
+      "assignees_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/assignees{/user}",
+      "branches_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/branches{/branch}",
+      "tags_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/tags",
+      "blobs_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/git/blobs{/sha}",
+      "git_tags_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/git/tags{/sha}",
+      "git_refs_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/git/refs{/sha}",
+      "trees_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/git/trees{/sha}",
+      "statuses_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/statuses/{sha}",
+      "languages_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/languages",
+      "stargazers_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/stargazers",
+      "contributors_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/contributors",
+      "subscribers_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/subscribers",
+      "subscription_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/subscription",
+      "commits_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/commits{/sha}",
+      "git_commits_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/git/commits{/sha}",
+      "comments_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/comments{/number}",
+      "issue_comment_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/issues/comments{/number}",
+      "contents_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/contents/{+path}",
+      "compare_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/compare/{base}...{head}",
+      "merges_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/merges",
+      "archive_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/{archive_format}{/ref}",
+      "downloads_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/downloads",
+      "issues_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/issues{/number}",
+      "pulls_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/pulls{/number}",
+      "milestones_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/milestones{/number}",
+      "notifications_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/notifications{?since,all,participating}",
+      "labels_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/labels{/name}",
+      "releases_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/releases{/id}",
+      "deployments_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/deployments"
+    },
+    "head_repository": {
+      "id": 1245373914,
+      "node_id": "R_kgDOSjrl2g",
+      "name": "llmops-toolkit",
+      "full_name": "hzjanuary/llmops-toolkit",
+      "private": false,
+      "owner": {
+        "login": "hzjanuary",
+        "id": 155146535,
+        "node_id": "U_kgDOCT9ZJw",
+        "avatar_url": "https://avatars.githubusercontent.com/u/155146535?v=4",
+        "gravatar_id": "",
+        "url": "https://api.github.com/users/hzjanuary",
+        "html_url": "https://github.com/hzjanuary",
+        "followers_url": "https://api.github.com/users/hzjanuary/followers",
+        "following_url": "https://api.github.com/users/hzjanuary/following{/other_user}",
+        "gists_url": "https://api.github.com/users/hzjanuary/gists{/gist_id}",
+        "starred_url": "https://api.github.com/users/hzjanuary/starred{/owner}{/repo}",
+        "subscriptions_url": "https://api.github.com/users/hzjanuary/subscriptions",
+        "organizations_url": "https://api.github.com/users/hzjanuary/orgs",
+        "repos_url": "https://api.github.com/users/hzjanuary/repos",
+        "events_url": "https://api.github.com/users/hzjanuary/events{/privacy}",
+        "received_events_url": "https://api.github.com/users/hzjanuary/received_events",
+        "type": "User",
+        "user_view_type": "public",
+        "site_admin": false
+      },
+      "html_url": "https://github.com/hzjanuary/llmops-toolkit",
+      "description": "Local-first Rust CLI/TUI for OpenAI Chat Completions proxy telemetry, SQLite FinOps, offline RAG evaluation, and bounded LLM safety testing.",
+      "fork": false,
+      "url": "https://api.github.com/repos/hzjanuary/llmops-toolkit",
+      "forks_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/forks",
+      "keys_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/keys{/key_id}",
+      "collaborators_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/collaborators{/collaborator}",
+      "teams_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/teams",
+      "hooks_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/hooks",
+      "issue_events_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/issues/events{/number}",
+      "events_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/events",
+      "assignees_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/assignees{/user}",
+      "branches_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/branches{/branch}",
+      "tags_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/tags",
+      "blobs_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/git/blobs{/sha}",
+      "git_tags_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/git/tags{/sha}",
+      "git_refs_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/git/refs{/sha}",
+      "trees_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/git/trees{/sha}",
+      "statuses_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/statuses/{sha}",
+      "languages_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/languages",
+      "stargazers_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/stargazers",
+      "contributors_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/contributors",
+      "subscribers_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/subscribers",
+      "subscription_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/subscription",
+      "commits_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/commits{/sha}",
+      "git_commits_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/git/commits{/sha}",
+      "comments_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/comments{/number}",
+      "issue_comment_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/issues/comments{/number}",
+      "contents_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/contents/{+path}",
+      "compare_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/compare/{base}...{head}",
+      "merges_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/merges",
+      "archive_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/{archive_format}{/ref}",
+      "downloads_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/downloads",
+      "issues_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/issues{/number}",
+      "pulls_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/pulls{/number}",
+      "milestones_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/milestones{/number}",
+      "notifications_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/notifications{?since,all,participating}",
+      "labels_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/labels{/name}",
+      "releases_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/releases{/id}",
+      "deployments_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/deployments"
+    }
+  },
+  "jobs": {
+    "total_count": 3,
+    "jobs": [
+      {
+        "id": 124814847414,
+        "run_id": 41295320982,
+        "workflow_name": "Source CI",
+        "head_branch": "chore/llmops-toolkit-rebrand-cleanup",
+        "run_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/actions/runs/41295320982",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOSjrl2s8AAAAdD4tttg",
+        "head_sha": "bec04674eb26a94feabc140c03c59d132bab2c49",
+        "url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/actions/jobs/124814847414",
+        "html_url": "https://github.com/hzjanuary/llmops-toolkit/actions/runs/41295320982/job/124814847414",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-01T09:57:21Z",
+        "started_at": "2026-11-01T09:57:23Z",
+        "completed_at": "2026-11-01T09:59:03Z",
+        "name": "offline-source",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-01T09:57:24Z",
+            "completed_at": "2026-11-01T09:57:25Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-01T09:57:25Z",
+            "completed_at": "2026-11-01T09:57:26Z"
+          },
+          {
+            "name": "Install pinned Rust toolchain",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-01T09:57:26Z",
+            "completed_at": "2026-11-01T09:57:35Z"
+          },
+          {
+            "name": "Fetch locked build dependencies (no inference)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-01T09:57:35Z",
+            "completed_at": "2026-11-01T09:57:37Z"
+          },
+          {
+            "name": "Offline source and full flow gates",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-01T09:57:37Z",
+            "completed_at": "2026-11-01T09:59:00Z"
+          },
+          {
+            "name": "Preserve SHA-bound source evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-01T09:59:00Z",
+            "completed_at": "2026-11-01T09:59:02Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12,
+            "started_at": "2026-11-01T09:59:02Z",
+            "completed_at": "2026-11-01T09:59:02Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13,
+            "started_at": "2026-11-01T09:59:02Z",
+            "completed_at": "2026-11-01T09:59:02Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/check-runs/124814847414",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000000384,
+        "runner_name": "GitHub Actions 1000000384",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 124814847502,
+        "run_id": 41295320982,
+        "workflow_name": "Source CI",
+        "head_branch": "chore/llmops-toolkit-rebrand-cleanup",
+        "run_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/actions/runs/41295320982",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOSjrl2s8AAAAdD4tuDg",
+        "head_sha": "bec04674eb26a94feabc140c03c59d132bab2c49",
+        "url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/actions/jobs/124814847502",
+        "html_url": "https://github.com/hzjanuary/llmops-toolkit/actions/runs/41295320982/job/124814847502",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-01T09:57:21Z",
+        "started_at": "2026-11-01T09:57:23Z",
+        "completed_at": "2026-11-01T10:00:02Z",
+        "name": "security",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-01T09:57:24Z",
+            "completed_at": "2026-11-01T09:57:25Z"
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-01T09:57:25Z",
+            "completed_at": "2026-11-01T09:57:26Z"
+          },
+          {
+            "name": "Run rustup show active-toolchain",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-01T09:57:26Z",
+            "completed_at": "2026-11-01T09:57:34Z"
+          },
+          {
+            "name": "Install pinned security tools",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4,
+            "started_at": "2026-11-01T09:57:34Z",
+            "completed_at": "2026-11-01T09:59:54Z"
+          },
+          {
+            "name": "Complete-history and source secret gates",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5,
+            "started_at": "2026-11-01T09:59:54Z",
+            "completed_at": "2026-11-01T09:59:55Z"
+          },
+          {
+            "name": "Dependency vulnerability and unsoundness gates (retained root crate)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6,
+            "started_at": "2026-11-01T09:59:55Z",
+            "completed_at": "2026-11-01T09:59:58Z"
+          },
+          {
+            "name": "Preserve redacted security evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7,
+            "started_at": "2026-11-01T09:59:58Z",
+            "completed_at": "2026-11-01T10:00:00Z"
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14,
+            "started_at": "2026-11-01T10:00:00Z",
+            "completed_at": "2026-11-01T10:00:00Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15,
+            "started_at": "2026-11-01T10:00:00Z",
+            "completed_at": "2026-11-01T10:00:00Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/check-runs/124814847502",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000000383,
+        "runner_name": "GitHub Actions 1000000383",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      },
+      {
+        "id": 124815396979,
+        "run_id": 41295320982,
+        "workflow_name": "Source CI",
+        "head_branch": "chore/llmops-toolkit-rebrand-cleanup",
+        "run_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/actions/runs/41295320982",
+        "run_attempt": 1,
+        "node_id": "CR_kwDOSjrl2s8AAAAdD5PQcw",
+        "head_sha": "bec04674eb26a94feabc140c03c59d132bab2c49",
+        "url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/actions/jobs/124815396979",
+        "html_url": "https://github.com/hzjanuary/llmops-toolkit/actions/runs/41295320982/job/124815396979",
+        "status": "completed",
+        "conclusion": "success",
+        "created_at": "2026-11-01T10:00:02Z",
+        "started_at": "2026-11-01T10:00:05Z",
+        "completed_at": "2026-11-01T10:00:07Z",
+        "name": "verified-source",
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1,
+            "started_at": "2026-11-01T10:00:05Z",
+            "completed_at": "2026-11-01T10:00:05Z"
+          },
+          {
+            "name": "Require every source and security gate",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2,
+            "started_at": "2026-11-01T10:00:05Z",
+            "completed_at": "2026-11-01T10:00:05Z"
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3,
+            "started_at": "2026-11-01T10:00:05Z",
+            "completed_at": "2026-11-01T10:00:05Z"
+          }
+        ],
+        "check_run_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/check-runs/124815396979",
+        "labels": [
+          "ubuntu-24.04"
+        ],
+        "runner_id": 1000000385,
+        "runner_name": "GitHub Actions 1000000385",
+        "runner_group_id": 0,
+        "runner_group_name": "GitHub Actions"
+      }
+    ]
+  },
+  "artifacts": {
+    "total_count": 2,
+    "artifacts": [
+      {
+        "id": 13079016982,
+        "node_id": "MDg6QXJ0aWZhY3QxMzA3OTAxNjk4Mg==",
+        "name": "offline-source-bec04674eb26a94feabc140c03c59d132bab2c49",
+        "size_in_bytes": 411586,
+        "url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/actions/artifacts/13079016982",
+        "archive_download_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/actions/artifacts/13079016982/zip",
+        "expired": false,
+        "digest": "sha256:7ab3a887b512f8d1bde0c143d57881a0e0b8b5df57f6505e3ade878ffb7c80e6",
+        "created_at": "2026-11-01T09:59:01Z",
+        "updated_at": "2026-11-01T09:59:01Z",
+        "expires_at": "2026-12-01T09:59:01Z",
+        "workflow_run": {
+          "id": 41295320982,
+          "repository_id": 1245373914,
+          "head_repository_id": 1245373914,
+          "head_branch": "chore/llmops-toolkit-rebrand-cleanup",
+          "head_sha": "bec04674eb26a94feabc140c03c59d132bab2c49"
+        }
+      },
+      {
+        "id": 13078998589,
+        "node_id": "MDg6QXJ0aWZhY3QxMzA3ODk5ODU4OQ==",
+        "name": "security-bec04674eb26a94feabc140c03c59d132bab2c49",
+        "size_in_bytes": 1075,
+        "url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/actions/artifacts/13078998589",
+        "archive_download_url": "https://api.github.com/repos/hzjanuary/llmops-toolkit/actions/artifacts/13078998589/zip",
+        "expired": false,
+        "digest": "sha256:27fd478398e0c7e76cabecdf8fb1b869145d92bbc27e9cc35c046ad77b3adea8",
+        "created_at": "2026-11-01T10:00:00Z",
+        "updated_at": "2026-11-01T10:00:00Z",
+        "expires_at": "2026-12-01T09:59:59Z",
+        "workflow_run": {
+          "id": 41295320982,
+          "repository_id": 1245373914,
+          "head_repository_id": 1245373914,
+          "head_branch": "chore/llmops-toolkit-rebrand-cleanup",
+          "head_sha": "bec04674eb26a94feabc140c03c59d132bab2c49"
+        }
+      }
+    ]
+  },
+  "downloaded_verification": [
+    {
+      "id": 13079016982,
+      "name": "offline-source-bec04674eb26a94feabc140c03c59d132bab2c49",
+      "sha256": "7ab3a887b512f8d1bde0c143d57881a0e0b8b5df57f6505e3ade878ffb7c80e6",
+      "commands_and_log_hashes": {
+        "checks": [
+          {
+            "command": [
+              "cargo",
+              "fmt",
+              "--all",
+              "--",
+              "--check"
+            ],
+            "cwd": "checkout",
+            "exit_code": 0,
+            "id": "format",
+            "log": "format.txt",
+            "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "status": "PASS"
+          },
+          {
+            "command": [
+              "cargo",
+              "clippy",
+              "--locked",
+              "--offline",
+              "--all-targets",
+              "--",
+              "-D",
+              "warnings"
+            ],
+            "cwd": "checkout",
+            "exit_code": 0,
+            "id": "clippy",
+            "log": "clippy.txt",
+            "log_sha256": "be791f2d2762bdf0882176579713462efdda7df80b6c55938ab428eb5c7e154a",
+            "status": "PASS"
+          },
+          {
+            "command": [
+              "cargo",
+              "test",
+              "--locked",
+              "--offline"
+            ],
+            "cwd": "checkout",
+            "exit_code": 0,
+            "id": "tests",
+            "log": "tests.txt",
+            "log_sha256": "83d4645b795d5079100bc6e7572d3c2907c9cb19d48af53b55c41eb1205a4215",
+            "status": "PASS",
+            "untrimmed_log": "tests.untrimmed.b64",
+            "untrimmed_log_encoding": "base64",
+            "untrimmed_log_sha256": "d70f82967bec1493c1a01fdc88e13241f76e98793c6321aac6463dbc16a1222c"
+          },
+          {
+            "command": [
+              "cargo",
+              "build",
+              "--locked",
+              "--offline"
+            ],
+            "cwd": "checkout",
+            "exit_code": 0,
+            "id": "build",
+            "log": "build.txt",
+            "log_sha256": "d2fa9bde29782fc19bdbd87fb0dcd6560afb949634f171593cf006619edadcbf",
+            "status": "PASS"
+          },
+          {
+            "command": [
+              "python3",
+              "scripts/runtime_smoke.py"
+            ],
+            "cwd": "checkout",
+            "exit_code": 0,
+            "id": "runtime",
+            "log": "runtime.txt",
+            "log_sha256": "9de75028709048e7490e95184a8eec7946b51d463551d523307a5cb514f63a83",
+            "status": "PASS"
+          },
+          {
+            "command": [
+              "python3",
+              "scripts/license_inventory.py"
+            ],
+            "cwd": "checkout",
+            "exit_code": 0,
+            "id": "licenses",
+            "log": "licenses.txt",
+            "log_sha256": "9fd4d4824a03f17ca492747eb773701a50156b44613ca8ad13b82b5d8a095e11",
+            "status": "PASS"
+          },
+          {
+            "command": [
+              "python3",
+              "scripts/rebrand_gate.py"
+            ],
+            "cwd": "checkout",
+            "exit_code": 0,
+            "id": "rebrand",
+            "log": "rebrand.txt",
+            "log_sha256": "09cd02189da71756e2d1b7513ede56923f6334d8ada659da84a05ef1a2b52e05",
+            "status": "PASS"
+          },
+          {
+            "command": [
+              "python3",
+              "scripts/source_gate.py",
+              "--revision",
+              "bec04674eb26a94feabc140c03c59d132bab2c49",
+              "--output",
+              "/home/runner/work/_temp/offline-evidence/archive"
+            ],
+            "cwd": "checkout",
+            "exit_code": 0,
+            "id": "source-archive",
+            "log": "source-archive.txt",
+            "log_sha256": "bcd955b1dd463e3005bd6e9d9e31c872d5661a15156eb7bc07c1889df65112d1",
+            "status": "PASS"
+          },
+          {
+            "command": [
+              "python3",
+              "scripts/verify_public_archives.py",
+              "--self-test",
+              "--revision",
+              "bec04674eb26a94feabc140c03c59d132bab2c49",
+              "--output",
+              "/home/runner/work/_temp/offline-evidence/public-archive-verifier.json"
+            ],
+            "cwd": "checkout",
+            "exit_code": 0,
+            "id": "public-archive-verifier",
+            "log": "public-archive-verifier.txt",
+            "log_sha256": "342bae9a6d1d4c44b15f57fd0d3f8aa9d5e24ba04be0cb97e127b7f6294e6a3e",
+            "status": "PASS"
+          },
+          {
+            "command": [
+              "cargo",
+              "build",
+              "--locked",
+              "--offline",
+              "--target-dir",
+              "/tmp/llmops-verified-archive-pjduob9x/target"
+            ],
+            "cwd": "verified-source-archive",
+            "exit_code": 0,
+            "id": "clean-archive-build",
+            "log": "clean-archive-build.txt",
+            "log_sha256": "8098d34ffafa121f4efd6067ca6352133e1e1b6e38c02541a13cd03f6b810a43",
+            "status": "PASS"
+          }
+        ],
+        "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+        "schema_version": 1,
+        "source_sha": "bec04674eb26a94feabc140c03c59d132bab2c49",
+        "started_utc": "2026-11-01T09:57:37.760363+00:00"
+      },
+      "archive_manifest_sha256": "1869fd085184880fee5fbe4746b756c3ea4a115bcd7fcf9f8745b04e96f47ccd",
+      "source_archive_sha256": "7b38084003eb44d93666d7f76db4ac9fc2ec5e58950105ed3f535b3fa9833a1a",
+      "archive_verifier_result": {
+        "archives": [
+          {
+            "contents_and_executable_modes_match": true,
+            "file": "fixture.zip",
+            "file_count": 211,
+            "format": "zip",
+            "sha256": "a0b02334a759e86f73b110dff6588398b9bb264233b31e718f463f2126b1e250"
+          },
+          {
+            "contents_and_executable_modes_match": true,
+            "file": "fixture.tar.gz",
+            "file_count": 211,
+            "format": "tar.gz",
+            "sha256": "b2839ddd1a95cf81c86c67fa831981c8ec1f7282f00f6024d25f4a6b052291b6"
+          }
+        ],
+        "mode": "offline_self_test_with_different_archive_prefixes",
+        "scope": "Observed compressed digests; every file/content/executable bit matches the exact commit. GitHub compression bytes may change; commit and content manifest are the durable source identity.",
+        "source_sha": "bec04674eb26a94feabc140c03c59d132bab2c49",
+        "tampered_content_rejected": true,
+        "unsafe_directory_rejected": true
+      },
+      "all_payload_hashes_verified": true
+    },
+    {
+      "id": 13078998589,
+      "name": "security-bec04674eb26a94feabc140c03c59d132bab2c49",
+      "sha256": "27fd478398e0c7e76cabecdf8fb1b869145d92bbc27e9cc35c046ad77b3adea8",
+      "audit": {
+        "database": {
+          "advisory-count": 1395,
+          "last-commit": "2295466c4e9df26647fd67d8fa1c705ac2fc7f81",
+          "last-updated": "2026-10-30T12:12:39+01:00"
+        },
+        "lockfile": {
+          "dependency-count": 250
+        },
+        "settings": {
+          "target_arch": [],
+          "target_os": [],
+          "severity": null,
+          "ignore": [],
+          "informational_warnings": [
+            "unmaintained",
+            "unsound",
+            "notice"
+          ]
+        },
+        "vulnerabilities": {
+          "found": false,
+          "count": 0,
+          "list": []
+        },
+        "warnings": {}
+      },
+      "all_payload_hashes_verified": true
+    }
+  ]
+}

@@ -8,7 +8,11 @@ pub fn client() -> Result<reqwest::Client, reqwest::Error> {
         .redirect(reqwest::redirect::Policy::none())
         .connect_timeout(Duration::from_secs(5))
         .timeout(Duration::from_secs(DEADLINE_SECS))
-        .user_agent(concat!("ragops-harness/", env!("CARGO_PKG_VERSION")))
+        .user_agent(concat!(
+            env!("CARGO_PKG_NAME"),
+            "/",
+            env!("CARGO_PKG_VERSION")
+        ))
         .build()
 }
 

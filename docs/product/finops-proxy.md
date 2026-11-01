@@ -1,10 +1,10 @@
-# Proxy and FinOps contract — SPEC-001
+# Proxy and FinOps contract — LLMOps Toolkit
 
 `serve` defaults to 127.0.0.1:8000 and no provider forwarding. Health is public,
 minimal and offline. Billable forwarding requires explicit enablement, separate
 owner/provider credentials, exact allowed models and pricing policy. Non-loopback
 binding requires an additional flag. No incoming authentication fallback exists.
-See README for all supported text-only request fields and fixed bounds.
+See [README](../../README.md) for all supported text-only request fields and fixed bounds.
 
 Production endpoint: OpenAI HTTPS Chat Completions only. Caller headers are never
 forwarded. Redirects, automatic retries, environment proxies, startup inference,

@@ -1,6 +1,7 @@
 mod config;
 mod dashboard;
 mod db;
+mod environment;
 mod eval;
 mod http_client;
 mod pricing;
@@ -23,18 +24,14 @@ type AppResult<T> = Result<T, Box<dyn Error + Send + Sync>>;
 
 #[derive(Parser)]
 #[command(
-    name = "ragops-harness",
+    name = "llmops-toolkit",
     version,
-    about = "Local-first proxy telemetry, terminal monitoring and bounded heuristic evaluation"
+    about = "LLMOps Toolkit: local-first proxy telemetry, SQLite FinOps, offline RAG evaluation and bounded safety testing"
 )]
 struct Cli {
-    #[arg(
-        long,
-        global = true,
-        env = "RAGOPS_DB_PATH",
-        default_value = "ragops_harness.sqlite3"
-    )]
-    db: PathBuf,
+    /// SQLite path; otherwise LLMOPS_DB_PATH (deprecated RAGOPS_DB_PATH) or ragops_harness.sqlite3.
+    #[arg(long, global = true)]
+    db: Option<PathBuf>,
     #[command(subcommand)]
     command: Option<Commands>,
 }
@@ -66,22 +63,31 @@ async fn main() -> AppResult<()> {
         .init();
     let cli = Cli::parse();
     // Deliberately do not auto-load .env or discover credentials in parent folders.
+    let environment = environment::Environment::read()?;
+    let database = cli
+        .db
+        .or(environment.database)
+        .unwrap_or_else(|| PathBuf::from(environment::DEFAULT_DATABASE));
     match cli.command {
         None => {
             use clap::CommandFactory;
             Cli::command().print_help()?;
             println!();
         }
-        Some(Commands::Serve(options)) => run_proxy(&cli.db, options).await?,
+        Some(Commands::Serve(options)) => {
+            run_proxy(&database, options, environment.proxy_token).await?
+        }
         Some(Commands::Dashboard { json }) => {
-            let db = db::Database::read_only(&cli.db)
+            let db = db::Database::read_only(&database)
                 .map_err(|_| "cannot open existing telemetry database")?;
             dashboard::run_dashboard(&db, json).await?;
         }
-        Some(Commands::Scan(options)) => red_team::run_scan(options).await?,
-        Some(Commands::Eval(options)) => eval::run_eval(options).await?,
+        Some(Commands::Scan(options)) => {
+            red_team::run_scan(options, environment.scan_token).await?
+        }
+        Some(Commands::Eval(options)) => eval::run_eval(options, environment.proxy_token).await?,
         Some(Commands::Backup { destination }) => {
-            db::Database::read_only(&cli.db)
+            db::Database::read_only(&database)
                 .map_err(|_| "cannot open backup source")?
                 .backup(&destination)
                 .await
@@ -94,7 +100,11 @@ async fn main() -> AppResult<()> {
     Ok(())
 }
 
-async fn run_proxy(path: &std::path::Path, options: config::ServeOptions) -> AppResult<()> {
+async fn run_proxy(
+    path: &std::path::Path,
+    options: config::ServeOptions,
+    owner: Option<String>,
+) -> AppResult<()> {
     options.validate()?;
     let catalog = options
         .pricing
@@ -104,7 +114,6 @@ async fn run_proxy(path: &std::path::Path, options: config::ServeOptions) -> App
         .unwrap_or_default();
     let tui = !options.no_tui && stdout().is_terminal();
     // Validate configuration before creating/opening the operator's database.
-    let owner = std::env::var("RAGOPS_PROXY_TOKEN").ok();
     let provider = std::env::var("OPENAI_API_KEY").ok();
     let validated = proxy::AppState::new(
         options.clone(),

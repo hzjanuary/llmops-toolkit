@@ -12,7 +12,7 @@ pub async fn run_dashboard(db: &Database, json: bool) -> DashboardResult<()> {
         println!("{}", serde_json::to_string(&report)?);
         return Ok(());
     }
-    println!("RAGOps local FinOps monitor");
+    println!("LLMOps Toolkit local FinOps monitor");
     println!("Attempts: {} | Estimated subtotal: ${:.6} | Unknown cost: {} | Failed/pending: {} | Legacy: {}",
         report.attempts,report.estimated_subtotal_usd,report.unknown_cost_count,report.failed_or_pending_count,report.legacy_count);
     println!(

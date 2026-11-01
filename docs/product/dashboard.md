@@ -1,4 +1,4 @@
-# Terminal monitoring contract — SPEC-001
+# Terminal monitoring contract — LLMOps Toolkit
 
 `serve` renders on a real TTY every two seconds using alternate screen and hidden
 cursor. A guard restores both on normal return, recoverable error and Rust
@@ -17,3 +17,5 @@ correlation IDs. Unknown numeric fields display UNKNOWN or JSON null. Legacy val
 but excluded from the new subtotal and latest table because provenance is
 unverified. No 'vulnerability' flags are inferred from endpoint names or statuses.
 Control characters are removed from rendered cell text. No web UI/API is present.
+
+Current heading: `LLMOps Toolkit local FinOps monitor`.
