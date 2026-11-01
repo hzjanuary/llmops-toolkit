@@ -123,7 +123,7 @@ fn offline(bytes: &[u8], records: &[EvalRecord]) -> EvalReport {
     )
 }
 
-pub async fn run_eval(options: EvalOptions) -> EvalResult<()> {
+pub async fn run_eval(options: EvalOptions, owner: Option<String>) -> EvalResult<()> {
     let bytes = crate::config::read_bounded(&options.dataset, DATASET_BYTES)?;
     let records = parse_dataset(&bytes)?;
     let result = if !options.judge {
@@ -186,7 +186,7 @@ pub async fn run_eval(options: EvalOptions) -> EvalResult<()> {
             config,
             crate::db::Database::open(":memory:")?,
             catalog.clone(),
-            std::env::var("RAGOPS_PROXY_TOKEN").ok(),
+            owner,
             std::env::var("OPENAI_API_KEY").ok(),
         )?;
         judge(&bytes, &records, &state, &model, &catalog).await

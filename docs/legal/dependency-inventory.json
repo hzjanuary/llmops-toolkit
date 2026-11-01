@@ -1995,7 +1995,7 @@
           "version": "1.0.21"
         }
       ],
-      "lock_sha256": "f622f14ac95e15d43cbc099d8dd8c5ad5421b81c2684e94c0b8c835ab28bf0de",
+      "lock_sha256": "bfae2bde1d5f5c4f460c56e6aec2a67c472567579b5f947c610f3b07f86229af",
       "manifest": "Cargo.toml"
     }
   ],

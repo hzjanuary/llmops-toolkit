@@ -1,10 +1,10 @@
 [package]
-name = "ragops-harness"
+name = "llmops-toolkit"
 version = "0.1.0"
 edition = "2021"
 rust-version = "1.99"
 license = "MIT"
-description = "RAGOps Harness local OpenAI chat proxy and FinOps logger"
+description = "Local-first Rust CLI/TUI for OpenAI Chat Completions proxy telemetry, SQLite FinOps, offline RAG evaluation, and bounded LLM safety testing."
 
 [dependencies]
 axum = "0.7"
