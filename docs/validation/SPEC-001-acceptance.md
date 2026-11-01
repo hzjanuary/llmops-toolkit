@@ -62,6 +62,8 @@ unexecuted individual filter command is claimed.
 | S34 | GitHub verified-source checks exact Draft PR HEAD | NOT_RUN | Await actual Source CI jobs/run/artifact identifiers | pending committed source |
 | S35 | Live provider/judge compatibility and external target security assessment | NOT_RUN | Prohibited by SPEC-001 hard limits; no execution command run | 7b2349a7168a254b46b65a021863b57970380bee (source review; no live/ownership proof) |
 | S36 | Immutable provenance, SHA/digests, accurate docs and unapplied ruleset proposals | PASS | verify.py evidence.json; exact GitHub run/artifact records; source review (L) | 7b2349a7168a254b46b65a021863b57970380bee |
+| S37 | Version-1 receipts migrate to version 2; timestamps, latency and correlation IDs retained | NOT_RUN | cargo test --locked --offline; db::tests::published_v1_receipts_survive_additive_v2_correlation_migration; python3 scripts/runtime_smoke.py | pending new committed-source proof |
+| S38 | Provider metadata cannot echo known owner/provider credentials into SQLite | NOT_RUN | cargo test --locked --offline; proxy::tests::credential_echo_in_response_metadata_never_reaches_sqlite | pending new committed-source proof |
 
 S19/S20/S31 cover the explicitly invoked fixture setup test separately from the
 normal suite's one ignored setup helper. Archive reproducibility is bytewise

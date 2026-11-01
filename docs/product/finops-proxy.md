@@ -21,7 +21,11 @@ failure 503. A final telemetry failure is 502 with an explicit potentially-billa
 code. Local validation/auth rejections are not provider-attempt receipts.
 
 Schema version 1 adds request_receipts transactionally. Legacy llm_request_logs
-and indexes remain unchanged, with all historical values intact. New pending
+and indexes remain unchanged, with all historical values intact. Version 2 adds
+upstream correlation IDs without changing version-1 receipts. Timestamps and
+observed latency remain reportable. Provider-supplied model/correlation metadata
+is bounded and excluded if it contains either known credential; configured
+metadata containing credentials is rejected before startup. New pending
 receipts commit before egress. Outcomes: pending, success, upstream_error,
 indeterminate. Usage, response model, upstream status and estimate are nullable;
 provider errors, bad bodies, deadlines and missing usage never invent usage or

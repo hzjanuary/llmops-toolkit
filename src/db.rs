@@ -18,6 +18,7 @@ pub struct Database {
 pub struct Receipt {
     pub request_id: String,
     pub response_model: Option<String>,
+    pub upstream_id: Option<String>,
     pub outcome: &'static str,
     pub upstream_status: Option<u16>,
     pub usage: Option<Usage>,
@@ -34,6 +35,7 @@ pub struct Summary {
     pub unknown_cost_count: u64,
     pub failed_or_pending_count: u64,
     pub legacy_count: u64,
+    pub avg_latency_ms: Option<f64>,
     pub latest: Vec<serde_json::Value>,
 }
 
@@ -44,7 +46,7 @@ impl Database {
         // Acquire the migration lock before inspecting the version (concurrent starts).
         let tx = c.transaction_with_behavior(rusqlite::TransactionBehavior::Immediate)?;
         let version: u32 = tx.pragma_query_value(None, "user_version", |r| r.get(0))?;
-        if version > 1 {
+        if version > 2 {
             return Err("unsupported future database version; no changes made".into());
         }
         if version == 0 {
@@ -64,6 +66,11 @@ impl Database {
                 potentially_billable INTEGER NOT NULL DEFAULT 1 CHECK(potentially_billable IN (0,1))
             ); CREATE INDEX receipts_created ON request_receipts(created_at);
             PRAGMA user_version=1;")?;
+        }
+        if version < 2 {
+            tx.execute_batch(
+                "ALTER TABLE request_receipts ADD COLUMN upstream_id TEXT; PRAGMA user_version=2;",
+            )?;
         }
         tx.commit()?;
         c.pragma_update(None, "journal_mode", "WAL")?;
@@ -114,11 +121,11 @@ impl Database {
             let u = r.usage.as_ref();
             let changed = c.execute("UPDATE request_receipts SET response_model=?2,outcome=?3,upstream_status=?4,
                 prompt_tokens=?5,completion_tokens=?6,total_tokens=?7,cached_tokens=?8,estimated_usd=?9,
-                price_provenance=?10,latency_ms=?11,error_class=?12 WHERE request_id=?1 AND outcome='pending'",
+                price_provenance=?10,latency_ms=?11,error_class=?12,upstream_id=?13 WHERE request_id=?1 AND outcome='pending'",
                 params![r.request_id,r.response_model,r.outcome,r.upstream_status,
                     u.map(|u| u.prompt_tokens as i64),u.map(|u| u.completion_tokens as i64),
                     u.map(|u| u.total_tokens as i64),u.map(|u| u.prompt_tokens_details.cached_tokens as i64),
-                    r.estimated_usd,r.price_provenance,r.latency_ms as i64,r.error_class])?;
+                    r.estimated_usd,r.price_provenance,r.latency_ms as i64,r.error_class,r.upstream_id])?;
             if changed != 1 { return Err("receipt not pending".into()); }
             Ok(())
         }).await
@@ -129,7 +136,7 @@ impl Database {
             let has_new: bool = c.query_row("SELECT EXISTS(SELECT 1 FROM sqlite_master WHERE name='request_receipts' AND type='table')",[],|r|r.get(0))?;
             let legacy_count: u64 = c.query_row("SELECT COUNT(*) FROM llm_request_logs",[],|r|r.get(0))?;
             let mut s = Summary{attempts:legacy_count,estimated_subtotal_usd:0.0,unknown_cost_count:legacy_count,
-                failed_or_pending_count:0,legacy_count,latest:Vec::new()};
+                failed_or_pending_count:0,legacy_count,avg_latency_ms:None,latest:Vec::new()};
             // Legacy prices have no reviewed provenance. Keep rows intact and
             // exclude them from the new priced subtotal; report their count.
             if has_new {
@@ -138,12 +145,18 @@ impl Database {
                     COALESCE(SUM(estimated_usd IS NULL),0),COALESCE(SUM(outcome != 'success'),0) FROM request_receipts",[],
                     |r|Ok((r.get(0)?,r.get(1)?,r.get(2)?,r.get(3)?)))?;
                 s.attempts+=n;s.estimated_subtotal_usd=cost;s.unknown_cost_count+=unknown;s.failed_or_pending_count=failed;
-                let mut q=c.prepare("SELECT request_id,requested_model,outcome,total_tokens,estimated_usd,upstream_status FROM request_receipts ORDER BY created_at DESC,request_id DESC LIMIT 5")?;
+                let version:u32=c.pragma_query_value(None,"user_version",|r|r.get(0))?;
+                let id_column=if version>=2 {"upstream_id"} else {"NULL"};
+                let mut q=c.prepare(&format!("SELECT request_id,requested_model,outcome,total_tokens,estimated_usd,upstream_status,created_at,CASE WHEN outcome='pending' THEN NULL ELSE latency_ms END,{id_column} FROM request_receipts ORDER BY created_at DESC,request_id DESC LIMIT 5"))?;
                 s.latest=q.query_map([],|r|Ok(serde_json::json!({
                     "request_id":r.get::<_,String>(0)?,"model":r.get::<_,String>(1)?,"outcome":r.get::<_,String>(2)?,
-                    "tokens":r.get::<_,Option<u64>>(3)?,"estimated_usd":r.get::<_,Option<f64>>(4)?,"upstream_status":r.get::<_,Option<u16>>(5)?
+                    "tokens":r.get::<_,Option<u64>>(3)?,"estimated_usd":r.get::<_,Option<f64>>(4)?,"upstream_status":r.get::<_,Option<u16>>(5)?,"created_at":r.get::<_,String>(6)?,"latency_ms":r.get::<_,Option<u64>>(7)?,"upstream_id":r.get::<_,Option<String>>(8)?
                 })))?.collect::<Result<_,_>>()?;
             }
+            let latency_query=if has_new {
+                "SELECT AVG(latency_ms) FROM (SELECT latency_ms FROM llm_request_logs UNION ALL SELECT latency_ms FROM request_receipts WHERE outcome!='pending')"
+            } else {"SELECT AVG(latency_ms) FROM llm_request_logs"};
+            s.avg_latency_ms=c.query_row(latency_query,[],|r|r.get(0))?;
             Ok(s)
         }).await
     }
@@ -259,5 +272,35 @@ mod tests {
                 .unwrap(),
             99
         );
+    }
+    #[tokio::test]
+    async fn published_v1_receipts_survive_additive_v2_correlation_migration() {
+        let t = tempfile::tempdir().unwrap();
+        let path = t.path().join("v1.sqlite3");
+        {
+            let c = Connection::open(&path).unwrap();
+            c.execute_batch(include_str!("legacy_schema.sql")).unwrap();
+            c.execute_batch(include_str!("../tests/fixtures/receipts-v1.sql"))
+                .unwrap();
+            c.execute("INSERT INTO request_receipts(request_id,created_at,requested_model,outcome,latency_ms) VALUES('v1','2026-01-01','fixture-model','success',42)",[]).unwrap();
+        }
+        let before = Database::read_only(&path).unwrap().summary().await.unwrap();
+        assert_eq!(before.avg_latency_ms, Some(42.0));
+        assert!(before.latest[0]["upstream_id"].is_null());
+        let after = Database::open(&path).unwrap();
+        let summary = after.summary().await.unwrap();
+        assert_eq!(summary.attempts, 1);
+        assert_eq!(summary.avg_latency_ms, Some(42.0));
+        assert_eq!(summary.latest[0]["created_at"], "2026-01-01");
+        after
+            .with_connection(|c| {
+                assert_eq!(
+                    c.pragma_query_value(None, "user_version", |r| r.get::<_, u32>(0))?,
+                    2
+                );
+                Ok(())
+            })
+            .await
+            .unwrap();
     }
 }

@@ -79,6 +79,9 @@ with tempfile.TemporaryDirectory(prefix="ragops-offline-smoke-") as tmp:
     summary = json.loads(run(binary, "--db", db, "dashboard", "--json").stdout)
     assert summary["attempts"] == 1 and summary["unknown_cost_count"] == 0
     assert summary["estimated_subtotal_usd"] > 0
+    assert summary["avg_latency_ms"] is not None
+    assert summary["latest"][0]["upstream_id"] == "synthetic-chat-id"
+    assert summary["latest"][0]["created_at"]
 
     # Headless server: no terminal escapes, no provider configuration or egress.
     n = port()

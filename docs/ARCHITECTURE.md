@@ -39,7 +39,10 @@ SQLite operations run in `spawn_blocking` behind a connection mutex. WAL,
 FULL synchronous writes and a two-second busy timeout support concurrent readers
 and connections. An IMMEDIATE transaction serializes version inspection and
 schema migration. `user_version=1` creates the unchanged legacy schema if absent
-plus `request_receipts`; it never copies, updates or drops legacy rows. A higher
+plus `request_receipts`; version 2 adds a bounded upstream correlation ID column.
+Both migrate in the same transaction on a fresh database; existing version-1
+receipts survive the second migration. It never copies, updates or drops legacy
+rows. Reports retain timestamps, observed latency and correlation IDs. A higher
 version fails closed. A durable pending receipt precedes egress; final writes
 record observed metadata or an indeterminate/error outcome. A final-write
 failure leaves pending work, returns a fixed warning and never retries.

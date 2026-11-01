@@ -26,3 +26,12 @@ Immutable logs/manifests are in docs/validation/evidence/7b2349a7168a254b46b65a0
 Live provider/judge/target validation remains NOT_RUN by instruction. Project
 license/ownership remains BLOCKED. GitHub proof and Draft PR are pending actual
 execution; see acceptance matrix for updates.
+
+## Final retention review
+
+A subsequent review restored timestamp/latency presentation and upstream response
+correlation metadata. Additive migration 2 preserves any version-1 receipts.
+Provider metadata echoing known credentials is excluded before persistence.
+Focused regressions passed 28 tests plus one intentionally ignored setup helper;
+new committed-source and real runtime evidence will be attached separately.
+The earlier SHA-bound evidence remains unchanged.

@@ -11,8 +11,9 @@ comfy-table report and exits. `dashboard --json` emits deterministic structured
 metadata for the selected snapshot. It never creates a DB or calls a provider.
 
 Reports show attempt count, estimated subtotal, unknown-cost count, failed/pending
-count, legacy count and five latest new receipts (timestamp then request ID order).
-Unknown numeric fields display UNKNOWN or JSON null. Legacy values are preserved
+count, legacy count, average observed latency (excluding pending work), and five latest new receipts (timestamp then request ID order).
+Each row retains timestamp and latency; JSON also exposes bounded upstream
+correlation IDs. Unknown numeric fields display UNKNOWN or JSON null. Legacy values are preserved
 but excluded from the new subtotal and latest table because provenance is
 unverified. No 'vulnerability' flags are inferred from endpoint names or statuses.
 Control characters are removed from rendered cell text. No web UI/API is present.

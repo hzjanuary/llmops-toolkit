@@ -85,7 +85,9 @@ example, **not real prices**. There are no built-in current-price claims or alia
 matching. Unknown price/usage is null, never a verified zero. The dashboard
 separates the estimated subtotal from unknown and legacy counts. Existing
 `llm_request_logs` rows stay intact; unverified legacy estimates are excluded
-from the new subtotal. Additive schema migration uses `PRAGMA user_version=1`.
+from the new subtotal. Additive schema migrations finish at `PRAGMA user_version=2`: version 1 adds
+receipts, version 2 adds upstream correlation IDs while preserving version-1 data.
+Average latency, timestamps and per-request latency remain visible in reports.
 
 The USD policy is a conservative **per-process estimate reservation**, not a
 billing guarantee. Reservations are not refunded, and restart resets process

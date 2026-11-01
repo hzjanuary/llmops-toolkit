@@ -159,6 +159,16 @@ impl AppState {
         if owner_token.is_some() && owner_token == provider_key {
             return Err("caller and provider credentials must be distinct");
         }
+        let credentials = [owner_token.as_deref(), provider_key.as_deref()];
+        if options
+            .models
+            .iter()
+            .chain(catalog.models.keys())
+            .any(|m| contains_secret(m, credentials))
+            || contains_secret(&catalog.source, credentials)
+        {
+            return Err("configuration metadata must not contain credential material");
+        }
         if options.enable_provider
             && (owner_token.is_none() || provider_key.is_none() || options.models.is_empty())
         {
@@ -274,6 +284,7 @@ impl AppState {
         let mut receipt = Receipt {
             request_id: id.clone(),
             response_model: None,
+            upstream_id: None,
             outcome: "indeterminate",
             upstream_status: None,
             usage: None,
@@ -319,7 +330,33 @@ impl AppState {
             receipt.response_model = value
                 .get("model")
                 .and_then(Value::as_str)
-                .filter(|s| config::valid_model(s))
+                .filter(|s| {
+                    config::valid_model(s)
+                        && !contains_secret(
+                            s,
+                            [
+                                self.0.provider_key.as_deref(),
+                                self.0.owner_token.as_deref(),
+                            ],
+                        )
+                })
+                .map(str::to_owned);
+            receipt.upstream_id = value
+                .get("id")
+                .and_then(Value::as_str)
+                .filter(|s| {
+                    !s.is_empty()
+                        && s.len() <= 256
+                        && s.bytes()
+                            .all(|c| c.is_ascii_alphanumeric() || b"-_.:".contains(&c))
+                        && !contains_secret(
+                            s,
+                            [
+                                self.0.provider_key.as_deref(),
+                                self.0.owner_token.as_deref(),
+                            ],
+                        )
+                })
                 .map(str::to_owned);
             receipt.usage = Usage::parse(&value);
             // Missing response model cannot be priced by silently substituting the requested model.
@@ -355,6 +392,13 @@ impl AppState {
         }
         result.map_err(|code| fail(StatusCode::BAD_GATEWAY, code))
     }
+}
+
+fn contains_secret(text: &str, credentials: [Option<&str>; 2]) -> bool {
+    credentials
+        .into_iter()
+        .flatten()
+        .any(|secret| text.contains(secret))
 }
 
 fn scrub_value(value: &mut Value, provider: Option<&str>, owner: Option<&str>) {
@@ -502,7 +546,7 @@ pub(crate) mod tests {
         (state, count, task)
     }
     fn success() -> Value {
-        json!({"model":"fixture-model","choices":[{"message":{"content":"synthetic reply"}}],"usage":{"prompt_tokens":10,"completion_tokens":2,"total_tokens":12}})
+        json!({"id":"synthetic-chat-id","model":"fixture-model","choices":[{"message":{"content":"synthetic reply"}}],"usage":{"prompt_tokens":10,"completion_tokens":2,"total_tokens":12}})
     }
     #[test]
     fn typed_request_rejects_unsupported_or_unbounded_fields() {
@@ -587,6 +631,9 @@ pub(crate) mod tests {
         let s = state.0.db.summary().await.unwrap();
         assert_eq!(s.attempts, 1);
         assert_eq!(s.unknown_cost_count, 0);
+        assert!(s.avg_latency_ms.is_some());
+        assert!(s.latest[0]["created_at"].as_str().is_some());
+        assert_eq!(s.latest[0]["upstream_id"], "synthetic-chat-id");
         server.abort();
         mock.abort();
     }
@@ -798,5 +845,31 @@ pub(crate) mod tests {
         assert_eq!(count.load(Ordering::SeqCst), 1);
         server.abort();
         mock.abort();
+    }
+    #[tokio::test]
+    async fn credential_echo_in_response_metadata_never_reaches_sqlite() {
+        let mut response = success();
+        response["model"] = json!(PROVIDER);
+        response["id"] = json!(OWNER);
+        let (state, _, task) = mock(response, StatusCode::OK).await;
+        let result = state.forward(request()).await.unwrap();
+        assert!(!result.to_string().contains(PROVIDER));
+        assert!(!result.to_string().contains(OWNER));
+        state
+            .0
+            .db
+            .with_connection(|c| {
+                let (model, id): (Option<String>, Option<String>) = c.query_row(
+                    "SELECT response_model,upstream_id FROM request_receipts",
+                    [],
+                    |r| Ok((r.get(0)?, r.get(1)?)),
+                )?;
+                assert!(model.is_none());
+                assert!(id.is_none());
+                Ok(())
+            })
+            .await
+            .unwrap();
+        task.abort();
     }
 }

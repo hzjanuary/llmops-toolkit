@@ -16,7 +16,9 @@ Use Rust TLS, fixed no-redirect/no-proxy upstream, loopback/owner auth and expli
 provider enablement; typed text-only input and bounded resources. Add small policy,
 pricing and transport modules instead of platform/services/framework scaffolding.
 New additive SQLite receipts precede egress and express nullable observations,
-price provenance and indeterminate failures; retain legacy values unchanged.
+price provenance and indeterminate failures; retain legacy values unchanged. Version 2 adds correlation IDs and preserves
+the already-reviewed version-1 receipts; reports retain observed latency and
+timestamps. Credential echoes in provider metadata are excluded before storage.
 Default eval/scanner to offline heuristics. Retain opt-in judge and scoped
 literal-IP scanner with independent privacy/authorization gates. Supervise the
 server and guard terminal state. Add focused offline proofs and source CI.

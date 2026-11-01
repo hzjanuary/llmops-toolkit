@@ -13,7 +13,7 @@ required or published. Tested platform: Linux x86_64, Rust 1.99.0, Python 3.12+.
    Do not copy only the main file while WAL writes are active.
 4. Start locked local service with `serve`. Health and dashboard are offline.
    `dashboard` is read-only and needs an existing telemetry DB; `serve` applies
-   additive schema version 1. Future versions are rejected, not reset.
+   additive schema versions 1 and 2 (latest). Future versions are rejected, not reset.
 
 ## Enabling billable forwarding (separate deliberate operator action)
 

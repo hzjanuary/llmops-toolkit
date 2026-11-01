@@ -11,7 +11,8 @@ hành đa tác tử. Baseline cục bộ đã xác minh:
   rõ ràng, dùng token chủ sở hữu tách biệt API key, chọn model chính xác và chính
   sách giá. Giới hạn nội dung, thời gian, số yêu cầu, đồng thời và token đầu ra;
   lỗi provider được che nội dung. Không hỗ trợ streaming.
-- SQLite giữ nguyên bảng/dữ liệu cũ; migration bổ sung phiên bản 1. Ghi receipt
+- SQLite giữ nguyên bảng/dữ liệu cũ; migration bổ sung phiên bản 1 và 2, giữ receipt phiên bản 1; vẫn hiển thị
+  timestamp/latency và lưu correlation ID hợp lệ, không chứa credential. Ghi receipt
   pending trước khi gửi; lỗi/mất usage/không biết giá không được giả thành chi phí
   bằng 0. Chi phí là ước tính theo cấu hình có nguồn/ngày/hash, không phải hóa đơn.
   Ngân sách chỉ theo tiến trình; khởi động lại làm reset. Cần hạn mức tài khoản
