@@ -53,3 +53,9 @@ preserved (base64 payload with original digest); only the presentation copy is
 normalized and both digests are explicit. verify.py now records this presentation
 policy at generation. No test/security outcome changed; previous historical
 proof remains untouched. Fresh exact-source checks verify this correction.
+
+Latest local candidate 7c798c51b80dfc8d03055a2a8cd28da135cbbfa7: complete verify.py PASS, including raw/log
+presentation consistency and directory/tamper rejection. Evidence copied with
+normalized visible logs plus byte-exact untrimmed base64 payloads where needed;
+all digests verified. cargo fmt --check, git diff --check and publication-delta
+whitespace check PASS. Runtime/tests/migrations/root lock remain unchanged.
