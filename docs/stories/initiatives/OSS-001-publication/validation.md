@@ -27,3 +27,10 @@ Official MIT installed, Cargo SPDX set, obsolete proposal removed. Legal check
 verifies exact license SHA-256 and declaration; S30 PASS. Earlier blocked notes
 above are historical gate observations, not the current legal status. Final
 publication checks are still pending and old CI is not assigned to these edits.
+
+Focused cleanup complete: nested crate removed, current CI/audit/inventory scoped
+to all retained root dependencies; exact task text, old installer README and full
+former inventory archived with hashes. No runtime/test/migration/root lock change.
+Public archive verifier adds a different-prefix ZIP/tar and tamper self-test to
+source gates. The first rules read returned no rulesets and main unprotected;
+no setting was applied. Final local/remote checks and publication remain pending.

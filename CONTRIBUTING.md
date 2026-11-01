@@ -42,3 +42,17 @@ A Draft PR should state the problem, resulting behavior, exact tested source SHA
 commands/artifacts, material limits and remaining owner decisions. A green
 `verified-source` check is a source gate, not license approval or release approval.
 Ruleset proposals in docs/governance are never applied automatically.
+
+For owner-authorized source publication, verify both public formats with:
+
+```text
+python3 scripts/verify_public_archives.py --revision REVIEWED_MAIN_SHA \
+  --zip DOWNLOADED_SOURCE.zip --tar-gz DOWNLOADED_SOURCE.tar.gz \
+  --output NEW_VERIFICATION_RECORD.json
+```
+
+The tool reads archives without extraction, checks every path/content/executable
+bit against the exact Git commit, rejects operator paths and verifies LICENSE.
+Its offline prefix/tamper self-test is part of verify.py. A normal tag/release is
+only permitted by an explicit owner instruction after all review/source rules
+pass. Ordinary contributions do not acquire publication authorization.

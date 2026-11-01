@@ -7,6 +7,7 @@ orchestration service or update mechanism is needed by RAGOps.
 | --- | --- |
 | verify.py | Pinned format/Clippy/offline tests/build, runtime flow, legal inventory, exact archive and clean archive build with SHA-bound logs |
 | runtime_smoke.py | Authenticated synthetic loopback mock -> SQLite -> real TTY/headless process flow; signals/backup/consent gates |
+| verify_public_archives.py | Offline ZIP/tar.gz verification against an exact commit, with different archive prefixes and tamper rejection self-test |
 | source_gate.py | Reproducible exact Git source archive; every blob/mode and private-path policy |
 | license_inventory.py | Owner-confirmed exact MIT grant and declared license metadata for every retained root dependency |
 | install_security_tools.py | Checksum-pinned Gitleaks and pinned cargo-audit, installed outside checkout |

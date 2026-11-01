@@ -1,7 +1,8 @@
 # Security policy
 
 This source preview has no production security certification or support SLA.
-Only the reviewed SPEC-001 branch is being assessed; older prototype commits
+The v0.1.0 source preview is assessed only by the recorded offline/source gates;
+older prototype commits
 have unsafe network defaults and must not be exposed.
 
 Report suspected vulnerabilities privately through GitHub's private vulnerability
@@ -27,3 +28,6 @@ scans, real inference or paid requests during development or CI.
 
 See [threat model](docs/THREAT_MODEL.md) and [self-hosting](docs/SELF_HOSTING.md)
 for trust boundaries, privacy and residual risks.
+
+Project source uses the owner-confirmed MIT grant in LICENSE. That grant does not
+replace third-party terms or provide independent security certification.

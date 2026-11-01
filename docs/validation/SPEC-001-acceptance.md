@@ -104,3 +104,13 @@ confirmation record. S30 is now PASS. The same 38 criteria reconcile to
 **37 PASS / 0 BLOCKED / 1 NOT_RUN** on the retained proof plus the A3 legal check.
 S35 remains NOT_RUN; no mock result is promoted to live validation. Fresh exact
 publication source gates are required and will be recorded separately.
+
+## Retained dependency and publication scope after cleanup
+
+The unused nested Hello World crate has been retired in a focused change.
+S28/S29 historical rows above retain their original two-lockfile proof; current
+publication checks cover every retained lockfile (Cargo.lock only). The full
+former inventory and exact task/installer text remain archived under docs/legal/
+and the historical US-043 packet, with hashes in RETIREMENT_RECORD.json. The
+root dependency graph, runtime, tests and migrations are unchanged. Current
+source/CI evidence must bind the new commit; no old result is reassigned.

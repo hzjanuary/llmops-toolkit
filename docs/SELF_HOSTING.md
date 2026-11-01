@@ -87,3 +87,13 @@ an operator recovery action). Do not log real dataset or scan response text.
 Live judge/scanner flags are documented in their product contracts. Explicit
 privacy consent and exact target authorization are required independently; the
 offline examples need neither credentials nor inference.
+
+## Source preview identity
+
+For v0.1.0, verify the annotated tag's peeled commit against the published review
+record and download only GitHub-generated source ZIP/tar.gz. The project license
+is MIT, Copyright (c) 2026 Hoang Nguyen; retain LICENSE and NOTICE. A full Git clone
+is needed for history/provenance audits; source archives contain the selected
+snapshot, not the full Git history. scripts/verify_public_archives.py compares
+both archive formats against an exact local Git commit without extracting them.
+No external Harness installer or hidden update mechanism is required.
