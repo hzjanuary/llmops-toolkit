@@ -46,3 +46,11 @@ separate from all earlier results. Full history/dependency gates also PASS.
 First GitHub Source CI run 41272218134 PASS for source 794f749; its artifact ZIP
 and contained log digests were independently downloaded and verified. It predates
 the retention fix. Final PR body binds final reviewed HEAD to its actual latest CI.
+
+GitHub Source CI run 41272626554 PASS all jobs for
+f253ddda41d6a06e116e67ba288145ae3b646e5d, including the complete implementation.
+Both artifact ZIPs were downloaded and checked against API digests; offline log
+hashes, 28 tests/helper, source SHA and zero security findings were verified.
+See immutable github-run-41272626554.json snapshot. Final documentation index
+clarifications preserve the old task as explicitly historical; no runtime code
+changed after the recorded implementation proof.

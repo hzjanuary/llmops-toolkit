@@ -70,3 +70,15 @@ Mock PASS không chứng minh tương thích live hoặc chứng nhận bảo m�
 Kết luận hiện tại: có thể review thay đổi mã nguồn trên Draft PR sau khi gate
 thật thành công; **chưa sẵn sàng phát hành OSS** do quyền sở hữu/license và các
 quyết định chủ sở hữu còn mở. Không yêu cầu thực hiện live test trong tác vụ này.
+
+## Bằng chứng GitHub cho bản triển khai đầy đủ
+
+[Run 41272626554](https://github.com/hzjanuary/ragops-harness/actions/runs/41272626554)
+PASS cả offline-source, security và verified-source tại
+`f253ddda41d6a06e116e67ba288145ae3b646e5d`, gồm migration 2 và regression chống
+credential echo trong metadata. Hai ZIP artifact đã tải về, đối chiếu digest,
+source SHA, 28 test + helper và log; history/tree không có secret findings và hai
+lockfile không có vulnerability/unsoundness warnings. Snapshot bất biến:
+[evidence/github-run-41272626554.json](evidence/github-run-41272626554.json).
+Commit bổ sung chỉ cập nhật tài liệu/evidence; HEAD cuối và run tương ứng được
+ràng buộc trong mô tả Draft PR, không tự gán kết quả cũ cho commit mới.

@@ -1,5 +1,9 @@
 # Scripts
 
+Current project validation is documented in CONTRIBUTING.md and the SPEC-001
+section below. The upstream installer section is preserved historical context,
+not a command to run for this repository.
+
 This directory is reserved for harness automation.
 
 ## Installer

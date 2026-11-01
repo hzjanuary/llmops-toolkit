@@ -19,14 +19,18 @@ Gitleaks 8.30.0, cargo-audit 0.22.2; RustSec database
 baseline; later passes do not rewrite them. New evidence-only commits do not
 retrospectively change the tested SHA. GitHub CI verifies each subsequent HEAD.
 
-[GitHub run snapshot](evidence/github-run-41272218134.json) records the first
-remote green source SHA, job IDs, artifact IDs/digests and expiry. Its downloaded
-offline ZIP matched the recorded SHA-256 and every internal log digest. That run
-predates migration 2; newer local proof above includes migration/metadata
-regressions. Final reviewed HEAD and its latest GitHub CI run are recorded in the
+[GitHub run 2 snapshot](evidence/github-run-41272626554.json) records remote
+PASS for **f253ddda41d6a06e116e67ba288145ae3b646e5d**, including migration 2 and
+credential-echo regressions: offline-source, security and verified-source all
+succeeded. Both artifact ZIP digests, exact source SHA, all offline inner log
+digests, 28 tests/helper and zero secret/dependency findings were downloaded and
+verified. Run/artifact IDs, digests and expiries are immutable in the snapshot.
+The [first run](evidence/github-run-41272218134.json) remains historical evidence.
+
+Final reviewed HEAD and its latest GitHub CI run are recorded in the
 [Draft PR description](https://github.com/hzjanuary/ragops-harness/pull/1), since an
 evidence-only commit cannot contain its own commit hash. Earlier local evidence
-for 7b2349a remains immutable in its separate directory.
+for 7b2349a remains unchanged in its separate directory.
 
 Evidence references below use **L** = the local immutable manifest/logs, **S** =
 the security manifest/reports, **G** = actual GitHub run/artifact records once
@@ -68,7 +72,7 @@ unexecuted individual filter command is claimed.
 | S31 | Pinned Rust format, strict Clippy, locked offline tests/build | PASS | python3 scripts/verify.py --output /tmp/ragops-spec001-retention-evidence (L) | 5f3a2d5b57465dafdf1b18c105783b537e30f601 |
 | S32 | Source archive matches every Git blob/mode, excludes operator state, reproduces bytewise | PASS | python3 scripts/source_gate.py --revision HEAD --output NEW_DIRECTORY (called by verify.py) (L) | 5f3a2d5b57465dafdf1b18c105783b537e30f601 |
 | S33 | Clean build from reviewed source archive with empty target | PASS | cargo build --locked --offline --target-dir NEW_DIRECTORY (called by verify.py) (L) | 5f3a2d5b57465dafdf1b18c105783b537e30f601 |
-| S34 | GitHub verified-source passed the exact recorded source; final HEAD run is linked from Draft PR | PASS | Source CI run 41272218134: offline-source/security/verified-source all success; downloaded artifact ZIP and inner log digests verified (G) | 794f7495f0a6de9af72d121fff0705d4abced45a (prior head; see final PR body for latest HEAD) |
+| S34 | GitHub verified-source passed the exact recorded source; final HEAD run is linked from Draft PR | PASS | Source CI run 41272626554: offline-source/security/verified-source all success; both downloaded artifact ZIPs and inner logs verified (G) | f253ddda41d6a06e116e67ba288145ae3b646e5d (recorded head; see final PR body for latest HEAD) |
 | S35 | Live provider/judge compatibility and external target security assessment | NOT_RUN | Prohibited by SPEC-001 hard limits; no execution command run | 5f3a2d5b57465dafdf1b18c105783b537e30f601 (source review; no live/ownership proof) |
 | S36 | Immutable provenance, SHA/digests, accurate docs and unapplied ruleset proposals | PASS | verify.py evidence.json; exact GitHub run/artifact records; source review (L) | 5f3a2d5b57465dafdf1b18c105783b537e30f601 |
 | S37 | Version-1 receipts migrate to version 2; timestamps, latency and correlation IDs retained | PASS | cargo test --locked --offline; db::tests::published_v1_receipts_survive_additive_v2_correlation_migration; python3 scripts/runtime_smoke.py (L) | 5f3a2d5b57465dafdf1b18c105783b537e30f601 |
