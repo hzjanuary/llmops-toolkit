@@ -10,13 +10,19 @@
       "archive_path": "docs/legal/archive/legacy-scripts-readme.txt",
       "original_path": "scripts/README.md",
       "sha256": "0373e9f1cd1c8c27c0b0c029446c5c9488789555fb04c25ad3d1e194153f047d",
-      "source_sha": "782dfab4c7c0883a633ac39fb26fa9c7154c2a06"
+      "source_sha": "782dfab4c7c0883a633ac39fb26fa9c7154c2a06",
+      "current_copy_present": false,
+      "recoverable_from_git_history": true,
+      "retirement_initiative": "REBRAND-001"
     },
     {
       "archive_path": "docs/stories/epics/E04-dashboard/US-043-unified-live-tui-monitor/legacy-agent-requirement.md",
       "original_path": "AGENT_REQUIREMENT.md",
       "sha256": "f73300ca6700712cd28a799c4271c6d9c59003f84003b723662e7958e5a480dc",
-      "source_sha": "782dfab4c7c0883a633ac39fb26fa9c7154c2a06"
+      "source_sha": "782dfab4c7c0883a633ac39fb26fa9c7154c2a06",
+      "current_copy_present": false,
+      "recoverable_from_git_history": true,
+      "retirement_initiative": "REBRAND-001"
     }
   ],
   "current_ci_scope": "All retained lockfiles: root Cargo.lock only. No audit findings ignored. Archived inventory retains both former manifest dependency records.",
@@ -39,5 +45,178 @@
   ],
   "retained": "All historical stories, decisions, acceptance evidence, active templates/protocol, scripts and migrations; root Cargo.lock dependency data unchanged",
   "reviewed_source_sha": "782dfab4c7c0883a633ac39fb26fa9c7154c2a06",
-  "root_task_file": "Adopts pre-existing AGENT_REQUIREMENT.md deletion only after archiving its exact HEAD text; no operator file touched"
+  "root_task_file": "Adopts pre-existing AGENT_REQUIREMENT.md deletion only after archiving its exact HEAD text; no operator file touched",
+  "rebrand_001_retirements": [
+    {
+      "original_path": "docs/legal/archive/legacy-scripts-readme.txt",
+      "original_git_blob_sha": "598a42441d84b1fa095f32a9fed2dc644e219944",
+      "content_sha256": "0373e9f1cd1c8c27c0b0c029446c5c9488789555fb04c25ad3d1e194153f047d",
+      "original_source_commit": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+      "removal_commit": null,
+      "reason": "Obsolete external installer attachment; no installer required",
+      "recoverable_from_git_history": true,
+      "category": 5
+    },
+    {
+      "original_path": "docs/HARNESS.md",
+      "original_git_blob_sha": "3ccf9ddc480693630834bc6038db8feb652c551c",
+      "content_sha256": "656e68fdd1910065f9d03f432647b9ee985f526c48d2e12e5521b894daa5c3ba",
+      "original_source_commit": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+      "removal_commit": null,
+      "reason": "Obsolete generic development workflow; useful actual commands/maintenance extracted into product-specific docs",
+      "recoverable_from_git_history": true,
+      "category": 4
+    },
+    {
+      "original_path": "docs/HARNESS_BACKLOG.md",
+      "original_git_blob_sha": "8e49e1fa516c1b3e2abdb31e40b91cf0026d54a6",
+      "content_sha256": "01cbf7d23e3a32c7a7f149eda4051bfd644f4fc302c2b910a0c1c0b58168e267",
+      "original_source_commit": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+      "removal_commit": null,
+      "reason": "Obsolete generic development workflow; useful actual commands/maintenance extracted into product-specific docs",
+      "recoverable_from_git_history": true,
+      "category": 4
+    },
+    {
+      "original_path": "docs/FEATURE_INTAKE.md",
+      "original_git_blob_sha": "32de330fe793e0a211ca8d31dd495775dd70e248",
+      "content_sha256": "771043e61e3147abb13210f0205769f96fe08a26aa44f1ae9a92e43ae5d66b59",
+      "original_source_commit": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+      "removal_commit": null,
+      "reason": "Obsolete generic development workflow; useful actual commands/maintenance extracted into product-specific docs",
+      "recoverable_from_git_history": true,
+      "category": 4
+    },
+    {
+      "original_path": "docs/GLOSSARY.md",
+      "original_git_blob_sha": "234bc94a3cd0fd56e0e11f580a763abcef0dee40",
+      "content_sha256": "b39fdbf3e9997998cc53ba4089226d0ae7c2d5666776d9a990ade60868592ee0",
+      "original_source_commit": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+      "removal_commit": null,
+      "reason": "Obsolete generic development workflow; useful actual commands/maintenance extracted into product-specific docs",
+      "recoverable_from_git_history": true,
+      "category": 4
+    },
+    {
+      "original_path": "docs/templates/decision.md",
+      "original_git_blob_sha": "496c38a4a10853100425587ec9686a1f03dc7196",
+      "content_sha256": "e92ba7a5b7bc10ce6c213af75a191619fc305c3945cdd55d4dc6bac72dcd42c1",
+      "original_source_commit": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+      "removal_commit": null,
+      "reason": "Obsolete generic development workflow; useful actual commands/maintenance extracted into product-specific docs",
+      "recoverable_from_git_history": true,
+      "category": 4
+    },
+    {
+      "original_path": "docs/templates/high-risk-story/design.md",
+      "original_git_blob_sha": "90facfef8db5cfc2877f9a0514ede28bfc83f1ff",
+      "content_sha256": "87412d8d8302c45b09369024be6cba734748ec428d5ebd03d73d3ce835ece2d3",
+      "original_source_commit": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+      "removal_commit": null,
+      "reason": "Obsolete generic development workflow; useful actual commands/maintenance extracted into product-specific docs",
+      "recoverable_from_git_history": true,
+      "category": 4
+    },
+    {
+      "original_path": "docs/templates/high-risk-story/execplan.md",
+      "original_git_blob_sha": "4098256f5c3caca3e500bd7e1a14eff00e047b5b",
+      "content_sha256": "03f9bb61f2e5b80f9658decd632ddbd695faed85f0b9906fa467f79ffef62b92",
+      "original_source_commit": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+      "removal_commit": null,
+      "reason": "Obsolete generic development workflow; useful actual commands/maintenance extracted into product-specific docs",
+      "recoverable_from_git_history": true,
+      "category": 4
+    },
+    {
+      "original_path": "docs/templates/high-risk-story/overview.md",
+      "original_git_blob_sha": "9de28974c751a6a45404a39d833cdb194bbb2dec",
+      "content_sha256": "94eaa234fd7c7f22a73dd5498c5188d3635eb780e1231b652886cf7cc5dd1a6b",
+      "original_source_commit": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+      "removal_commit": null,
+      "reason": "Obsolete generic development workflow; useful actual commands/maintenance extracted into product-specific docs",
+      "recoverable_from_git_history": true,
+      "category": 4
+    },
+    {
+      "original_path": "docs/templates/high-risk-story/validation.md",
+      "original_git_blob_sha": "cd399683a205c1398bddf4710656198ebeef1cd7",
+      "content_sha256": "cdda39e3d7466a9d8a76ce5e7f804377a59c4b5bcc2651fc2112d99381d8aa81",
+      "original_source_commit": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+      "removal_commit": null,
+      "reason": "Obsolete generic development workflow; useful actual commands/maintenance extracted into product-specific docs",
+      "recoverable_from_git_history": true,
+      "category": 4
+    },
+    {
+      "original_path": "docs/templates/spec-intake.md",
+      "original_git_blob_sha": "4799a18fe8cfda432229eaf489119a16acc58bee",
+      "content_sha256": "763726bcb6c42ae8e439c6dcc2ce2359d30f1192a4735ac5305cbda3a6bd7bb6",
+      "original_source_commit": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+      "removal_commit": null,
+      "reason": "Obsolete generic development workflow; useful actual commands/maintenance extracted into product-specific docs",
+      "recoverable_from_git_history": true,
+      "category": 4
+    },
+    {
+      "original_path": "docs/templates/story.md",
+      "original_git_blob_sha": "d6813211cb234629212bbb8cdaa07e76e4450cfe",
+      "content_sha256": "7ea845bf5aab39ffd28785394d501d2d43d6d1a1177428714e009e7662c07228",
+      "original_source_commit": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+      "removal_commit": null,
+      "reason": "Obsolete generic development workflow; useful actual commands/maintenance extracted into product-specific docs",
+      "recoverable_from_git_history": true,
+      "category": 4
+    },
+    {
+      "original_path": "docs/templates/validation-report.md",
+      "original_git_blob_sha": "b66c451ae6869f79a3bd1a8ade46c7f6d82b70d5",
+      "content_sha256": "0fb538321ebb09f17e81c9390caf7263ad9c12acb3025149bfe667d3911cddb7",
+      "original_source_commit": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+      "removal_commit": null,
+      "reason": "Obsolete generic development workflow; useful actual commands/maintenance extracted into product-specific docs",
+      "recoverable_from_git_history": true,
+      "category": 4
+    },
+    {
+      "original_path": "docs/decisions/0001-harness-first-development.md",
+      "original_git_blob_sha": "9b53d2fadedd6316888ddb8793c7267f53077fc6",
+      "content_sha256": "8f329fe4ef318ffef2506724d689aa0d3280a6c7b4f50733e2bec35c07e66b6c",
+      "original_source_commit": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+      "removal_commit": null,
+      "reason": "Obsolete generic development workflow; useful actual commands/maintenance extracted into product-specific docs",
+      "recoverable_from_git_history": true,
+      "category": 4
+    },
+    {
+      "original_path": "docs/decisions/0002-post-spec-product-lifecycle.md",
+      "original_git_blob_sha": "4e7d109d87682d47b470dfc4f6ffb2fb12d91552",
+      "content_sha256": "2f2ac9ae255d0f387204b4de67eee7ed97e7b2081b4891bc6f7d74cd14e0f212",
+      "original_source_commit": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+      "removal_commit": null,
+      "reason": "Obsolete generic development workflow; useful actual commands/maintenance extracted into product-specific docs",
+      "recoverable_from_git_history": true,
+      "category": 4
+    },
+    {
+      "original_path": "docs/decisions/0003-generic-spec-intake-harness.md",
+      "original_git_blob_sha": "2d29f123f05c6a55d0816ef400b835ea01d9d5eb",
+      "content_sha256": "c17753144f544f1c9017d688ace26ff0a3a1ee5854135d2a82432320ef905f77",
+      "original_source_commit": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+      "removal_commit": null,
+      "reason": "Obsolete generic development workflow; useful actual commands/maintenance extracted into product-specific docs",
+      "recoverable_from_git_history": true,
+      "category": 4
+    },
+    {
+      "original_path": "docs/stories/epics/E04-dashboard/US-043-unified-live-tui-monitor/legacy-agent-requirement.md",
+      "original_git_blob_sha": "30606950d0a41955649357cd4dd3e1d485fb31e6",
+      "content_sha256": "f73300ca6700712cd28a799c4271c6d9c59003f84003b723662e7958e5a480dc",
+      "original_source_commit": "a3df205abc5d9bd9d665f0a9072032bbd2145978",
+      "removal_commit": null,
+      "reason": "Redundant copied US-043 task prompt; technical story design/validation retain product requirements",
+      "recoverable_from_git_history": true,
+      "category": 4
+    }
+  ],
+  "rebrand_001_scope": "Only obsolete local generic workflow and installer/task attachments; existing historical records above describe earlier checkpoints, not current retention promises."
 }

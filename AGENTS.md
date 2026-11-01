@@ -1,101 +1,35 @@
-# Agent Operating Guide
+# LLMOps Toolkit contributor instructions
 
-The repository has an implemented Rust prototype. SPEC-001 explicitly authorizes
-its secure local-first refactor, regression tests and source CI. Preserve useful
-features, historical stories/ADRs, and all operator data. Do not introduce a RAG
-engine, general gateway, UI framework or agent orchestration.
+Read README.md, docs/DEVELOPMENT.md, docs/ARCHITECTURE.md and the affected
+docs/product/ contract before editing. Check docs/TEST_MATRIX.md and record new
+proof separately from historical SPEC-001/OSS-001 evidence.
 
-Default development proof is entirely offline: zero real LLM/paid calls, external
-target scans or model downloads. Never auto-load .env, delete operator databases,
-rewrite history, suppress scanners, deploy or publish executables/packages/images.
+- Keep the small Rust/Tokio/Axum/Reqwest/SQLite CLI/TUI architecture. main owns
+  dispatch/signals/terminal restoration; environment resolves aliases; config
+  owns bounds; proxy owns auth/forwarding/receipts; db owns persistence/backup;
+  pricing owns nullable estimates; eval/red_team own bounded heuristic workflows.
+- Preserve loopback-first, disabled forwarding, independent owner/provider
+  credentials, model allowlists, request/token/time/concurrency/cost limits,
+  redacted errors and no retries/redirects. Never add startup provider requests,
+  automatic .env loading or implicit live evaluation/scanning.
+- Prefer LLMOPS_* variables; keep RAGOPS_* deprecated aliases and fail closed on
+  conflicting pairs without printing values. OPENAI_API_KEY is unchanged.
+- Preserve ragops_harness.sqlite3 as the default filename. Never rename/move,
+  delete or overwrite operator DBs, sidecars, backups, credentials or local
+  evidence. Branding does not authorize schema/data migration. Keep untracked
+  docs/specs/ inputs outside commits.
+- Run locked offline Rust tests, strict Clippy, runtime smoke, license inventory,
+  full-history/tree secret scans, dependency audit and exact source/archive gates
+  as documented in CONTRIBUTING.md. Use only synthetic secrets, loopback mocks
+  and temporary data; zero real/paid inference, external scans or model downloads.
+- Keep active project scripts and MIT/dependency obligations. Record exact source
+  SHA, commands, exits and log/artifact digests; preserve failures and prior proof.
+  Never weaken gates, suppress findings or turn mock results into live claims.
+- Use a feature branch, explicit staging, focused commits and a PR. Do not push
+  to main, force-push, rewrite history, change repository settings or modify an
+  external workflow repository. No release/tag/merge, package/image/binary
+  publication or deployment without a separate explicit owner instruction.
 
-The earlier SPEC-001 task stopped at a Draft PR. The owner's later OSS-001 goal
-conditionally authorizes normal PR merge, annotated v0.1.0 tag and a source-only
-GitHub pre-release after confirmed copyright identity, recorded provenance,
-installed MIT, review and exact-source local/remote gates. Do not cross the A3
-license decision boundary without the exact public copyright-holder text.
-Rulesets/settings still need separate owner approval. Separate Harness-repository
-cleanup starts only after publication and public source archive verification;
-canonical identity/permissions and exact retirement scope must be established.
-See docs/stories/initiatives/OSS-001-publication and docs/legal/OWNER_DECLARATION.md.
-
-## Source Of Truth
-
-Read in this order:
-
-1. `README.md` for project status.
-2. `docs/HARNESS.md` for the human-agent operating model.
-3. `docs/FEATURE_INTAKE.md` before turning any prompt into work.
-4. The user-provided spec or prompt, when one exists.
-5. `docs/product/` for current product contracts.
-6. `docs/ARCHITECTURE.md` before proposing implementation shape.
-7. `docs/stories/` for story packets and backlog.
-8. `docs/TEST_MATRIX.md` for proof status.
-9. `docs/decisions/` for why important choices were made.
-
-This harness does not ship with a project-specific `SPEC.md`. When the human
-provides a spec for a new project, treat that spec as input material for the
-first buildout. Derive product docs, story packets, architecture decisions, and
-validation expectations from it. Product docs, stories, tests, and decisions
-then become the living contract that agents should update as the system evolves.
-
-## Task Loop
-
-For every task:
-
-1. Classify the request with `docs/FEATURE_INTAKE.md`.
-2. Identify whether the input is a new spec, spec slice, change request, new
-   initiative, maintenance request, or harness improvement.
-3. Locate the affected product docs and story files.
-4. Check `docs/TEST_MATRIX.md` for existing proof and gaps.
-5. Work only inside the selected lane: tiny, normal, or high-risk.
-6. Before finishing, ask:
-   - Did product truth change?
-   - Did validation expectations change?
-   - Did architecture rules change?
-   - Did we discover a repeated failure pattern?
-   - Did the next agent need a clearer instruction?
-7. Update routine harness files directly, or add a proposal to
-   `docs/HARNESS_BACKLOG.md` when the change is structural.
-
-## Harness Change Policy
-
-Agents may update directly:
-
-- Story status and evidence.
-- `docs/TEST_MATRIX.md` rows.
-- Links from story packets to product docs.
-- Validation notes and reports.
-- Small clarifications tied to the current task.
-
-Agents should ask for human confirmation before:
-
-- Changing architecture direction.
-- Removing validation requirements.
-- Changing the source-of-truth hierarchy.
-- Changing risk classification rules.
-- Replacing the feature workflow.
-
-## Done Definition
-
-A task is done only when:
-
-- The requested change is completed or the blocker is documented.
-- Relevant docs, stories, and test matrix entries remain current.
-- Validation commands were run when they exist.
-- Missing harness capabilities were added to `docs/HARNESS_BACKLOG.md`.
-- The final response says what changed and what was not attempted.
-
-## Current verification
-
-Read CONTRIBUTING.md for exact pinned tool, offline source and security commands.
-`python3 scripts/verify.py --output /tmp/UNIQUE-EVIDENCE-DIRECTORY` requires a
-committed clean tracked tree; it records the actual tested SHA and log hashes.
-Fetch both lockfile dependencies first. Keep the pre-existing untracked spec
-input outside agent commits unless the owner specifically selects it for
-publication. Never stage everything indiscriminately.
-
-Use PASS/FAIL/BLOCKED/NOT_RUN in SPEC-001 acceptance evidence. Preserve failures;
-record source SHA, exact command, exit code and immutable log/artifact digest.
-Local secrets findings must be redacted; genuine credentials require private
-owner rotation/review, not printed values or automatic history rewriting.
+REBRAND-001 stops at one Draft PR with exact-head verified source CI. Preserve
+the published v0.1.0 tag, release and historical evidence unchanged. Current
+maintenance belongs in docs/MAINTENANCE.md; no external installer is required.
