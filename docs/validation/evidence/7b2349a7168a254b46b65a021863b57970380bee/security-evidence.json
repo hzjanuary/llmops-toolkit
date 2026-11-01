@@ -1,0 +1,81 @@
+{
+  "cargo_audit_version": "0.22.2",
+  "checks": [
+    {
+      "command": [
+        "/tmp/ragops-spec001-tools/gitleaks",
+        "git",
+        ".",
+        "--log-opts=--all --full-history",
+        "--redact",
+        "--no-banner",
+        "--report-format",
+        "json",
+        "--report-path",
+        "/tmp/ragops-spec001-audit/final-history-secrets.json"
+      ],
+      "exit_code": 0,
+      "id": "full-history-secrets",
+      "report": "final-history-secrets.json",
+      "report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "source_sha": "7b2349a7168a254b46b65a021863b57970380bee",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "/tmp/ragops-spec001-tools/gitleaks",
+        "dir",
+        ".",
+        "--redact",
+        "--no-banner",
+        "--report-format",
+        "json",
+        "--report-path",
+        "/tmp/ragops-spec001-audit/final-tree-secrets.json"
+      ],
+      "exit_code": 0,
+      "id": "tree-secrets",
+      "report": "final-tree-secrets.json",
+      "report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "source_sha": "7b2349a7168a254b46b65a021863b57970380bee",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "/tmp/ragops-spec001-tools/bin/cargo-audit",
+        "audit",
+        "--deny",
+        "unsound",
+        "--file",
+        "Cargo.lock",
+        "--json"
+      ],
+      "exit_code": 0,
+      "id": "root-dependencies",
+      "report": "final-root-audit.json",
+      "report_sha256": "b2b6ce8ca7efbf200bf74f79bb88c67b362a4ef44e744c44cad57b1863b16049",
+      "source_sha": "7b2349a7168a254b46b65a021863b57970380bee",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "/tmp/ragops-spec001-tools/bin/cargo-audit",
+        "audit",
+        "--deny",
+        "unsound",
+        "--file",
+        "rag-harness/Cargo.lock",
+        "--json"
+      ],
+      "exit_code": 0,
+      "id": "nested-dependencies",
+      "report": "final-nested-audit.json",
+      "report_sha256": "9bc5bf851244caa899cddf063e5cb3268c52614ed78d3f6f5719f699fee1bad6",
+      "source_sha": "7b2349a7168a254b46b65a021863b57970380bee",
+      "status": "PASS"
+    }
+  ],
+  "gitleaks_version": "8.30.0",
+  "scope": "All locally reachable refs, 14 commits; working tree included untracked input and ignored build output. No genuine secret findings. RustSec DB commit appears in each audit report.",
+  "source_sha": "7b2349a7168a254b46b65a021863b57970380bee"
+}

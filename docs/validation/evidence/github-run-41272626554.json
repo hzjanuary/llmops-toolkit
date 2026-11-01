@@ -1,0 +1,227 @@
+{
+  "schema_version": 1,
+  "source_sha": "f253ddda41d6a06e116e67ba288145ae3b646e5d",
+  "run_url": "https://github.com/hzjanuary/ragops-harness/actions/runs/41272626554",
+  "run": {
+    "workflow_runs": [
+      {
+        "id": 41272626554,
+        "name": "Source CI",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 2,
+        "jobs_url": "https://api.github.com/repos/hzjanuary/ragops-harness/actions/runs/41272626554/jobs",
+        "logs_url": "https://api.github.com/repos/hzjanuary/ragops-harness/actions/runs/41272626554/logs",
+        "workflow_id": 403275517
+      }
+    ]
+  },
+  "jobs": {
+    "jobs": [
+      {
+        "id": 124748342105,
+        "name": "security",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 41272626554,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Run rustup show active-toolchain",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Install pinned security tools",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Complete-history and source secret gates",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Dependency vulnerability and unsoundness gates (both retained crates)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Preserve redacted security evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          }
+        ]
+      },
+      {
+        "id": 124748342274,
+        "name": "offline-source",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 41272626554,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Install pinned Rust toolchain",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Fetch locked build dependencies (no inference)",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Offline source and full flow gates",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Preserve SHA-bound source evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Post Run actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 12
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          }
+        ]
+      },
+      {
+        "id": 124748956009,
+        "name": "verified-source",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 41272626554,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Require every source and security gate",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          }
+        ]
+      }
+    ]
+  },
+  "artifacts": {
+    "artifacts": [
+      {
+        "id": 13069907936,
+        "name": "offline-source-f253ddda41d6a06e116e67ba288145ae3b646e5d",
+        "size_in_bytes": 207554,
+        "url": "https://api.github.com/repos/hzjanuary/ragops-harness/actions/artifacts/13069907936",
+        "archive_download_url": "https://api.github.com/repos/hzjanuary/ragops-harness/actions/artifacts/13069907936/zip",
+        "expired": false,
+        "created_at": "2026-11-01T04:21:01Z",
+        "expires_at": "2026-12-01T04:21:00Z",
+        "updated_at": "2026-11-01T04:21:01Z",
+        "digest": "sha256:b8620a75c7cf17ac572723181fadca54f3d38ffb5b1094c14bd0fab177f90021",
+        "workflow_run": {
+          "id": 41272626554,
+          "repository_id": 1245373914,
+          "head_repository_id": 1245373914,
+          "head_branch": "feat/spec-001-secure-oss-refactor",
+          "head_sha": "f253ddda41d6a06e116e67ba288145ae3b646e5d"
+        }
+      },
+      {
+        "id": 13069688658,
+        "name": "security-f253ddda41d6a06e116e67ba288145ae3b646e5d",
+        "size_in_bytes": 1500,
+        "url": "https://api.github.com/repos/hzjanuary/ragops-harness/actions/artifacts/13069688658",
+        "archive_download_url": "https://api.github.com/repos/hzjanuary/ragops-harness/actions/artifacts/13069688658/zip",
+        "expired": false,
+        "created_at": "2026-11-01T04:22:21Z",
+        "expires_at": "2026-12-01T04:22:21Z",
+        "updated_at": "2026-11-01T04:22:21Z",
+        "digest": "sha256:362fa337b60db502c3ff366bc97120bf3a5f0c1bc45fde01ea1ee737d91f126f",
+        "workflow_run": {
+          "id": 41272626554,
+          "repository_id": 1245373914,
+          "head_repository_id": 1245373914,
+          "head_branch": "feat/spec-001-secure-oss-refactor",
+          "head_sha": "f253ddda41d6a06e116e67ba288145ae3b646e5d"
+        }
+      }
+    ]
+  },
+  "artifact_verification": {
+    "offline_artifact_id": 13069907936,
+    "offline_zip_sha256": "b8620a75c7cf17ac572723181fadca54f3d38ffb5b1094c14bd0fab177f90021",
+    "offline_zip_and_all_inner_log_digests_verified": true,
+    "normal_tests_passed": 28,
+    "synthetic_helper_explicitly_invoked": true,
+    "security_artifact_id": 13069688658,
+    "security_zip_sha256": "362fa337b60db502c3ff366bc97120bf3a5f0c1bc45fde01ea1ee737d91f126f",
+    "security_zip_source_and_zero_findings_verified": true,
+    "download_method": "GitHub plugin download_workflow_artifact; transient signed URLs intentionally not retained"
+  },
+  "scope": "Complete remote verification includes additive migration 2 and metadata credential-echo regressions. Later documentation-only commits do not retrospectively change this tested SHA; latest reviewed HEAD and CI are bound in the Draft PR description."
+}

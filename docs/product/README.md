@@ -1,21 +1,11 @@
-# Product Docs
+# Current product contracts
 
-This directory is intentionally generic and mostly empty in Harness v0.
+SPEC-001 is the active secure refactor of the existing prototype. Read
+[proxy/FinOps](finops-proxy.md), [terminal monitor](dashboard.md),
+[RAG evaluation](rag-evaluation-engine.md), [safety heuristics](red-team-engine.md)
+and the [acceptance evidence](../validation/SPEC-001-acceptance.md).
 
-When a user provides a project spec, derive smaller product contract files here
-instead of keeping one large spec as the living plan. Name files by the product
-domains that actually exist in that spec, for example `overview.md`,
-`billing.md`, `workflows.md`, `permissions.md`, or `api-conventions.md`.
-
-Do not create domain files before the spec just to fill the folder. Empty
-structure is healthier than fake product truth.
-
-## Update Rule
-
-When behavior changes:
-
-1. Update the affected product doc.
-2. Update or create the story packet.
-3. Update `docs/TEST_MATRIX.md`.
-4. Record a decision if the change affects architecture, scope, risk, or a
-   previously settled product rule.
+Keep this toolkit distinct from a RAG engine, general gateway and agent OS.
+Historical story/ADR packets explain previous behavior but do not override
+these current contracts. Change product docs, the relevant story packet and
+TEST_MATRIX together; record meaningful decisions separately.

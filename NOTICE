@@ -1,0 +1,43 @@
+RAGOps Harness — project and third-party notices
+
+Project copyright
+Copyright (c) 2026 Hoang Nguyen
+The public copyright-holder text is explicitly confirmed by the repository owner.
+The owner declares RAGOps independently developed and owns its RAGOps-specific
+application code, Rust modules, tests, product documentation, scripts and
+configuration. See docs/legal/OWNER_DECLARATION.md and PROVENANCE_REVIEW.md.
+
+Project license
+RAGOps Harness is licensed under the MIT License in the root LICENSE file.
+The project grant does not replace third-party dependency licenses or notices.
+
+Historical development workflow materials
+The historical harness-experimental URL identifies a Codex development/workflow
+environment used by the owner. It is not a third-party RAGOps runtime dependency,
+product component or external orchestration service. The URL does not establish
+RAGOps ownership by any other GitHub user. The earlier NOTICE implication of an
+external ownership clearance requirement based solely on that URL is withdrawn.
+Historical workflow templates, stories, decisions and evidence remain preserved.
+Their file-level lineage is recorded without asserting that every historical
+phrase was independently authored or inventing an external source attribution.
+
+Third-party dependencies
+Dependency names, versions, checksums, upstream repositories and declared SPDX
+licenses for the retained root lockfile are listed in:
+  docs/legal/dependency-inventory.json
+The complete former two-manifest inventory is preserved in
+  docs/legal/archive/dependency-inventory-before-crate-retirement.json
+The retirement/source-hash record is docs/legal/RETIREMENT_RECORD.json.
+All applicable dependency obligations remain in force.
+No registry dependency source is vendored in these source archives. Dependencies
+retain their respective copyrights and licenses. SPDX OR expressions allow a
+permitted alternative; AND expressions retain multiple obligations. Project MIT
+cannot replace dependency terms. Any future binary or vendored-source
+redistribution needs its own complete notice/license bundle review, including
+bundled SQLite, ring notices, Unicode data, Windows artifacts and webpki-roots
+trust-anchor data under CDLA-Permissive-2.0. That data license requires its text
+to accompany redistributed data:
+https://cdla.dev/permissive-2-0/
+
+No external dataset or model is bundled. examples/ and data.json are synthetic
+project fixtures; the fixed safety probes are retained prototype project material.

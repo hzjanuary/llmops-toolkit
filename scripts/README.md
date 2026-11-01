@@ -1,47 +1,22 @@
-# Scripts
+# RAGOps project verification scripts
 
-This directory is reserved for harness automation.
+These are local project tools. No external Harness installer, runtime,
+orchestration service or update mechanism is needed by RAGOps.
 
-## Installer
+| Script | Active responsibility |
+| --- | --- |
+| verify.py | Pinned format/Clippy/offline tests/build, runtime flow, legal inventory, exact archive and clean archive build with SHA-bound logs |
+| runtime_smoke.py | Authenticated synthetic loopback mock -> SQLite -> real TTY/headless process flow; signals/backup/consent gates |
+| verify_public_archives.py | Offline ZIP/tar.gz verification against an exact commit, with different archive prefixes and tamper rejection self-test |
+| source_gate.py | Reproducible exact Git source archive; every blob/mode and private-path policy |
+| license_inventory.py | Owner-confirmed exact MIT grant and declared license metadata for every retained root dependency |
+| install_security_tools.py | Checksum-pinned Gitleaks and pinned cargo-audit, installed outside checkout |
 
-The upstream installer applies the Harness v0 operating files and folder
-structure to a target project directory. It defaults to the current directory,
-accepts a target path, and asks interactive users whether to `1. Merge`,
-`2. Override`, or `3. Stop` when the target already contains `AGENTS.md`,
-`docs/`, or `scripts/`.
-Non-interactive installs stop on those protected paths unless `--merge` or
-`--override` is provided.
+See CONTRIBUTING.md for exact commands. Initial registry/tool/advisory downloads
+use network access; application tests make no real inference or external scans.
+No script publishes an executable, package, image or deployment.
 
-```bash
-curl -fsSL "https://raw.githubusercontent.com/hoangnb24/harness-experimental/main/scripts/install-harness.sh?$(date +%s)" | bash -s -- --yes
-```
-
-```bash
-curl -fsSL "https://raw.githubusercontent.com/hoangnb24/harness-experimental/main/scripts/install-harness.sh?$(date +%s)" | bash -s -- --merge --yes
-```
-
-The installer must stay limited to harness files. Do not use it to scaffold
-application source folders, package scripts, CI, tests, platform shells, or fake
-validation commands. The installer script is not part of the installed project
-payload.
-
-## Future Command Contract
-
-Expected future checks:
-
-```text
-validate:quick
-  format, lint, typecheck, unit tests, architecture check
-
-test:integration
-  backend contract and integration checks
-
-test:e2e
-  user-visible end-to-end flows
-
-test:platform
-  platform shell smoke checks, if the project has a native shell
-
-test:release
-  full suite, log checks, and performance smoke
-```
+The obsolete external installer examples are preserved verbatim as historical
+text in docs/legal/archive/legacy-scripts-readme.txt. Do not execute them. The
+unused nested Hello World crate was retired together with its CI/inventory
+references; historical dependency data and evidence remain preserved.

@@ -1,3 +1,9 @@
+# Historical task input — US-043.1
+
+Preserved prototype task text below. SPEC-001 supersedes its runtime details;
+read AGENTS.md and current product docs before work. Do not reintroduce terminal
+unwrap calls or an unsupervised server from this historical example.
+
 # TARGET STORY: US-043.1 Fix TUI Scrolling (Alternate Screen)
 
 ## 1. ARCHITECTURE BOUNDARIES

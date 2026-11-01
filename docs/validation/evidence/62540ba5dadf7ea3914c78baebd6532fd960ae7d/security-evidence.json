@@ -1,0 +1,64 @@
+{
+  "cargo_audit_version": "0.22.2",
+  "checks": [
+    {
+      "command": [
+        "/tmp/ragops-spec001-tools/gitleaks",
+        "git",
+        ".",
+        "--log-opts=--all --full-history",
+        "--redact",
+        "--no-banner",
+        "--report-format",
+        "json",
+        "--report-path",
+        "/tmp/ragops-oss001-history-1.json"
+      ],
+      "exit_code": 0,
+      "id": "history",
+      "report": "history.json",
+      "report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "source_sha": "62540ba5dadf7ea3914c78baebd6532fd960ae7d",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "/tmp/ragops-spec001-tools/gitleaks",
+        "dir",
+        ".",
+        "--redact",
+        "--no-banner",
+        "--report-format",
+        "json",
+        "--report-path",
+        "/tmp/ragops-oss001-tree-1.json"
+      ],
+      "exit_code": 0,
+      "id": "tree",
+      "report": "tree.json",
+      "report_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "source_sha": "62540ba5dadf7ea3914c78baebd6532fd960ae7d",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "/tmp/ragops-spec001-tools/bin/cargo-audit",
+        "audit",
+        "--deny",
+        "unsound",
+        "--file",
+        "Cargo.lock",
+        "--json"
+      ],
+      "exit_code": 0,
+      "id": "retained-dependencies",
+      "report": "retained-dependencies.json",
+      "report_sha256": "b2b6ce8ca7efbf200bf74f79bb88c67b362a4ef44e744c44cad57b1863b16049",
+      "source_sha": "62540ba5dadf7ea3914c78baebd6532fd960ae7d",
+      "status": "PASS"
+    }
+  ],
+  "gitleaks_version": "8.30.0",
+  "scope": "23 reachable commits, full working-tree scan; all retained lockfiles (root only); exact owner-approved MIT grant; no live requests/scans or suppression",
+  "source_sha": "62540ba5dadf7ea3914c78baebd6532fd960ae7d"
+}

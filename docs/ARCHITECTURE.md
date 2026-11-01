@@ -1,185 +1,67 @@
 # Architecture
 
-US-011 selected the first application stack for the core proxy:
-
-- Rust backend.
-- Axum local HTTP server.
-- Reqwest OpenAI client.
-- Rusqlite local SQLite storage.
-- Tokio async runtime.
-
-See `docs/decisions/0004-rust-axum-sqlite-core-proxy.md`.
-
-US-021 adds the first CLI and security-testing surface in the same Rust binary:
-
-- `clap` parses subcommands.
-- `serve` runs the existing Axum proxy.
-- `scan <target>` runs a bounded red-team scanner against an
-  OpenAI-compatible Chat Completions endpoint.
-
-See `docs/decisions/0005-cli-red-team-scanner.md`.
-
-US-031 adds a CLI RAG evaluation surface in the same Rust binary:
-
-- `eval --dataset <path>` reads a local JSON dataset.
-- `src/eval.rs` calls OpenAI Chat Completions directly with an LLM-as-judge
-  Faithfulness prompt.
-- Evaluation results are printed to stdout and are not persisted.
-
-See `docs/decisions/0006-cli-rag-evaluation-engine.md`.
-
-US-041 added a web dashboard surface to the existing Axum server, but that
-surface is superseded by US-042.
-
-US-042 replaces the web dashboard with a pure CLI dashboard:
-
-- `dashboard` reads the local SQLite FinOps database and exits.
-- `src/dashboard.rs` queries aggregate stats and the five latest logs directly
-  through `Database`.
-- `comfy-table` renders the latest logs in a terminal table.
-- The proxy no longer exposes `GET /api/stats` or serves `ui/` static files.
-
-See `docs/decisions/0008-pure-cli-dashboard.md`.
-
-US-043 unifies proxy serving and terminal monitoring:
-
-- `serve` opens one shared `Database` handle.
-- Axum proxy state receives a clone of that handle and runs in a background
-  Tokio task.
-- The foreground task continuously calls `dashboard::run_dashboard(&db)` and
-  sleeps for two seconds between renders.
-- `crossterm` owns alternate-screen entry, cursor visibility, in-place clearing,
-  and Ctrl-C cleanup for the live dashboard.
-- `src/dashboard.rs` remains free of Axum web structures.
-
-See `docs/decisions/0009-unified-live-tui-monitor.md`.
-
-The remaining sections keep the generic architecture questions and boundary
-rules that future implementation should adapt as additional product surfaces
-arrive.
-
-## Discovery Before Shape
-
-Before proposing implementation shape, identify:
-
-- Product surfaces: browser, mobile, desktop, CLI, API, worker, or service.
-- Runtime stack: language, framework, database, queues, providers, and hosting.
-- Core domains: the product concepts that deserve stable names and contracts.
-- Boundary inputs: user input, API requests, webhooks, jobs, files, credentials,
-  provider payloads, and environment configuration.
-- Validation ladder: the smallest checks that can prove the selected stack.
-
-Record stack choices in `docs/decisions/` when they meaningfully constrain
-future work.
-
-## Default Layering
+SPEC-001 keeps the root Rust binary, Tokio, Axum, Reqwest and bundled SQLite.
+Its public surfaces are CLI/terminal and two HTTP routes. There is no browser
+UI, RAG indexing/storage engine, general AI gateway or agent orchestrator.
 
 ```text
-domain
-  <- application
-      <- infrastructure
-          <- interface
-              <- app surfaces
+CLI -> parsed policy -> local Axum proxy -> fixed OpenAI Chat Completions
+                          |                   (explicit enablement only)
+                          +-> SQLite pending/outcome receipts -> CLI/TUI
+CLI eval -> strict dataset -> offline heuristic OR consented, bounded judge
+CLI scan -> offline fixtures OR exactly authorized literal-IP chat endpoint
 ```
 
-## Candidate Structure
+| Module | Responsibility |
+| --- | --- |
+| main | CLI dispatch, signal supervision, TTY guard, graceful shutdown |
+| config | Parsed bounds, network exposure policy, bounded regular-file inputs |
+| proxy | Independent bearer auth, typed text requests, model/budget gates, receipts |
+| http_client | Rust TLS, no redirects/proxies, deadlines, bounded body reads |
+| pricing | Versioned exact-model rates, source/date/hash, nullable estimates |
+| db | Blocking-thread SQLite access, additive migration, attempts/outcomes, backup |
+| dashboard | Read-only metadata presentation; no HTTP or provider dependencies |
+| eval | Validated question/context/answer data, deterministic heuristic/opt-in judge |
+| red_team | Refusal-marker heuristics, fixture path and exact authorized live scope |
 
-```text
-app/
-  domain/
-    entities/
-    value-objects/
-    repositories/
-    services/
+The fixed production upstream is deliberately not operator-configurable. Unit
+tests inject loopback upstreams under `cfg(test)` only. Scanner destinations use
+a different scoped policy and token. Provider credentials are process-local and
+never taken from caller headers. No automatic .env discovery or startup calls.
 
-  application/
-    commands/
-    queries/
-    handlers/
+Requests are parsed before forwarding. Unsupported fields are rejected rather
+than passed through. Runtime budgets are process-local; there is no distributed
+service, pool, cache, retry framework or migration framework. The pricing model
+covers configured text-token estimates only, not tools, regional premiums,
+provider adjustments, invoice truth or future pricing changes.
 
-  infrastructure/
-    database/
-    logging/
-    notifications/
+SQLite operations run in `spawn_blocking` behind a connection mutex. WAL,
+FULL synchronous writes and a two-second busy timeout support concurrent readers
+and connections. An IMMEDIATE transaction serializes version inspection and
+schema migration. `user_version=1` creates the unchanged legacy schema if absent
+plus `request_receipts`; version 2 adds a bounded upstream correlation ID column.
+Both migrate in the same transaction on a fresh database; existing version-1
+receipts survive the second migration. It never copies, updates or drops legacy
+rows. Reports retain timestamps, observed latency and correlation IDs. A higher
+version fails closed. A durable pending receipt precedes egress; final writes
+record observed metadata or an indeterminate/error outcome. A final-write
+failure leaves pending work, returns a fixed warning and never retries.
 
-  interface/
-    controllers/
-    dto/
-    presenters/
-    routes/
-    middlewares/
+The snapshot dashboard opens existing files read-only and does not migrate them.
+Serve opens/migrates the selected file. Backup uses SQLite's snapshot API and an
+atomically reserved new destination, preserving existing files and failed partial
+backups. See [SQLite's backup documentation](https://www.sqlite.org/backup.html).
 
-surfaces/
-  browser/
-  mobile/
-  desktop/
-  cli/
-```
+The server task is supervised and drained on SIGINT/SIGTERM. A terminal guard
+restores cursor/screen on normal return, error or Rust unwinding. No restoration
+is possible after SIGKILL, abort, power loss, or a failed terminal device write.
+There is no claim of bounded total TCP connections; use an OS/reverse-proxy limit
+if exposing the service. Application body and provider concurrency are bounded.
 
-This is a thinking template, not a scaffold. Create real folders only when a
-story enters implementation and the selected stack needs them.
-
-## Dependency Rule
-
-Inner layers must not depend on outer layers.
-
-| Layer | May depend on | Must not depend on |
-| --- | --- | --- |
-| domain | nothing project-external except tiny pure utilities | framework, database, UI, provider, process/env |
-| application | domain | framework, UI, provider, database concrete clients |
-| infrastructure | domain, application | interface controllers or UI |
-| interface | all backend layers | UI state or platform shell assumptions |
-| app surfaces | API contracts and app-facing clients | domain internals directly |
-
-## Parse-First Boundary Rule
-
-Unknown data must be parsed at boundaries before it enters inner code.
-
-Boundaries include:
-
-- HTTP request bodies, params, and query strings.
-- Session payloads and identity claims.
-- Environment variables.
-- Database rows returned from external clients.
-- Platform shell payloads.
-- Deep links, tokens, and signed URLs.
-- Provider webhooks, events, and async payloads.
-
-Target flow:
-
-```text
-unknown input
-  -> parser
-  -> typed DTO or command
-  -> application use case
-  -> domain object/value object
-```
-
-Inner layers should work with meaningful product types such as `UserId`,
-`AccountId`, `WorkspaceId`, `Role`, `DateRange`, or domain-specific IDs,
-rather than repeatedly validating raw strings.
-
-## Command/Query Boundary
-
-If the product has both reads and writes, keep command/query separation clear at
-the code level even when the storage layer is simple:
-
-- Commands mutate state and own audit side effects.
-- Queries read state and format for consumers.
-- Shared domain rules live in domain/application, not controllers.
-
-## Observability Contract
-
-The future server should emit one canonical JSON log line per request with:
-
-- timestamp
-- level
-- request_id
-- user_id when known
-- action
-- duration_ms
-- status_code
-- message
-
-Audit logs are product records. Application logs are operational records. Do not
-use one as a substitute for the other.
+[ADR 0010](decisions/0010-secure-local-oss-refactor.md) supersedes the unsafe
+runtime details of ADRs 0004/0005/0006/0009. All historical ADRs and stories remain
+for provenance. The unused independent rag-harness/ Hello World crate is retired;
+root Cargo/runtime never depended on it. Current CI/audits/inventory cover the
+retained root crate. The complete former inventory, obsolete installer README
+and old task text remain archived with source hashes in the retirement record.
+No runtime source, database migration or active protocol/template was removed.

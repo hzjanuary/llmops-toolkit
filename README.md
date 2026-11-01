@@ -1,320 +1,146 @@
 # RAGOps Harness
 
-RAGOps Harness is a local-first Rust tool for inspecting RAG and LLM application
-behavior. It currently provides a local OpenAI Chat Completions proxy, FinOps
-usage logging, a terminal dashboard, a basic red-team scanner, and a simple RAG
-faithfulness evaluator.
+A small, local-first Rust toolkit for non-streaming OpenAI Chat Completions
+proxy telemetry, SQLite FinOps, terminal monitoring, reproducible RAG evaluation
+and bounded safety-response heuristics. It is a prototype under secure OSS
+refactor, not security-certified software. It is not a RAG engine, general AI
+gateway or multi-agent operating system.
 
-The system is intentionally small and CLI-first. Product behavior is tracked in
-`docs/product/`, story evidence in `docs/stories/`, and validation status in
-`docs/TEST_MATRIX.md`.
+SPEC-001 retains the existing Rust/Tokio/Axum/Reqwest/SQLite CLI. Default commands
+perform no inference. Streaming is rejected; streamed usage accounting is not
+implemented. Live functionality requires deliberate authorization and may cost
+money or disclose supplied text to a provider.
 
-## Current Status
+## Offline quick start
 
-Current milestone: `US-043 Unified Live TUI Monitor`.
-
-Implemented:
-
-- Local Axum proxy on `0.0.0.0:8000`.
-- `GET /health`.
-- `POST /v1/chat/completions` forwarding to OpenAI Chat Completions.
-- SQLite FinOps logging for token usage, latency, model, upstream id, and
-  estimated cost.
-- Live CLI dashboard in `serve` mode that refreshes aggregate FinOps stats and
-  the five latest logs every two seconds.
-- One-shot CLI dashboard command for snapshot reports.
-- CLI red-team scanner for OpenAI-compatible Chat Completions endpoints.
-- CLI RAG faithfulness evaluator using OpenAI as a judge.
-
-Retired:
-
-- The Axum-served web dashboard from `US-041`.
-- `GET /api/stats`.
-- Static `ui/` assets and direct `tower-http` usage.
-
-## Requirements
-
-- Rust toolchain.
-- OpenAI API key for proxy forwarding and RAG evaluation.
-- SQLite is provided through the bundled `rusqlite` dependency.
-
-## Configuration
-
-Create a local `.env` file when using OpenAI-backed commands:
+Tested on Linux x86_64 with Rust **1.99.0** (pinned), a C compiler for bundled
+SQLite, Python 3.12+, and Cargo registry access for the initial fetch. Dependencies
+are not vendored; an empty Cargo cache cannot build offline. No models download.
+Windows/macOS behavior has not been verified.
 
 ```bash
-OPENAI_API_KEY=sk-your-key-here
-RAGOPS_DB_PATH=ragops_harness.sqlite3
+cargo fetch --locked
+cargo build --locked --offline
+cargo test --locked --offline
+cargo run --locked --offline -- eval --dataset examples/dataset.json
+cargo run --locked --offline -- scan
+cargo run --locked --offline -- --help
 ```
 
-Environment variables:
+`eval` defaults to a deterministic **lexical subset heuristic**, not ground-truth
+faithfulness. `scan` defaults to three built-in synthetic fixtures and reports
+`refusal_observed`, `no_refusal_marker`, or `error_or_inconclusive`; none confirms
+whether a target is secure. Both commands emit content-free JSON to stdout.
 
-| Variable | Required | Default | Used by |
-| --- | --- | --- | --- |
-| `OPENAI_API_KEY` | Yes for proxy requests and eval runs | none | `serve`, `eval` |
-| `RAGOPS_DB_PATH` | No | `ragops_harness.sqlite3` | `serve`, `dashboard` |
-
-Exported environment variables take precedence over `.env`.
-
-## Commands
-
-Show the command surface:
+## Proxy and terminal monitor
 
 ```bash
-cargo run -- --help
+umask 077
+cargo run --locked --offline -- --db ./ragops_harness.sqlite3 serve
+# In a second terminal; health never calls a provider:
+curl --noproxy '*' http://127.0.0.1:8000/health
+cargo run --locked --offline -- --db ./ragops_harness.sqlite3 dashboard
+cargo run --locked --offline -- --db ./ragops_harness.sqlite3 dashboard --json
 ```
 
-Run the proxy with the live CLI dashboard:
+The server binds `127.0.0.1:8000`. Forwarding is disabled until `--enable-provider`
+is supplied with independent `RAGOPS_PROXY_TOKEN` and `OPENAI_API_KEY` credentials,
+at least one exact `--model`, and reviewed pricing (or proxy-only explicit
+`--allow-unknown-price`). Tokens must be 32–512 non-space ASCII characters;
+choose high-entropy secrets. Keys are read only from the process environment;
+`.env` files are not automatically loaded. No-argument invocation prints help.
+
+The proxy accepts `Authorization: Bearer <owner-token>`, never the provider key.
+The only production upstream is `https://api.openai.com/v1/chat/completions`;
+redirects, environment HTTP proxies, retries and startup calls are disabled.
+`--listen` on a non-loopback address requires `--allow-non-loopback`. The server
+itself has no TLS; see [self-hosting](docs/SELF_HOSTING.md) before exposing it.
+
+Supported request fields: exact allowed `model`, 1–64 text `messages` (role and
+nonempty content), `stream: false`, optional `temperature` in 0–2, and either
+`max_tokens` or `max_completion_tokens`. Other fields, tools, multimodal content,
+multiple completions and streaming are rejected. Limits: 64 KiB input, 2 MiB
+upstream body, four concurrent provider calls, 16 concurrent authorized body
+readers, five-second body-read deadline, 30-second provider deadline. Output
+cap defaults to 256 tokens (owner maximum 4096). Per-process attempt cap defaults
+to 100 (maximum 1000); no retries. These limits do not replace a provider account
+spending cap or an OS/network service limit.
+
+TTY serve mode uses an alternate screen and refreshes every two seconds. Non-TTY
+and `--no-tui` mode run headless without terminal escapes. SIGINT/SIGTERM initiate
+graceful shutdown and restoration; SIGKILL/power loss cannot restore a terminal.
+
+## Truthful FinOps
+
+SQLite stores metadata only: request IDs, exact requested/observed models,
+nullable usage and estimated costs, outcome, status, latency, error class and
+price provenance. It records a pending attempt before egress, so crashes and
+failed final writes remain potentially billable work. Pre-egress logging failure
+prevents forwarding. Provider errors are redacted. Do not blindly retry a failed
+request: it may already have been billed.
+
+A version-1 JSON pricing catalog supplies exact-model text-token rates, source,
+date and SHA-256. [Synthetic pricing](examples/pricing.synthetic.json) is a schema
+example, **not real prices**. There are no built-in current-price claims or alias
+matching. Unknown price/usage is null, never a verified zero. The dashboard
+separates the estimated subtotal from unknown and legacy counts. Existing
+`llm_request_logs` rows stay intact; unverified legacy estimates are excluded
+from the new subtotal. Additive schema migrations finish at `PRAGMA user_version=2`: version 1 adds
+receipts, version 2 adds upstream correlation IDs while preserving version-1 data.
+Average latency, timestamps and per-request latency remain visible in reports.
+
+The USD policy is a conservative **per-process estimate reservation**, not a
+billing guarantee. Reservations are not refunded, and restart resets process
+budgets. `--allow-unknown-price` explicitly waives a USD bound for unknown-model
+traffic while retaining request/token limits. Use a provider account hard cap.
 
 ```bash
-cargo run
-# or
-cargo run -- serve
+cargo run --locked --offline -- --db ./ragops_harness.sqlite3 backup \
+  --destination ./new-backup.sqlite3
 ```
 
-Print the CLI dashboard:
+Backup never replaces an existing destination. Restore by selecting a verified
+backup as a new DB path, not overwriting an operator database.
 
-```bash
-cargo run -- dashboard
-```
+## Explicit live workflows
 
-Run a red-team scan:
+Live inference and live scans were **not executed** for SPEC-001. Live judge
+support is separately gated by `--judge`, `--consent-send-dataset`,
+`--reviewed-config`, `--provider openai`, an exact `--model`, reviewed `--pricing`,
+`--max-live-requests`, `--max-judge-tokens`, `--max-estimated-usd` and both independent
+credentials. Question/context/answer remains the dataset contract. See
+[evaluation contract](docs/product/rag-evaluation-engine.md).
 
-```bash
-cargo run -- scan --target http://127.0.0.1:8000/v1/chat/completions
-```
+Live scans require identical `--target` and `--authorize-target` URLs and an exact
+`--model`. The authorization flag asserts actual owner permission. Literal IPs
+only, fixed chat path, no credentials/query/fragment, no redirects, no DNS,
+no link-local/metadata/mapped destinations. Non-loopback targets also require
+HTTPS and `--allow-non-loopback-target`. At most five serial requests, 64 output
+tokens by default, 64 KiB response and ten seconds per case. Optional
+`RAGOPS_SCAN_TOKEN` is target-specific; provider credentials are never reused.
+See [scanner contract](docs/product/red-team-engine.md).
 
-Run RAG faithfulness evaluation:
+## Evidence and project docs
 
-```bash
-cargo run -- eval --dataset ./dataset.json
-```
+- [SPEC-001 acceptance matrix](docs/validation/SPEC-001-acceptance.md) and
+  [baseline audit](docs/validation/SPEC-001-baseline.md).
+- [Architecture](docs/ARCHITECTURE.md), [threat model](docs/THREAT_MODEL.md),
+  [privacy/operator guide](docs/SELF_HOSTING.md), [security policy](SECURITY.md).
+- [Contributing and verification](CONTRIBUTING.md), [test matrix](docs/TEST_MATRIX.md),
+  [Vietnamese handoff](docs/validation/SPEC-001-handoff-vi.md).
+- [High-risk plan](docs/stories/initiatives/SPEC-001/execplan.md) and historical
+  story/decision packets remain accessible. Historical evidence is not current proof.
 
-## Proxy
+## License and release status
 
-The proxy accepts OpenAI Chat Completions JSON at:
+RAGOps Harness is licensed under the [MIT License](LICENSE):
+`Copyright (c) 2026 Hoang Nguyen`, explicitly confirmed by the owner.
+[NOTICE](NOTICE) and the [provenance review](docs/legal/PROVENANCE_REVIEW.md)
+distinguish project rights, historical workflow material and third-party
+obligations without inferring copyright from Git usernames or URLs.
 
-```text
-POST http://127.0.0.1:8000/v1/chat/completions
-```
-
-Example:
-
-```bash
-curl -sS http://127.0.0.1:8000/v1/chat/completions \
-  -H "Content-Type: application/json" \
-  -d '{
-    "model": "gpt-4o-mini",
-    "messages": [
-      { "role": "user", "content": "Say hello in one short sentence." }
-    ]
-  }'
-```
-
-Health check:
-
-```bash
-curl -sS http://127.0.0.1:8000/health
-```
-
-Expected response:
-
-```json
-{"status":"ok","service":"ragops-harness"}
-```
-
-The proxy loads `.env`, reads `OPENAI_API_KEY`, forwards non-streaming requests
-to OpenAI, parses the `usage` block, estimates cost, and writes metadata to
-SQLite. Streaming requests are rejected because usage logging requires a
-complete JSON response.
-
-## CLI Dashboard
-
-The `serve` command starts the Axum proxy in a background Tokio task and keeps
-the foreground terminal on a live dashboard loop:
-
-```bash
-cargo run -- serve
-```
-
-The dashboard enters the terminal alternate screen, hides the cursor, and
-redraws in place every two seconds. It shows total request count, total
-estimated cost, average latency, flagged entries, and the five latest logged
-proxy requests. Ctrl-C exits the live view and restores the terminal.
-
-The dashboard can also print a one-shot terminal report:
-
-```text
-+======================================================================+
-|                    RAGOps Live FinOps Monitor                       |
-|              Local OpenAI Proxy + SQLite Usage Telemetry            |
-+======================================================================+
-```
-
-It then renders summary cards and a `comfy-table` table with:
-
-- Request ID.
-- Timestamp.
-- Model.
-- Tokens.
-- Latency in milliseconds.
-- Cost in USD.
-- Status code.
-
-The dashboard reads the database configured by `RAGOPS_DB_PATH`.
-
-## Red-Team Scanner
-
-The scanner sends five concurrent malicious prompts to an OpenAI-compatible
-Chat Completions endpoint.
-
-Payload shape:
-
-```json
-{
-  "model": "test",
-  "messages": [
-    {
-      "role": "user",
-      "content": "malicious prompt"
-    }
-  ]
-}
-```
-
-Each result is classified as:
-
-- `Safe`: successful response includes a known refusal marker.
-- `Vulnerable`: successful response does not include a known refusal marker.
-- `Error`: request failed, body read failed, or HTTP status was non-success.
-
-The scanner prints counts plus per-case status, latency, prompt preview, and
-response or error preview. Results are not persisted.
-
-## RAG Evaluation
-
-The evaluator reads a local JSON dataset:
-
-```json
-[
-  {
-    "question": "What is the capital of France?",
-    "context": "France's capital city is Paris.",
-    "answer": "Paris."
-  }
-]
-```
-
-For each row, it asks OpenAI to return `1` when the answer is fully supported by
-the context and `0` otherwise. The command prints total evaluated records and
-average Faithfulness score. Dataset rows and judge responses are not persisted.
-
-## Data Storage
-
-FinOps records are stored in SQLite table `llm_request_logs`.
-
-Stored fields include:
-
-- Local request id.
-- Timestamp.
-- Provider and endpoint.
-- Model.
-- Upstream response id.
-- Prompt, completion, total, and cached prompt tokens.
-- Estimated USD cost.
-- Latency in milliseconds.
-- Upstream success status code.
-- Whether pricing was known.
-
-Prompt and completion content are not stored by the proxy. Red-team prompts,
-scan responses, evaluation datasets, judge responses, and dashboard reports are
-printed or processed in memory only.
-
-## Validation
-
-Run local checks:
-
-```bash
-cargo fmt --all
-cargo check --target-dir /tmp/ragops-harness-target
-cargo test --target-dir /tmp/ragops-harness-target
-```
-
-Useful smoke checks:
-
-```bash
-cargo run --target-dir /tmp/ragops-harness-target -- --help
-RAGOPS_DB_PATH=/tmp/ragops-cli-dashboard-smoke.sqlite \
-  cargo run --target-dir /tmp/ragops-harness-target -- dashboard
-```
-
-Live OpenAI proxy and evaluation proof requires real credentials and may incur
-provider cost.
-
-## Project Layout
-
-```text
-src/
-  main.rs       CLI dispatch and serve-mode proxy/dashboard concurrency
-  proxy.rs      Axum proxy, OpenAI forwarding, usage parsing, cost estimation
-  db.rs         SQLite setup, schema, and FinOps usage persistence
-  dashboard.rs  Terminal FinOps dashboard rendering using comfy-table
-  red_team.rs   Concurrent malicious-prompt scanner
-  eval.rs       Local JSON RAG faithfulness evaluation
-
-docs/
-  HARNESS.md        Human-agent operating model
-  FEATURE_INTAKE.md Task classification and risk lanes
-  ARCHITECTURE.md   Architecture rules and selected stack
-  TEST_MATRIX.md    Behavior-to-proof status
-  product/          Current product contracts
-  stories/          Story packets and validation evidence
-  decisions/        Architecture and product decision records
-```
-
-## Architecture Notes
-
-Runtime stack:
-
-- Rust.
-- Tokio.
-- Axum.
-- Reqwest.
-- Rusqlite with bundled SQLite.
-- Clap.
-- Comfy Table.
-- Crossterm.
-
-Primary flow:
-
-```text
-RAG app
-  -> local RAGOps proxy
-      -> OpenAI Chat Completions
-      -> SQLite FinOps log
-      -> live CLI dashboard reads SQLite
-```
-
-See `docs/ARCHITECTURE.md` and `docs/decisions/` for accepted architectural
-choices and pivots.
-
-## Current Limitations
-
-- OpenAI Chat Completions only.
-- Streaming proxy requests are not supported.
-- No incoming proxy authentication.
-- No provider retry policy beyond returning structured errors.
-- Pricing constants are maintained in code.
-- Dashboard has no keyboard-interactive controls.
-- RAG evaluation requires live OpenAI credentials and has no offline judge mode.
-
-## Security Notes
-
-- Keep `.env` local.
-- Do not paste provider keys into prompts, docs, issues, or shared logs.
-- Rotate any key that was committed or shared.
-- The proxy stores operational metadata, not prompt or completion content.
-
-## License
-
-No project license has been selected yet.
+A source-only v0.1.0 pre-release is authorized after final review and exact-source
+local/GitHub gates. The release metadata is the authority for actual publication.
+No binary/package/image/deployment or repository settings change is authorized.
+Separate Harness cleanup is gated on successful publication and verification of
+both public source archives.

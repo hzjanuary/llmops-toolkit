@@ -1,0 +1,125 @@
+{
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "fmt",
+        "--all",
+        "--",
+        "--check"
+      ],
+      "cwd": "checkout",
+      "exit_code": 0,
+      "id": "format",
+      "log": "format.txt",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "cargo",
+        "clippy",
+        "--locked",
+        "--offline",
+        "--all-targets",
+        "--",
+        "-D",
+        "warnings"
+      ],
+      "cwd": "checkout",
+      "exit_code": 0,
+      "id": "clippy",
+      "log": "clippy.txt",
+      "log_sha256": "22e0df986057b9ba5be07526ac5fb348862a3dedef42108383cc3e088acbb889",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline"
+      ],
+      "cwd": "checkout",
+      "exit_code": 0,
+      "id": "tests",
+      "log": "tests.txt",
+      "log_sha256": "4c2ad6802860d6df2f2bf7bd5e057969b19917e206856989a343c1512998adc2",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "--offline"
+      ],
+      "cwd": "checkout",
+      "exit_code": 0,
+      "id": "build",
+      "log": "build.txt",
+      "log_sha256": "4301095f08fbc96d5e4be3128bf93e03f59500083682f720fdca4be5ddf5bf88",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/runtime_smoke.py"
+      ],
+      "cwd": "checkout",
+      "exit_code": 0,
+      "id": "runtime",
+      "log": "runtime.txt",
+      "log_sha256": "1b2c41a81a75653707e89cbc5409c4bfedf0a1f18867cd40e67430efe8a7215e",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/license_inventory.py"
+      ],
+      "cwd": "checkout",
+      "exit_code": 0,
+      "id": "licenses",
+      "log": "licenses.txt",
+      "log_sha256": "5cf0e9346effa436061ef5b531949efb4cd980829ed39edada6c7df3bf77802c",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "python3",
+        "scripts/source_gate.py",
+        "--revision",
+        "5f3a2d5b57465dafdf1b18c105783b537e30f601",
+        "--output",
+        "/tmp/ragops-spec001-retention-evidence/archive"
+      ],
+      "cwd": "checkout",
+      "exit_code": 0,
+      "id": "source-archive",
+      "log": "source-archive.txt",
+      "log_sha256": "9a3e12c28f549a70ad31bba2655d0f869b1acaeac2cd1e90a4d438063cff234c",
+      "status": "PASS"
+    },
+    {
+      "command": [
+        "cargo",
+        "build",
+        "--locked",
+        "--offline",
+        "--target-dir",
+        "/tmp/ragops-verified-archive-3i3d_97q/target"
+      ],
+      "cwd": "verified-source-archive",
+      "exit_code": 0,
+      "id": "clean-archive-build",
+      "log": "clean-archive-build.txt",
+      "log_sha256": "6acf20072775badce041db0a937b34e72f4519cae9613e823f3aab84db4506f2",
+      "status": "PASS"
+    }
+  ],
+  "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
+  "schema_version": 1,
+  "source_sha": "5f3a2d5b57465dafdf1b18c105783b537e30f601",
+  "started_utc": "2026-11-01T04:15:50.475886+00:00"
+}

@@ -7,3 +7,15 @@
 
 /target/
 /rag-harness/target/
+
+# Operator state, local evidence and backups are never publication inputs.
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
+*.pem
+*.key
+/local-evidence/
+
+/__pycache__/
+/scripts/__pycache__/

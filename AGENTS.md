@@ -1,11 +1,23 @@
 # Agent Operating Guide
 
-This repository is in Harness v0. There is no product implementation yet.
+The repository has an implemented Rust prototype. SPEC-001 explicitly authorizes
+its secure local-first refactor, regression tests and source CI. Preserve useful
+features, historical stories/ADRs, and all operator data. Do not introduce a RAG
+engine, general gateway, UI framework or agent orchestration.
 
-The current job of agents is to preserve and grow the collaboration harness
-before writing application code. Do not scaffold application source folders,
-platform shells, package scripts, CI, or tests unless a later story explicitly
-moves the project into implementation.
+Default development proof is entirely offline: zero real LLM/paid calls, external
+target scans or model downloads. Never auto-load .env, delete operator databases,
+rewrite history, suppress scanners, deploy or publish executables/packages/images.
+
+The earlier SPEC-001 task stopped at a Draft PR. The owner's later OSS-001 goal
+conditionally authorizes normal PR merge, annotated v0.1.0 tag and a source-only
+GitHub pre-release after confirmed copyright identity, recorded provenance,
+installed MIT, review and exact-source local/remote gates. Do not cross the A3
+license decision boundary without the exact public copyright-holder text.
+Rulesets/settings still need separate owner approval. Separate Harness-repository
+cleanup starts only after publication and public source archive verification;
+canonical identity/permissions and exact retirement scope must be established.
+See docs/stories/initiatives/OSS-001-publication and docs/legal/OWNER_DECLARATION.md.
 
 ## Source Of Truth
 
@@ -73,3 +85,17 @@ A task is done only when:
 - Validation commands were run when they exist.
 - Missing harness capabilities were added to `docs/HARNESS_BACKLOG.md`.
 - The final response says what changed and what was not attempted.
+
+## Current verification
+
+Read CONTRIBUTING.md for exact pinned tool, offline source and security commands.
+`python3 scripts/verify.py --output /tmp/UNIQUE-EVIDENCE-DIRECTORY` requires a
+committed clean tracked tree; it records the actual tested SHA and log hashes.
+Fetch both lockfile dependencies first. Keep the pre-existing untracked spec
+input outside agent commits unless the owner specifically selects it for
+publication. Never stage everything indiscriminately.
+
+Use PASS/FAIL/BLOCKED/NOT_RUN in SPEC-001 acceptance evidence. Preserve failures;
+record source SHA, exact command, exit code and immutable log/artifact digest.
+Local secrets findings must be redacted; genuine credentials require private
+owner rotation/review, not printed values or automatic history rewriting.

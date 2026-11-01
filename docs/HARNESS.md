@@ -1,7 +1,14 @@
 # Harness
 
-The project goal is to provide a reusable operating harness that lets humans and
-agents turn a future product spec into safe, validated work.
+Current project state: implementation exists and SPEC-001 authorizes secure
+refactor, focused tests and source CI. The Harness v0 sections below describe
+the original generic bootstrap, not a ban on current authorized work. See
+CONTRIBUTING.md and the SPEC-001 initiative for executable validation.
+
+This document is RAGOps repository collaboration guidance. The product goal is
+the local-first Rust observability/evaluation toolkit described in README.md.
+Reusable intake, story and validation templates remain local development tools,
+not an external runtime, orchestration service or installation dependency.
 
 The app is what users touch. The harness is what agents touch.
 
@@ -153,8 +160,9 @@ either improve the harness directly or add a proposal to `HARNESS_BACKLOG.md`.
 
 ## Future Validation Ladder
 
-No validation scripts exist yet. When implementation begins, the expected ladder
-is:
+SPEC-001 adds scripts/verify.py, runtime_smoke.py, source_gate.py and
+license_inventory.py, plus pinned security tools and GitHub Source CI. The
+original conceptual ladder below remains historical guidance:
 
 ```text
 validate:quick

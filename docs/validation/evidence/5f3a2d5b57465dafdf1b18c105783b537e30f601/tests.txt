@@ -1,0 +1,36 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.18s
+     Running unittests src/main.rs (target/debug/deps/ragops_harness-00ad3fe371627472)
+
+running 29 tests
+test config::tests::rejects_invalid_budgets_models_and_secrets ... ok
+test eval::tests::input_paths_are_regular_and_bounded ... ok
+test config::tests::default_loopback_and_egress_disabled ... ok
+test config::tests::public_binding_requires_explicit_opt_in ... ok
+test eval::tests::offline_contract_and_aggregation_are_deterministic ... ok
+test pricing::tests::invalid_catalog_and_usage_are_rejected ... ok
+test pricing::tests::unknown_price_is_none_and_matching_is_exact ... ok
+test eval::tests::malformed_oversized_empty_and_unknown_fields_are_rejected ... ok
+test db::tests::future_version_is_rejected_without_changing_data ... ok
+test proxy::tests::credential_echo_is_redacted_recursively ... ok
+test eval::tests::judge_stops_after_unknown_accounting_without_fabricating_scores ... ok
+test eval::tests::llm_judge_adapter_uses_only_synthetic_local_mock ... ok
+test proxy::tests::credential_echo_in_response_metadata_never_reaches_sqlite ... ok
+test proxy::tests::enablement_requires_separate_credentials_and_reviewed_models ... ok
+test proxy::tests::prepare_full_flow_receipt ... ignored, Run by scripts/runtime_smoke.py with an isolated synthetic database
+test proxy::tests::final_log_failure_preserves_pending_and_warns_against_retries ... ok
+test proxy::tests::typed_request_rejects_unsupported_or_unbounded_fields ... ok
+test proxy::tests::auth_health_validation_and_credential_isolation ... ok
+test proxy::tests::failures_and_missing_usage_are_truthful_and_redacted ... ok
+test red_team::tests::authorization_and_destination_policy_fail_closed ... ok
+test red_team::tests::authorized_synthetic_mock_does_not_follow_redirects_or_expand_requests ... ok
+test red_team::tests::fixture_outcomes_are_heuristics_not_findings ... ok
+test proxy::tests::unknown_response_price_with_observed_usage_stays_null ... ok
+test proxy::tests::request_concurrency_cost_and_persistence_limits_prevent_egress ... ok
+test db::tests::migration_preserves_legacy_restart_and_backup ... ok
+test db::tests::published_v1_receipts_survive_additive_v2_correlation_migration ... ok
+test proxy::tests::upstream_deadline_and_transport_failures_record_uncertain_work ... ok
+test db::tests::concurrent_connections_and_readers_preserve_receipts ... ok
+test proxy::tests::oversized_and_malformed_success_responses_are_indeterminate ... ok
+
+test result: ok. 28 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.18s
+
