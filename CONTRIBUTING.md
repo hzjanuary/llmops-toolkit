@@ -1,8 +1,9 @@
 # Contributing
 
 Read AGENTS.md, README.md, docs/HARNESS.md and docs/FEATURE_INTAKE.md before work.
-Project licensing and inherited-source ownership are still under review; do not
-assume an MIT grant or represent this branch as a released OSS package.
+The owner declaration is recorded in docs/legal/OWNER_DECLARATION.md. Exact
+public copyright-holder text and the official MIT grant are still pending; do
+not represent this branch as a released OSS package or an activated license.
 
 Use a feature branch and reviewable commits. Keep current product docs, story
 packets and docs/TEST_MATRIX.md synchronized. Retain historical evidence, local

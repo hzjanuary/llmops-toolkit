@@ -133,9 +133,16 @@ See [scanner contract](docs/product/red-team-engine.md).
 
 ## License and release status
 
-Ownership review is pending. [LICENSE.proposed](LICENSE.proposed) proposes MIT
-without activating a grant. [NOTICE](NOTICE) identifies inherited harness material
-and dependency attribution. Source CI checks dependencies' declared license
-metadata; it does not establish project ownership. This repository is **not yet
-ready for an OSS release**. No tag, release, binary, package, image, deployment,
-merge or ruleset/settings change is authorized by this refactor.
+The owner has [declared RAGOps-specific project ownership](docs/legal/OWNER_DECLARATION.md).
+[NOTICE](NOTICE) separates that declaration, historical development workflow
+materials and third-party dependency obligations. The [file-level provenance
+review](docs/legal/PROVENANCE_REVIEW.md) corrects the previous URL-based ownership
+assumption without claiming independently proved authorship of every historical
+phrase. [LICENSE.proposed](LICENSE.proposed) is still a proposal: the exact public
+MIT copyright-holder text has not been confirmed and no official grant is installed.
+
+The owner conditionally authorizes a source-only v0.1.0 pre-release after those
+license decisions, final review and exact-source local/GitHub gates. Publication
+has not occurred. No binary/package/image/deployment or repository settings change
+is authorized. Separate Harness cleanup is gated on successful publication and
+verification of both public source archives.

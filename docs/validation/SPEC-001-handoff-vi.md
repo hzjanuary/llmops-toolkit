@@ -82,3 +82,21 @@ lockfile không có vulnerability/unsoundness warnings. Snapshot bất biến:
 [evidence/github-run-41272626554.json](evidence/github-run-41272626554.json).
 Commit bổ sung chỉ cập nhật tài liệu/evidence; HEAD cuối và run tương ứng được
 ràng buộc trong mô tả Draft PR, không tự gán kết quả cũ cho commit mới.
+
+## Cập nhật theo tuyên bố chủ sở hữu — Phase A của OSS-001
+
+Chủ sở hữu đã xác nhận quyền đối với phần RAGOps-specific và làm rõ Harness là
+môi trường workflow dùng để phát triển. NOTICE đã bỏ suy diễn quyền sở hữu từ
+URL/username; audit từng file và tuyên bố nằm trong docs/legal/. Không khẳng định
+mọi câu chữ workflow lịch sử đều được viết độc lập khi Git không chứng minh điều đó.
+
+Đã kiểm tra 146 file tại HEAD 782dfab; giữ toàn bộ lịch sử/evidence/migration.
+Crate Hello World chưa xóa vì CI và inventory đang tham chiếu; việc xóa cần thay
+đổi đồng bộ trong commit riêng. AGENT_REQUIREMENT.md đã bị xóa trước lượt làm
+việc này; trạng thái đó được giữ nguyên, không tự đưa vào commit kiểm toán.
+
+Chưa có nguyên văn tên chủ thể bản quyền công khai. LICENSE.proposed vẫn giữ,
+LICENSE chưa được cài và S30 vẫn BLOCKED (36 PASS / 1 BLOCKED / 1 NOT_RUN).
+Chưa merge, tag hay phát hành; Phase D chưa bắt đầu. Kết quả CI cũ chỉ áp dụng
+cho SHA cũ. Cần xác nhận dòng copyright theo mục A3 trước khi tiến tới các gate
+phát hành. Không có inference thật, trả phí hay scan ngoài.

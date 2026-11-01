@@ -1,0 +1,27 @@
+{
+  "categories": {
+    "Historical records retained for provenance": 82,
+    "Owner-authored project documentation": 34,
+    "RAGOps application source": 26,
+    "Third-party code or content": 1,
+    "Third-party dependencies": 3
+  },
+  "confirmed_owner_created_generic_workflow_templates": 0,
+  "generic_workflow_note": "Local history identifies first appearance and unchanged/modified text, not independent authorship. No file is classified third-party merely because its name contains Harness.",
+  "license_markers": [
+    {
+      "kind": "license/copyright marker",
+      "line_sha256": "f832ee29363677871ce3420378ae8cb23acb56d6c6a51f3647f2e85ef88f1d9a",
+      "path": "LICENSE.proposed"
+    }
+  ],
+  "preexisting_worktree_change": "AGENT_REQUIREMENT.md deleted before this task; preserved unstaged",
+  "reviewed_source_sha": "782dfab4c7c0883a633ac39fb26fa9c7154c2a06",
+  "source": "Every tracked HEAD blob was read; classifications distinguish owner declaration from independently proved origin. No Git author identity is used as copyright authority.",
+  "third_party_dependency_manifests": [
+    "Cargo.lock",
+    "rag-harness/Cargo.lock"
+  ],
+  "tracked_files_inspected": 146,
+  "untracked_input": "docs/specs/RAGOPS_SPEC001_HEADLESS_OSS_REFACTOR.md retained outside publication; SHA256 c677bf8c46d65cb90baf71f7c5dc5793995c0cab9d9074c0eac08e0b6825656a"
+}

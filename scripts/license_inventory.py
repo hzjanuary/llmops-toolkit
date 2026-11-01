@@ -2,7 +2,8 @@
 """Check declared dependency licenses and make a reproducible inventory.
 
 This does not establish ownership of project source or satisfy future binary
-redistribution obligations. The root project's license is separately blocked.
+redistribution obligations. Project MIT activation separately needs the confirmed
+public copyright-holder text and installed grant.
 """
 import argparse
 import hashlib
@@ -45,11 +46,11 @@ for manifest in ("Cargo.toml", "rag-harness/Cargo.toml"):
     inventory.append({"manifest": manifest, "lock_sha256": hashlib.sha256(lockpath.read_bytes()).hexdigest(),
                       "dependencies": packages})
 text = json.dumps({"schema_version": 1, "scope": "declared metadata, all lockfile platforms; no dependency source is vendored",
-                   "project_license": "BLOCKED: owner and inherited-source rights review required",
+                   "project_license": "PENDING: exact public copyright-holder text and installed MIT grant; owner declaration recorded in docs/legal/OWNER_DECLARATION.md",
                    "manifests": inventory}, indent=2, sort_keys=True) + "\n"
 path = Path("docs/legal/dependency-inventory.json")
 if args.write:
     path.write_text(text)
 else:
     assert path.read_text() == text, "dependency inventory stale; regenerate with --write and review"
-print("PASS: both lockfile license inventories match reviewed declared SPDX expressions; project ownership remains BLOCKED")
+print("PASS: both lockfile license inventories match reviewed declared SPDX expressions; project MIT grant remains pending exact copyright-holder confirmation")

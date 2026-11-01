@@ -1,0 +1,17 @@
+# Validation ledger
+
+Phase-A audit source: 782dfab4c7c0883a633ac39fb26fa9c7154c2a06.
+- git status/rev-parse/branch/remote/log/ls-tree/show/ls-remote and all tracked
+  blob inspection: complete; see docs/legal/file-provenance-782dfab.tsv/json.
+- Gitleaks 8.30.0 full reachable history: PASS, 18 commits, no leaks.
+- Existing dependency inventory: PASS for unchanged 249 root + 210 nested entries.
+- Existing GitHub Source CI 41272959002: success for the old reviewed SHA only.
+- No runtime files or lockfiles changed during this Phase-A review.
+- Pre-existing AGENT_REQUIREMENT.md deletion and untracked spec preserved.
+
+A3: BLOCKED pending exact public copyright-holder text. Official LICENSE absent;
+no grant activated, no S30 PASS, no merge/tag/release/public archives. Phase D
+NOT_RUN because publication and public archive verification have not occurred.
+
+Full Phase-C gates are NOT_RUN for new publication changes. Prior results are
+retained, not reassigned to new commits. No live LLM/paid/external scan is run.

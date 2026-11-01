@@ -68,7 +68,7 @@ unexecuted individual filter command is claimed.
 | S27 | Current full-history and working-tree secret scans without suppression | PASS | gitleaks git . --log-opts='--all --full-history' --redact; gitleaks dir . --redact (S) | 5f3a2d5b57465dafdf1b18c105783b537e30f601 |
 | S28 | Both retained lockfiles pass vulnerability/unsoundness gates | PASS | cargo-audit audit --deny unsound --file Cargo.lock; cargo-audit audit --deny unsound --file rag-harness/Cargo.lock (S) | 5f3a2d5b57465dafdf1b18c105783b537e30f601 |
 | S29 | Declared dependency-license inventory matches both locks | PASS | python3 scripts/license_inventory.py (L) | 5f3a2d5b57465dafdf1b18c105783b537e30f601 |
-| S30 | Project copyright/inherited-source rights permit MIT grant | BLOCKED | Owner review of NOTICE and LICENSE.proposed required; no grant activated | 5f3a2d5b57465dafdf1b18c105783b537e30f601 (source review; no live/ownership proof) |
+| S30 | Project copyright/provenance and installed MIT grant | BLOCKED | Explicit owner declaration recorded in docs/legal/OWNER_DECLARATION.md; file audit in PROVENANCE_REVIEW.md; exact copyright-holder text unconfirmed and official LICENSE absent | 782dfab4c7c0883a633ac39fb26fa9c7154c2a06 (audit baseline; no grant activated) |
 | S31 | Pinned Rust format, strict Clippy, locked offline tests/build | PASS | python3 scripts/verify.py --output /tmp/ragops-spec001-retention-evidence (L) | 5f3a2d5b57465dafdf1b18c105783b537e30f601 |
 | S32 | Source archive matches every Git blob/mode, excludes operator state, reproduces bytewise | PASS | python3 scripts/source_gate.py --revision HEAD --output NEW_DIRECTORY (called by verify.py) (L) | 5f3a2d5b57465dafdf1b18c105783b537e30f601 |
 | S33 | Clean build from reviewed source archive with empty target | PASS | cargo build --locked --offline --target-dir NEW_DIRECTORY (called by verify.py) (L) | 5f3a2d5b57465dafdf1b18c105783b537e30f601 |
@@ -84,3 +84,13 @@ source tar reproducibility, not a bit-identical compiled-binary claim. S23 prove
 one narrowed local request and redirect refusal; remote authorization remains an
 operator assertion and no external target is scanned. Source CI cannot establish
 ownership or independently certify safety.
+
+## Publication Phase-A clarification
+
+The later owner declaration supersedes the unsupported URL-based external
+ownership assumption; see [owner declaration](../legal/OWNER_DECLARATION.md) and
+[file audit](../legal/PROVENANCE_REVIEW.md). This is not an installed license.
+S30 remains BLOCKED on exact public copyright identity and the actual grant.
+The same 38 criteria remain: 36 PASS / 1 BLOCKED / 1 NOT_RUN in the retained
+baseline. S35 remains NOT_RUN. New publication commits need fresh gates and may
+not inherit the old CI result. No previous immutable evidence has been edited.

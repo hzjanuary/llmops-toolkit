@@ -40,8 +40,10 @@ No backlog items yet.
 
 ## SPEC-001 follow-ups and owner decisions
 
-- Verify inherited harness provenance/license and project ownership; decide on
-  LICENSE.proposed. No grant has been activated.
+- Owner declaration now records RAGOps-specific ownership and corrects the
+  unsupported URL-based external ownership assumption. Confirm exact public
+  copyright-holder text before installing the official MIT grant; see legal/
+  provenance records. LICENSE.proposed is still a proposal.
 - Decide separately whether to remove the inspected unused rag-harness/ Hello
   World crate and stale AGENT_REQUIREMENT.md; preserve Git/story evidence.
 - Decide on the three proposed main-branch rulesets; do not apply automatically.
@@ -56,3 +58,11 @@ No backlog items yet.
 - Preserve original failures in append-only evidence; never relabel a baseline
   or stale failure as a current PASS. Current product truth and historical proof
   need explicit headings when a secure refactor supersedes earlier behavior.
+
+## OSS-001 gate tracking
+
+Publication is conditional on the exact copyright identity, installed license,
+review and fresh source gates. Separate canonical Harness cleanup is a later
+post-publication task; no URL-based assumption establishes identity or authority.
+The pre-existing worktree task-file deletion must be handled explicitly in the
+later focused cleanup, never silently mixed into a provenance commit.

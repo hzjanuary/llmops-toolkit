@@ -6,11 +6,18 @@ features, historical stories/ADRs, and all operator data. Do not introduce a RAG
 engine, general gateway, UI framework or agent orchestration.
 
 Default development proof is entirely offline: zero real LLM/paid calls, external
-target scans or model downloads. Never auto-load .env, delete databases, rewrite
-history, suppress scanners, publish packages/images, tag, release, deploy or merge
-under this task. Use a feature branch; a Draft PR is the stop boundary. Main-branch
-rulesets/settings require a separate owner decision. Check ownership before
-activating LICENSE.proposed; green source CI is not legal/release approval.
+target scans or model downloads. Never auto-load .env, delete operator databases,
+rewrite history, suppress scanners, deploy or publish executables/packages/images.
+
+The earlier SPEC-001 task stopped at a Draft PR. The owner's later OSS-001 goal
+conditionally authorizes normal PR merge, annotated v0.1.0 tag and a source-only
+GitHub pre-release after confirmed copyright identity, recorded provenance,
+installed MIT, review and exact-source local/remote gates. Do not cross the A3
+license decision boundary without the exact public copyright-holder text.
+Rulesets/settings still need separate owner approval. Separate Harness-repository
+cleanup starts only after publication and public source archive verification;
+canonical identity/permissions and exact retirement scope must be established.
+See docs/stories/initiatives/OSS-001-publication and docs/legal/OWNER_DECLARATION.md.
 
 ## Source Of Truth
 

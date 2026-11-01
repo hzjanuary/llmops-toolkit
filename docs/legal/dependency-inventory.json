@@ -3685,7 +3685,7 @@
       "manifest": "rag-harness/Cargo.toml"
     }
   ],
-  "project_license": "BLOCKED: owner and inherited-source rights review required",
+  "project_license": "PENDING: exact public copyright-holder text and installed MIT grant; owner declaration recorded in docs/legal/OWNER_DECLARATION.md",
   "schema_version": 1,
   "scope": "declared metadata, all lockfile platforms; no dependency source is vendored"
 }
