@@ -30,10 +30,10 @@ def expected_tree(revision):
     return sha, tree
 
 
-def relative_path(name, prefixes):
+def relative_path(name, prefixes, directory=False):
     assert not name.startswith("/") and "\\" not in name, "unsafe archive path"
-    parts = name.split("/")
-    assert len(parts) >= 2 and all(p and p not in (".", "..") for p in parts), "invalid source archive prefix/path"
+    parts = name.rstrip("/").split("/") if directory else name.split("/")
+    assert len(parts) >= (1 if directory else 2) and all(p and p not in (".", "..") for p in parts), "invalid source archive prefix/path"
     prefixes.add(parts[0])
     assert len(prefixes) == 1, "multiple archive roots"
     relative = "/".join(parts[1:])
@@ -47,15 +47,20 @@ def relative_path(name, prefixes):
 def archive_files(path, format_name):
     blob = path.read_bytes()
     assert len(blob) <= MAX_BYTES, "compressed archive exceeds verification budget"
-    result, prefixes = {}, set()
+    result, prefixes, directories = {}, set(), set()
     if format_name == "zip":
         with zipfile.ZipFile(io.BytesIO(blob)) as archive:
             entries = archive.infolist()
+            assert len(entries) <= 10000, "too many ZIP entries"
             assert sum(i.file_size for i in entries) <= MAX_BYTES, "ZIP size budget exceeded"
             for item in entries:
                 mode = item.external_attr >> 16
                 assert stat.S_IFMT(mode) in (0, stat.S_IFREG, stat.S_IFDIR), "special ZIP entry"
                 if item.is_dir():
+                    name = relative_path(item.filename, prefixes, directory=True)
+                    if name:
+                        assert name not in directories, "duplicate ZIP directory"
+                        directories.add(name)
                     continue
                 name = relative_path(item.filename, prefixes)
                 assert name not in result, "duplicate ZIP member"
@@ -64,22 +69,29 @@ def archive_files(path, format_name):
     else:
         with tarfile.open(fileobj=io.BytesIO(blob), mode="r:gz") as archive:
             entries = archive.getmembers()
+            assert len(entries) <= 10000, "too many tar entries"
             assert sum(i.size for i in entries) <= MAX_BYTES, "tar size budget exceeded"
             for item in entries:
                 assert item.isfile() or item.isdir(), "special tar entry"
                 if item.isdir():
+                    name = relative_path(item.name, prefixes, directory=True)
+                    if name:
+                        assert name not in directories, "duplicate tar directory"
+                        directories.add(name)
                     continue
                 name = relative_path(item.name, prefixes)
                 assert name not in result, "duplicate tar member"
                 data = archive.extractfile(item).read()
                 result[name] = (hashlib.sha256(data).hexdigest(), bool(item.mode & 0o111), len(data))
-    return result, hashlib.sha256(blob).hexdigest()
+    return result, hashlib.sha256(blob).hexdigest(), directories
 
 
 def verify(sha, tree, zip_path, tar_path):
     reports = []
     for format_name, path in (("zip", zip_path), ("tar.gz", tar_path)):
-        files, digest = archive_files(path, format_name)
+        files, digest, directories = archive_files(path, format_name)
+        expected_directories = {"/".join(p.split("/")[:i]) for p in tree for i in range(1, len(p.split("/")))}
+        assert directories <= expected_directories, "extra source archive directory"
         assert files == tree, f"{format_name} paths/content/modes differ from reviewed Git tree"
         reports.append({"format": format_name, "file": path.name, "sha256": digest,
                         "file_count": len(files), "contents_and_executable_modes_match": True})
@@ -112,6 +124,17 @@ def self_test(sha, tree):
             result["tampered_content_rejected"] = True
         else:
             raise AssertionError("tampered source content was accepted")
+        unsafe = base / "unsafe-directory.zip"
+        with zipfile.ZipFile(zip_path) as original, zipfile.ZipFile(unsafe, "w") as changed:
+            for item in original.infolist():
+                changed.writestr(item, original.read(item))
+            changed.writestr("../escape/", b"")
+        try:
+            verify(sha, tree, unsafe, tar_path)
+        except AssertionError:
+            result["unsafe_directory_rejected"] = True
+        else:
+            raise AssertionError("unsafe archive directory was accepted")
         result["mode"] = "offline_self_test_with_different_archive_prefixes"
         return result
 

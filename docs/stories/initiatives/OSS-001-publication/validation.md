@@ -40,3 +40,9 @@ helper, runtime flow, installed legal inventory, exact Git archive, public-forma
 verifier/tamper self-test and clean archive build). Full reachable-history/tree
 Gitleaks and root vulnerability/unsoundness audit PASS. Immutable manifest/logs
 are under docs/validation/evidence/62540ba5dadf7ea3914c78baebd6532fd960ae7d/. Fresh remote CI is not yet attributed.
+
+Final verifier review adds directory-entry validation (including root prefixes,
+extra directories, duplicate directories and unsafe paths) and an explicit
+synthetic unsafe-directory rejection regression. It reads archives without
+extracting them. This is project verification tooling, not a runtime redesign;
+new exact-source checks follow before any merge/publication.
