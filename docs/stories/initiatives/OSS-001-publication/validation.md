@@ -59,3 +59,10 @@ presentation consistency and directory/tamper rejection. Evidence copied with
 normalized visible logs plus byte-exact untrimmed base64 payloads where needed;
 all digests verified. cargo fmt --check, git diff --check and publication-delta
 whitespace check PASS. Runtime/tests/migrations/root lock remain unchanged.
+
+Fresh GitHub Source CI 41279293711 PASS for 06c2c509680a273a582def97ca161e3aedcd1a29:
+offline-source/security/verified-source all success. Both artifacts downloaded;
+ZIP digests, exact source, normal/untrimmed log hashes, 28 tests + helper, archive
+negative regressions and zero security findings verified. Immutable snapshot is
+in docs/validation/evidence/github-run-41279293711.json. Matrix: 37 PASS / 1 NOT_RUN.
+Final evidence-only source still requires its own CI before marking ready/merge.

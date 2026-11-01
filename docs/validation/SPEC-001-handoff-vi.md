@@ -114,3 +114,12 @@ audit, source archive, kiểm ZIP/tar khác prefix và từ chối nội dung s�
 Kết quả remote mới chưa được gán trước khi chạy thật. Việc merge/tag/release và
 Phase D vẫn chưa xảy ra ở checkpoint này; trạng thái thực tế sẽ nằm trong metadata
 PR/release và báo cáo sau xuất bản, không tự dùng kết quả CI cũ cho SHA mới.
+
+## Gate remote cho nguồn MIT đã cleanup
+
+Run [41279293711](https://github.com/hzjanuary/ragops-harness/actions/runs/41279293711)
+PASS cả ba job tại 06c2c509680a273a582def97ca161e3aedcd1a29. Hai artifact đã tải
+và đối chiếu digest, đúng SHA, log thường/raw, 28 test + helper, regression archive
+và không có finding secret/dependency. Ma trận 38 dòng: 37 PASS / 1 NOT_RUN (S35).
+Commit chứng cứ cuối phải có CI riêng; metadata PR/release sẽ ghi HEAD, main merge,
+tag và archive công khai thực tế. Chưa merge/phát hành tại checkpoint này.

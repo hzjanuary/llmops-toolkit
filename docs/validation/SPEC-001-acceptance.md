@@ -22,12 +22,17 @@ the only retained lockfile. No findings or suppression. RustSec database
 lock are identical to the previously reviewed implementation; only project
 license, cleanup, source-verification tooling and documentation changed.
 
-**L** means the linked exact local manifest/logs; **S** means the security record.
+**L** means the linked exact local manifest/logs; **S** means the security record; **G** means the fresh GitHub snapshot/artifacts.
 Suite commands ran all named cases; no unexecuted individual filter is claimed.
-The current legal result is PASS; remote verification of new publication source
-is still NOT_RUN until actually observed (36 PASS / 0 BLOCKED / 2 NOT_RUN at this
-local checkpoint). Once that fresh CI passes, the same matrix becomes 37 PASS /
-0 BLOCKED / 1 NOT_RUN. No mock proof establishes live compatibility/certification.
+The current legal result is PASS. Fresh [GitHub Source CI 41279293711](evidence/github-run-41279293711.json)
+PASS for **06c2c509680a273a582def97ca161e3aedcd1a29**: offline-source, security
+and verified-source all succeeded. Both ZIP artifacts were downloaded and checked
+against API digests; exact source, all normal/untrimmed log hashes, 28 tests plus
+helper, archive rejection regressions and zero security findings were verified.
+The same 38 criteria now reconcile to **37 PASS / 0 FAIL / 0 BLOCKED / 1 NOT_RUN**.
+S35 remains NOT_RUN; no mock proof establishes live compatibility/certification.
+Final reviewed HEAD/main/tag/public archives must be bound to their actual later
+observations, never assigned a previous run's result.
 
 | ID | Concrete acceptance test | Status | Exact command / evidence | Source SHA |
 | --- | --- | --- | --- | --- |
@@ -57,14 +62,14 @@ local checkpoint). Once that fresh CI passes, the same matrix becomes 37 PASS /
 | S24 | Eval rejects malformed/empty/unknown/oversized data and unsafe file types | PASS | cargo test --locked --offline; eval::tests::malformed_oversized_empty_and_unknown_fields_are_rejected and input_paths_are_regular_and_bounded (L) | 7c798c51b80dfc8d03055a2a8cd28da135cbbfa7 |
 | S25 | Offline eval JSON/hash/aggregation reproducible and labeled heuristic | PASS | cargo test --locked --offline; eval::tests::offline_contract_and_aggregation_are_deterministic; python3 scripts/runtime_smoke.py (L) | 7c798c51b80dfc8d03055a2a8cd28da135cbbfa7 |
 | S26 | Judge consent/config gate and synthetic adapter work; unknown accounting halts | PASS | cargo test --locked --offline; eval::tests::llm_judge_adapter_uses_only_synthetic_local_mock and judge_stops_after_unknown_accounting_without_fabricating_scores; python3 scripts/runtime_smoke.py (L) | 7c798c51b80dfc8d03055a2a8cd28da135cbbfa7 |
-| S27 | Current full-history and working-tree secret scans without suppression | PASS | gitleaks git . --log-opts='--all --full-history' --redact; gitleaks dir . --redact (S) | 62540ba5dadf7ea3914c78baebd6532fd960ae7d (recorded security checkpoint; fresh CI pending) |
-| S28 | All retained lockfiles pass vulnerability/unsoundness gates | PASS | /tmp/ragops-spec001-tools/bin/cargo-audit audit --deny unsound --file Cargo.lock --json (S); retired nested graph preserved in historical inventory | 62540ba5dadf7ea3914c78baebd6532fd960ae7d (recorded security checkpoint; fresh CI pending) |
+| S27 | Current full-history and working-tree secret scans without suppression | PASS | gitleaks git . --log-opts='--all --full-history' --redact; gitleaks dir . --redact (G; exact workflow commands in .github/workflows/source-ci.yml and snapshot) | 06c2c509680a273a582def97ca161e3aedcd1a29 (fresh remote security verified) |
+| S28 | All retained lockfiles pass vulnerability/unsoundness gates | PASS | /tmp/ragops-spec001-tools/bin/cargo-audit audit --deny unsound --file Cargo.lock --json (G; exact workflow commands in .github/workflows/source-ci.yml and snapshot); retired nested graph preserved in historical inventory | 06c2c509680a273a582def97ca161e3aedcd1a29 (fresh remote security verified) |
 | S29 | Installed MIT and declared inventory match every retained dependency | PASS | python3 scripts/license_inventory.py (L); exact confirmed grant hash, Cargo MIT and root graph; former full inventory archived | 7c798c51b80dfc8d03055a2a8cd28da135cbbfa7 |
 | S30 | Project copyright/provenance and installed MIT grant | PASS | python3 scripts/license_inventory.py (L); Copyright (c) 2026 Hoang Nguyen explicitly confirmed in OWNER_DECLARATION.md; LICENSE installed; proposal removed; recorded provenance decision | 7c798c51b80dfc8d03055a2a8cd28da135cbbfa7 |
 | S31 | Pinned Rust format, strict Clippy, locked offline tests/build | PASS | python3 scripts/verify.py --output /tmp/ragops-oss001-publication-local-3 (L) | 7c798c51b80dfc8d03055a2a8cd28da135cbbfa7 |
 | S32 | Source archive matches every Git blob/mode, excludes operator state, reproduces bytewise | PASS | python3 scripts/source_gate.py --revision 7c798c51b80dfc8d03055a2a8cd28da135cbbfa7 --output /tmp/ragops-oss001-publication-local-3/archive (L); ZIP/tar verifier self-test also passes | 7c798c51b80dfc8d03055a2a8cd28da135cbbfa7 |
 | S33 | Clean build from reviewed source archive with empty target | PASS | cargo build --locked --offline --target-dir <fresh archive target> (L: exact temporary command in evidence.json) | 7c798c51b80dfc8d03055a2a8cd28da135cbbfa7 |
-| S34 | GitHub verified-source passed the exact recorded source; final HEAD run is linked from Draft PR | NOT_RUN | Await fresh GitHub Source CI for publication changes; previous run 41272959002 applies only to 782dfab | Publication HEAD pending remote verification |
+| S34 | GitHub verified-source passed the exact recorded source; final HEAD run is linked from PR | PASS | Source CI 41279293711: offline-source/security/verified-source success; downloaded artifact ZIP and all normal/untrimmed log hashes verified (G) | 06c2c509680a273a582def97ca161e3aedcd1a29 (recorded source; latest exact HEAD CI is bound in PR #1) |
 | S35 | Live provider/judge compatibility and external target security assessment | NOT_RUN | Prohibited by SPEC-001 hard limits; no execution command run | 7c798c51b80dfc8d03055a2a8cd28da135cbbfa7 |
 | S36 | Immutable provenance, SHA/digests, accurate docs and unapplied ruleset proposals | PASS | verify.py evidence.json; exact GitHub run/artifact records; source review (L) | 7c798c51b80dfc8d03055a2a8cd28da135cbbfa7 |
 | S37 | Version-1 receipts migrate to version 2; timestamps, latency and correlation IDs retained | PASS | cargo test --locked --offline; db::tests::published_v1_receipts_survive_additive_v2_correlation_migration; python3 scripts/runtime_smoke.py (L) | 7c798c51b80dfc8d03055a2a8cd28da135cbbfa7 |
