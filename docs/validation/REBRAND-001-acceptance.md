@@ -22,9 +22,15 @@ change archive prefixes/compression bytes without changing source. Release
 metadata/body, About/topics and refs are compared read-only before push/final.
 
 Local statuses below are source-bound proof, not a prior run assigned to new code.
-R26 remains NOT_RUN until genuine GitHub execution. Evidence-only follow-up
-commits need their own exact-head remote CI; the final PR/handoff will bind the
-actual latest run, SHA and verified artifact digests. Original SPEC-001 matrix,
+[Genuine GitHub Source CI 41295320982](rebrand-001/github-run-41295320982.json)
+PASS for **bec04674eb26a94feabc140c03c59d132bab2c49**: offline-source,
+security and verified-source all succeeded. Both uploaded ZIP digests and every
+normal/raw log hash, source SHA, exact Git archive, 32 tests + helper, alias/DB
+smoke and zero security findings were downloaded and verified. The recorded
+26 criteria now reconcile to **26 PASS / 0 FAIL / 0 BLOCKED / 0 NOT_RUN**.
+Evidence-only follow-up commits still need their own exact-head remote CI; the
+final PR/handoff binds the actual latest run, SHA and verified artifact digests.
+No result is assigned to a later commit before genuine execution. Original SPEC-001 matrix,
 its source SHA and every historical failure remain byte-identical.
 
 | ID | Concrete criterion | Status | Exact command / evidence route | Tested source |
@@ -54,4 +60,4 @@ its source SHA and every historical failure remain byte-identical.
 | R23 | Synthetic offline process/TTY/runtime flow | PASS | python3 scripts/runtime_smoke.py; zero real provider or external target | 0178ea96657b4f2c3765abea6cfd15f0dc9628f3 (actual local suite; a3df205 baseline/metadata where applicable) |
 | R24 | Exact Git source archive and private-path integrity | PASS | python3 scripts/source_gate.py --revision TESTED_SHA --output NEW_DIRECTORY; verify_public_archives.py --self-test | 0178ea96657b4f2c3765abea6cfd15f0dc9628f3 (actual local suite; a3df205 baseline/metadata where applicable) |
 | R25 | Fresh target build from exact reviewed source archive | PASS | verify.py clean-archive-build exact command array | 0178ea96657b4f2c3765abea6cfd15f0dc9628f3 (actual local suite; a3df205 baseline/metadata where applicable) |
-| R26 | Genuine GitHub verified-source CI on exact PR HEAD | NOT_RUN | Real run/jobs + downloaded artifact digests; final exact HEAD bound in PR/handoff | Pending actual execution |
+| R26 | Genuine GitHub verified-source CI on exact PR HEAD | PASS | Real Source CI41295320982 all three jobs PASS; rebrand-001/github-run-41295320982.json verifies downloaded ZIP/payload digests; later final HEAD CI must be bound in PR/handoff | bec04674eb26a94feabc140c03c59d132bab2c49 (actual recorded CI source) |

@@ -144,9 +144,10 @@ See [scanner contract](docs/product/red-team-engine.md).
 - [Architecture](docs/ARCHITECTURE.md), [threat model](docs/THREAT_MODEL.md),
   [privacy/operator guide](docs/SELF_HOSTING.md), [security policy](SECURITY.md).
 - [Development](docs/DEVELOPMENT.md), [maintenance](docs/MAINTENANCE.md),
-  [REBRAND-001 acceptance](docs/validation/REBRAND-001-acceptance.md).
+  [REBRAND-001 acceptance](docs/validation/REBRAND-001-acceptance.md) and
+  [Vietnamese rebrand handoff](docs/validation/REBRAND-001-handoff-vi.md).
 - [Contributing and verification](CONTRIBUTING.md), [test matrix](docs/TEST_MATRIX.md),
-  [Vietnamese handoff](docs/validation/SPEC-001-handoff-vi.md).
+  [Historical SPEC-001 handoff](docs/validation/SPEC-001-handoff-vi.md).
 - [High-risk plan](docs/stories/initiatives/SPEC-001/execplan.md) and historical
   story/decision packets remain accessible. Historical evidence is not current proof.
 

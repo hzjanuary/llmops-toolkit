@@ -8,6 +8,7 @@ telemetry, SQLite FinOps, offline RAG evaluation and safety-response heuristics.
   [test matrix](TEST_MATRIX.md) and [maintenance](MAINTENANCE.md).
 - [Threat model](THREAT_MODEL.md), [self-hosting/privacy](SELF_HOSTING.md),
   [security policy](../SECURITY.md), [MIT](../LICENSE) and [NOTICE](../NOTICE).
+- [Vietnamese rebrand handoff](validation/REBRAND-001-handoff-vi.md).
 - [Rebrand acceptance](validation/REBRAND-001-acceptance.md) and
   [retirement record](legal/RETIREMENT_RECORD.json).
 - [Product decisions](decisions/README.md) and [technical stories](stories/README.md).
