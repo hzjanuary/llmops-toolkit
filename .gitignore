@@ -16,3 +16,6 @@
 *.pem
 *.key
 /local-evidence/
+
+/__pycache__/
+/scripts/__pycache__/

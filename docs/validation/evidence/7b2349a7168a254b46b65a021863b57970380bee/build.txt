@@ -1,0 +1,2 @@
+   Compiling ragops-harness v0.1.0 (<checkout>)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 6.35s

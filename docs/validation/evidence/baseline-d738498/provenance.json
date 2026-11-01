@@ -1,0 +1,61 @@
+{
+  "checks": [
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--offline",
+        "--target-dir",
+        "/tmp/ragops-spec001-baseline-target"
+      ],
+      "evidence": "initial invocation recorded in SPEC-001-baseline.md; cache missing, no raw file captured",
+      "exit_code": 101,
+      "status": "FAIL"
+    },
+    {
+      "command": [
+        "cargo",
+        "test",
+        "--locked",
+        "--target-dir",
+        "/tmp/ragops-spec001-baseline-target"
+      ],
+      "exit_code": 101,
+      "log": "locked-build-failure.txt",
+      "status": "FAIL"
+    },
+    {
+      "command": [
+        "/tmp/ragops-spec001-tools/bin/cargo-audit",
+        "audit",
+        "--file",
+        "/tmp/ragops-spec001-audit/baseline-Cargo.lock",
+        "--json"
+      ],
+      "exit_code": 1,
+      "report": "dependency-audit-failure.json",
+      "scope": "six vulnerabilities plus two unsoundness warnings; evaluated baseline lock after source preflight",
+      "status": "FAIL"
+    }
+  ],
+  "files": [
+    {
+      "path": "dependency-audit-failure.json",
+      "sha256": "ad509075feb0cf6d5030f12e2d106dd6027fbdb230f285957bb5b0bf58189d69"
+    },
+    {
+      "path": "history-secrets.txt",
+      "sha256": "972ad00666c880b509013ecb0ae5af5425e1f64c4303c891170d15ddfceb6a38"
+    },
+    {
+      "path": "locked-build-failure.txt",
+      "sha256": "41cbe177259c75023c2f9b5a87e30bd809744a25cc3625db659578a79a2ff495"
+    },
+    {
+      "path": "tree-secrets.txt",
+      "sha256": "7265d4cd6b1b98a136a71889ed068ce4b4ed56603d397a20adcc8ee853bea3d7"
+    }
+  ],
+  "source_sha": "d73849824cdf4eddaeb7898d375818f259450dec"
+}

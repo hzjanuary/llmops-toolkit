@@ -14,3 +14,15 @@ Baseline: initial `cargo test --locked --offline --target-dir
 with registry access FAIL (missing openssl.pc for openssl-sys). These are build
 environment failures, not successful regression proof. Gitleaks 8.30.0 full local
 history/tree scans PASS; current dependency/security review is still underway.
+
+## Local committed-source result
+
+Source `7b2349a7168a254b46b65a021863b57970380bee`: verify.py PASS (format, strict Clippy, 26 ordinary
+tests + explicitly invoked fixture helper, build, full synthetic HTTP/SQLite/PTY
+flow, license inventory, archive/tree/mode checks and clean archive build).
+Complete-history/tree Gitleaks PASS; both cargo-audit --deny unsound gates PASS.
+Immutable logs/manifests are in docs/validation/evidence/7b2349a7168a254b46b65a021863b57970380bee/.
+
+Live provider/judge/target validation remains NOT_RUN by instruction. Project
+license/ownership remains BLOCKED. GitHub proof and Draft PR are pending actual
+execution; see acceptance matrix for updates.
