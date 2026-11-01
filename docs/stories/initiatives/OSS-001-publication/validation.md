@@ -34,3 +34,9 @@ former inventory archived with hashes. No runtime/test/migration/root lock chang
 Public archive verifier adds a different-prefix ZIP/tar and tamper self-test to
 source gates. The first rules read returned no rulesets and main unprotected;
 no setting was applied. Final local/remote checks and publication remain pending.
+
+Local publication candidate 62540ba5dadf7ea3914c78baebd6532fd960ae7d: verify.py PASS (28 ordinary tests + explicit
+helper, runtime flow, installed legal inventory, exact Git archive, public-format
+verifier/tamper self-test and clean archive build). Full reachable-history/tree
+Gitleaks and root vulnerability/unsoundness audit PASS. Immutable manifest/logs
+are under docs/validation/evidence/62540ba5dadf7ea3914c78baebd6532fd960ae7d/. Fresh remote CI is not yet attributed.

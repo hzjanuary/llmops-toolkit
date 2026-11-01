@@ -100,3 +100,17 @@ LICENSE chưa được cài và S30 vẫn BLOCKED (36 PASS / 1 BLOCKED / 1 NOT_R
 Chưa merge, tag hay phát hành; Phase D chưa bắt đầu. Kết quả CI cũ chỉ áp dụng
 cho SHA cũ. Cần xác nhận dòng copyright theo mục A3 trước khi tiến tới các gate
 phát hành. Không có inference thật, trả phí hay scan ngoài.
+
+## Bản ứng viên xuất bản sau xác nhận MIT
+
+Chủ sở hữu đã xác nhận nguyên văn Copyright (c) 2026 Hoang Nguyen. MIT chính thức
+đã cài, proposal đã bỏ; S30 PASS. Crate Hello World đã nghỉ hưu, CI/inventory/audit
+đổi đồng bộ sang root duy nhất. Bản đầy đủ inventory cũ và nguyên văn tác vụ,
+README installer được lưu cùng hash. Không sửa runtime/test/migration/root lock.
+
+Mã kiểm thử cục bộ: 62540ba5dadf7ea3914c78baebd6532fd960ae7d. Toàn bộ gate local PASS: 28 test + helper chạy riêng,
+Clippy, TTY/headless, license/inventory, full-history/tree secret scan, dependency
+audit, source archive, kiểm ZIP/tar khác prefix và từ chối nội dung sửa, build sạch.
+Kết quả remote mới chưa được gán trước khi chạy thật. Việc merge/tag/release và
+Phase D vẫn chưa xảy ra ở checkpoint này; trạng thái thực tế sẽ nằm trong metadata
+PR/release và báo cáo sau xuất bản, không tự dùng kết quả CI cũ cho SHA mới.
