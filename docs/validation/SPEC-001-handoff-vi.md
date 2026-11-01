@@ -38,12 +38,18 @@ cập nhật dependency và giữ lại lịch sử kết quả. Script kiểm t
 mới trong thư mục tạm; không chạm DB/credentials/session của operator. File spec
 untracked có sẵn được giữ nguyên và không tự ý đưa vào commit.
 
-Mã nguồn đã kiểm thử cục bộ: `7b2349a7168a254b46b65a021863b57970380bee`.
-`python3 scripts/verify.py --output /tmp/ragops-spec001-final-evidence` thành công;
-26 test thông thường PASS và test setup được gọi riêng PASS; build sạch từ source
+Mã nguồn đã kiểm thử cục bộ: `5f3a2d5b57465dafdf1b18c105783b537e30f601`.
+`python3 scripts/verify.py --output /tmp/ragops-spec001-retention-evidence` thành công;
+28 test thông thường PASS và test setup được gọi riêng PASS; build sạch từ source
 archive, Clippy, license metadata và secret/dependency gates PASS. Evidence giữ
 nguyên lệnh, exit code và hash từng log. Trạng thái CI/PR và HEAD được cập nhật sau
-khi chạy thật trong hồ sơ nghiệm thu.
+khi chạy thật trong hồ sơ nghiệm thu. Run GitHub đầu tiên
+[41272218134](https://github.com/hzjanuary/ragops-harness/actions/runs/41272218134)
+đã PASS cả ba job ở SHA 794f749; artifact ZIP và hash log bên trong đã được tải
+về kiểm chứng. Run này có trước bản giữ latency/correlation và migration 2.
+HEAD cuối cùng và CI tương ứng nằm trong mô tả
+[Draft PR #1](https://github.com/hzjanuary/ragops-harness/pull/1); không gán kết quả
+run cũ cho HEAD mới.
 Không có suy luận LLM thật, cuộc gọi trả phí, scan mục tiêu bên ngoài hay tải model.
 Mock PASS không chứng minh tương thích live hoặc chứng nhận bảo mật độc lập.
 

@@ -35,3 +35,14 @@ Provider metadata echoing known credentials is excluded before persistence.
 Focused regressions passed 28 tests plus one intentionally ignored setup helper;
 new committed-source and real runtime evidence will be attached separately.
 The earlier SHA-bound evidence remains unchanged.
+
+Latest local implementation proof: `5f3a2d5b57465dafdf1b18c105783b537e30f601`.
+`python3 scripts/verify.py --output /tmp/ragops-spec001-retention-evidence` PASS:
+28 ordinary tests, explicit helper, real runtime flow including latency/correlation,
+strict Clippy/build/license/archive and fresh archive build. Added migration 2
+preserves published version-1 receipts. Immutable second evidence directory is
+separate from all earlier results. Full history/dependency gates also PASS.
+
+First GitHub Source CI run 41272218134 PASS for source 794f749; its artifact ZIP
+and contained log digests were independently downloaded and verified. It predates
+the retention fix. Final PR body binds final reviewed HEAD to its actual latest CI.

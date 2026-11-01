@@ -50,3 +50,14 @@ product/story/decision docs, architecture and test matrix before editing.
 No secrets found requiring rotation in this audit. If a later scan finds genuine
 credentials, report only redacted identifiers privately and require owner review;
 never publish values or rewrite history automatically.
+
+## Later read-only inventory confirmation
+
+After implementation, presence-only checks found no OPENAI_API_KEY,
+RAGOPS_PROXY_TOKEN, RAGOPS_SCAN_TOKEN or RAGOPS_DB_PATH in the task environment,
+and no parent-directory .env files. No credential values were printed or loaded.
+Remote head/tag inventory contains only main and the newly authorized feature
+branch, with no tags; main remains the original baseline. The pre-existing
+untracked spec remains outside commits (SHA-256
+`c677bf8c46d65cb90baf71f7c5dc5793995c0cab9d9074c0eac08e0b6825656a`).
+This follow-up is not retroactively labeled as a preflight command.
