@@ -1,245 +1,263 @@
-use std::fmt::{Display, Formatter};
 use std::path::Path;
-use std::sync::Arc;
+use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
-use chrono::{DateTime, SecondsFormat, Utc};
-use rusqlite::{params, Connection};
-use tokio::sync::Mutex;
+use rusqlite::{params, Connection, OpenFlags};
+use serde::Serialize;
 
-pub type SharedConnection = Arc<Mutex<Connection>>;
+use crate::pricing::Usage;
+
+type DbResult<T> = Result<T, Box<dyn std::error::Error + Send + Sync>>;
 
 #[derive(Clone)]
 pub struct Database {
-    connection: SharedConnection,
+    connection: Arc<Mutex<Connection>>,
 }
 
-#[derive(Debug, Clone)]
-pub struct UsageLogEntry {
+#[derive(Clone, Debug)]
+pub struct Receipt {
     pub request_id: String,
-    pub created_at: DateTime<Utc>,
-    pub provider: String,
-    pub endpoint: String,
-    pub model: String,
-    pub upstream_id: Option<String>,
-    pub prompt_tokens: u64,
-    pub completion_tokens: u64,
-    pub total_tokens: u64,
-    pub cached_prompt_tokens: u64,
-    pub cost_usd: f64,
+    pub response_model: Option<String>,
+    pub outcome: &'static str,
+    pub upstream_status: Option<u16>,
+    pub usage: Option<Usage>,
+    pub estimated_usd: Option<f64>,
+    pub price_provenance: Option<String>,
     pub latency_ms: u64,
-    pub status_code: u16,
-    pub pricing_known: bool,
+    pub error_class: Option<&'static str>,
 }
 
-#[derive(Debug)]
-pub enum DbError {
-    Io(std::io::Error),
-    Sqlite(rusqlite::Error),
-    IntegerOverflow(&'static str),
-    InvalidCost(f64),
+#[derive(Debug, Serialize)]
+pub struct Summary {
+    pub attempts: u64,
+    pub estimated_subtotal_usd: f64,
+    pub unknown_cost_count: u64,
+    pub failed_or_pending_count: u64,
+    pub legacy_count: u64,
+    pub latest: Vec<serde_json::Value>,
 }
 
 impl Database {
-    pub fn open(path: impl AsRef<Path>) -> Result<Self, DbError> {
-        let path = path.as_ref();
-
-        if path != Path::new(":memory:") {
-            if let Some(parent) = path
-                .parent()
-                .filter(|parent| !parent.as_os_str().is_empty())
-            {
-                std::fs::create_dir_all(parent).map_err(DbError::Io)?;
-            }
+    pub fn open(path: impl AsRef<Path>) -> DbResult<Self> {
+        let mut c = Connection::open(path)?;
+        c.busy_timeout(Duration::from_secs(2))?;
+        // Acquire the migration lock before inspecting the version (concurrent starts).
+        let tx = c.transaction_with_behavior(rusqlite::TransactionBehavior::Immediate)?;
+        let version: u32 = tx.pragma_query_value(None, "user_version", |r| r.get(0))?;
+        if version > 1 {
+            return Err("unsupported future database version; no changes made".into());
         }
-
-        let connection = Connection::open(path).map_err(DbError::Sqlite)?;
-        connection
-            .busy_timeout(Duration::from_secs(5))
-            .map_err(DbError::Sqlite)?;
-        connection
-            .pragma_update(None, "foreign_keys", "ON")
-            .map_err(DbError::Sqlite)?;
-        connection
-            .pragma_update(None, "journal_mode", "WAL")
-            .map_err(DbError::Sqlite)?;
-        connection
-            .pragma_update(None, "synchronous", "NORMAL")
-            .map_err(DbError::Sqlite)?;
-
-        initialize_schema(&connection)?;
-
+        if version == 0 {
+            tx.execute_batch(include_str!("legacy_schema.sql"))?;
+            tx.execute_batch("CREATE TABLE request_receipts (
+                request_id TEXT PRIMARY KEY,
+                created_at TEXT NOT NULL,
+                requested_model TEXT NOT NULL,
+                response_model TEXT,
+                outcome TEXT NOT NULL CHECK(outcome IN ('pending','success','upstream_error','indeterminate')),
+                upstream_status INTEGER,
+                prompt_tokens INTEGER, completion_tokens INTEGER, total_tokens INTEGER, cached_tokens INTEGER,
+                estimated_usd REAL CHECK(estimated_usd IS NULL OR estimated_usd >= 0),
+                price_provenance TEXT,
+                latency_ms INTEGER NOT NULL DEFAULT 0,
+                error_class TEXT,
+                potentially_billable INTEGER NOT NULL DEFAULT 1 CHECK(potentially_billable IN (0,1))
+            ); CREATE INDEX receipts_created ON request_receipts(created_at);
+            PRAGMA user_version=1;")?;
+        }
+        tx.commit()?;
+        c.pragma_update(None, "journal_mode", "WAL")?;
+        c.pragma_update(None, "synchronous", "FULL")?;
         Ok(Self {
-            connection: Arc::new(Mutex::new(connection)),
+            connection: Arc::new(Mutex::new(c)),
         })
     }
 
-    pub async fn log_usage(&self, entry: UsageLogEntry) -> Result<(), DbError> {
-        if !entry.cost_usd.is_finite() || entry.cost_usd < 0.0 {
-            return Err(DbError::InvalidCost(entry.cost_usd));
-        }
-
-        let prompt_tokens = to_i64(entry.prompt_tokens, "prompt_tokens")?;
-        let completion_tokens = to_i64(entry.completion_tokens, "completion_tokens")?;
-        let total_tokens = to_i64(entry.total_tokens, "total_tokens")?;
-        let cached_prompt_tokens = to_i64(entry.cached_prompt_tokens, "cached_prompt_tokens")?;
-        let latency_ms = to_i64(entry.latency_ms, "latency_ms")?;
-        let status_code = i64::from(entry.status_code);
-        let pricing_known = if entry.pricing_known { 1_i64 } else { 0_i64 };
-        let created_at = entry
-            .created_at
-            .to_rfc3339_opts(SecondsFormat::Millis, true);
-
-        let connection = self.connection.lock().await;
-        connection
-            .execute(
-                r#"
-                INSERT INTO llm_request_logs (
-                    request_id,
-                    created_at,
-                    provider,
-                    endpoint,
-                    model,
-                    upstream_id,
-                    prompt_tokens,
-                    completion_tokens,
-                    total_tokens,
-                    cached_prompt_tokens,
-                    cost_usd,
-                    latency_ms,
-                    status_code,
-                    pricing_known
-                )
-                VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11, ?12, ?13, ?14)
-                "#,
-                params![
-                    entry.request_id,
-                    created_at,
-                    entry.provider,
-                    entry.endpoint,
-                    entry.model,
-                    entry.upstream_id,
-                    prompt_tokens,
-                    completion_tokens,
-                    total_tokens,
-                    cached_prompt_tokens,
-                    entry.cost_usd,
-                    latency_ms,
-                    status_code,
-                    pricing_known,
-                ],
-            )
-            .map_err(DbError::Sqlite)?;
-
-        Ok(())
+    pub fn read_only(path: impl AsRef<Path>) -> DbResult<Self> {
+        let c = Connection::open_with_flags(path, OpenFlags::SQLITE_OPEN_READ_ONLY)?;
+        c.busy_timeout(Duration::from_secs(2))?;
+        Ok(Self {
+            connection: Arc::new(Mutex::new(c)),
+        })
     }
 
-    pub async fn with_connection<T>(
-        &self,
-        action: impl FnOnce(&Connection) -> Result<T, DbError>,
-    ) -> Result<T, DbError> {
-        let connection = self.connection.lock().await;
-        action(&connection)
+    pub async fn with_connection<T, F>(&self, action: F) -> DbResult<T>
+    where
+        T: Send + 'static,
+        F: FnOnce(&Connection) -> DbResult<T> + Send + 'static,
+    {
+        let shared = self.connection.clone();
+        tokio::task::spawn_blocking(move || {
+            let guard = shared.lock().map_err(|_| "database lock poisoned")?;
+            action(&guard)
+        })
+        .await
+        .map_err(|_| "database task failed")?
     }
 
-    #[cfg(test)]
-    pub async fn logged_count(&self) -> Result<u64, DbError> {
-        let connection = self.connection.lock().await;
-        let count: i64 = connection
-            .query_row("SELECT COUNT(*) FROM llm_request_logs", [], |row| {
-                row.get(0)
-            })
-            .map_err(DbError::Sqlite)?;
-
-        u64::try_from(count).map_err(|_| DbError::IntegerOverflow("logged_count"))
+    // A durable pending receipt MUST precede provider egress. A crash leaves
+    // explicitly indeterminate work, never an invented successful/zero-cost row.
+    pub async fn begin(&self, id: String, model: String) -> DbResult<()> {
+        self.with_connection(move |c| {
+            c.execute(
+                "INSERT INTO request_receipts(request_id,created_at,requested_model,outcome)
+                VALUES(?1,?2,?3,'pending')",
+                params![id, chrono::Utc::now().to_rfc3339(), model],
+            )?;
+            Ok(())
+        })
+        .await
     }
-}
 
-impl Display for DbError {
-    fn fmt(&self, formatter: &mut Formatter<'_>) -> std::fmt::Result {
-        match self {
-            Self::Io(error) => write!(formatter, "database filesystem error: {error}"),
-            Self::Sqlite(error) => write!(formatter, "sqlite error: {error}"),
-            Self::IntegerOverflow(field) => {
-                write!(formatter, "value for {field} exceeds SQLite INTEGER range")
+    pub async fn finish(&self, r: Receipt) -> DbResult<()> {
+        self.with_connection(move |c| {
+            let u = r.usage.as_ref();
+            let changed = c.execute("UPDATE request_receipts SET response_model=?2,outcome=?3,upstream_status=?4,
+                prompt_tokens=?5,completion_tokens=?6,total_tokens=?7,cached_tokens=?8,estimated_usd=?9,
+                price_provenance=?10,latency_ms=?11,error_class=?12 WHERE request_id=?1 AND outcome='pending'",
+                params![r.request_id,r.response_model,r.outcome,r.upstream_status,
+                    u.map(|u| u.prompt_tokens as i64),u.map(|u| u.completion_tokens as i64),
+                    u.map(|u| u.total_tokens as i64),u.map(|u| u.prompt_tokens_details.cached_tokens as i64),
+                    r.estimated_usd,r.price_provenance,r.latency_ms as i64,r.error_class])?;
+            if changed != 1 { return Err("receipt not pending".into()); }
+            Ok(())
+        }).await
+    }
+
+    pub async fn summary(&self) -> DbResult<Summary> {
+        self.with_connection(|c| {
+            let has_new: bool = c.query_row("SELECT EXISTS(SELECT 1 FROM sqlite_master WHERE name='request_receipts' AND type='table')",[],|r|r.get(0))?;
+            let legacy_count: u64 = c.query_row("SELECT COUNT(*) FROM llm_request_logs",[],|r|r.get(0))?;
+            let mut s = Summary{attempts:legacy_count,estimated_subtotal_usd:0.0,unknown_cost_count:legacy_count,
+                failed_or_pending_count:0,legacy_count,latest:Vec::new()};
+            // Legacy prices have no reviewed provenance. Keep rows intact and
+            // exclude them from the new priced subtotal; report their count.
+            if has_new {
+                let (n,cost,unknown,failed):(u64,f64,u64,u64)=c.query_row(
+                    "SELECT COUNT(*),COALESCE(SUM(estimated_usd),0.0),
+                    COALESCE(SUM(estimated_usd IS NULL),0),COALESCE(SUM(outcome != 'success'),0) FROM request_receipts",[],
+                    |r|Ok((r.get(0)?,r.get(1)?,r.get(2)?,r.get(3)?)))?;
+                s.attempts+=n;s.estimated_subtotal_usd=cost;s.unknown_cost_count+=unknown;s.failed_or_pending_count=failed;
+                let mut q=c.prepare("SELECT request_id,requested_model,outcome,total_tokens,estimated_usd,upstream_status FROM request_receipts ORDER BY created_at DESC,request_id DESC LIMIT 5")?;
+                s.latest=q.query_map([],|r|Ok(serde_json::json!({
+                    "request_id":r.get::<_,String>(0)?,"model":r.get::<_,String>(1)?,"outcome":r.get::<_,String>(2)?,
+                    "tokens":r.get::<_,Option<u64>>(3)?,"estimated_usd":r.get::<_,Option<f64>>(4)?,"upstream_status":r.get::<_,Option<u16>>(5)?
+                })))?.collect::<Result<_,_>>()?;
             }
-            Self::InvalidCost(cost) => write!(formatter, "invalid cost_usd value: {cost}"),
-        }
+            Ok(s)
+        }).await
     }
-}
 
-impl std::error::Error for DbError {
-    fn source(&self) -> Option<&(dyn std::error::Error + 'static)> {
-        match self {
-            Self::Io(error) => Some(error),
-            Self::Sqlite(error) => Some(error),
-            Self::IntegerOverflow(_) | Self::InvalidCost(_) => None,
-        }
+    pub async fn backup(&self, destination: &Path) -> DbResult<()> {
+        // Atomically reserve a new destination. Never replace an operator file.
+        let file = std::fs::OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(destination)?;
+        drop(file);
+        let destination = destination.to_owned();
+        self.with_connection(move |c| {
+            c.backup(rusqlite::DatabaseName::Main, &destination, None)?;
+            Ok(())
+        })
+        .await
     }
-}
-
-fn initialize_schema(connection: &Connection) -> Result<(), DbError> {
-    connection
-        .execute_batch(
-            r#"
-            CREATE TABLE IF NOT EXISTS llm_request_logs (
-                request_id TEXT PRIMARY KEY,
-                created_at TEXT NOT NULL,
-                provider TEXT NOT NULL,
-                endpoint TEXT NOT NULL,
-                model TEXT NOT NULL,
-                upstream_id TEXT,
-                prompt_tokens INTEGER NOT NULL CHECK (prompt_tokens >= 0),
-                completion_tokens INTEGER NOT NULL CHECK (completion_tokens >= 0),
-                total_tokens INTEGER NOT NULL CHECK (total_tokens >= 0),
-                cached_prompt_tokens INTEGER NOT NULL DEFAULT 0 CHECK (cached_prompt_tokens >= 0),
-                cost_usd REAL NOT NULL CHECK (cost_usd >= 0),
-                latency_ms INTEGER NOT NULL CHECK (latency_ms >= 0),
-                status_code INTEGER NOT NULL CHECK (status_code BETWEEN 100 AND 599),
-                pricing_known INTEGER NOT NULL DEFAULT 0 CHECK (pricing_known IN (0, 1))
-            );
-
-            CREATE INDEX IF NOT EXISTS idx_llm_request_logs_created_at
-                ON llm_request_logs (created_at);
-
-            CREATE INDEX IF NOT EXISTS idx_llm_request_logs_model_created_at
-                ON llm_request_logs (model, created_at);
-            "#,
-        )
-        .map_err(DbError::Sqlite)
-}
-
-fn to_i64(value: u64, field: &'static str) -> Result<i64, DbError> {
-    i64::try_from(value).map_err(|_| DbError::IntegerOverflow(field))
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-
     #[tokio::test]
-    async fn persists_usage_log_entry() {
-        let db = Database::open(":memory:").expect("database opens");
-
-        db.log_usage(UsageLogEntry {
-            request_id: "test-request-id".to_owned(),
-            created_at: Utc::now(),
-            provider: "openai".to_owned(),
-            endpoint: "/v1/chat/completions".to_owned(),
-            model: "gpt-4o-mini".to_owned(),
-            upstream_id: Some("chatcmpl-test".to_owned()),
-            prompt_tokens: 100,
-            completion_tokens: 25,
-            total_tokens: 125,
-            cached_prompt_tokens: 10,
-            cost_usd: 0.00003,
-            latency_ms: 250,
-            status_code: 200,
-            pricing_known: true,
+    async fn migration_preserves_legacy_restart_and_backup() {
+        let temp = tempfile::tempdir().unwrap();
+        let path = temp.path().join("old.sqlite3");
+        {
+            let c = Connection::open(&path).unwrap();
+            c.execute_batch(include_str!("legacy_schema.sql")).unwrap();
+            c.execute("INSERT INTO llm_request_logs VALUES('old','2020-01-01','openai','/v1/chat/completions','old-model',NULL,1,1,2,0,0,1,200,0)",[]).unwrap();
+        }
+        let db = Database::open(&path).unwrap();
+        db.begin("new".into(), "fixture-model".into())
+            .await
+            .unwrap();
+        assert_eq!(db.summary().await.unwrap().unknown_cost_count, 2);
+        db.with_connection(|c| {
+            assert_eq!(
+                c.query_row(
+                    "SELECT cost_usd FROM llm_request_logs WHERE request_id='old'",
+                    [],
+                    |r| r.get::<_, f64>(0)
+                )?,
+                0.0
+            );
+            Ok(())
         })
         .await
-        .expect("usage log persists");
-
-        assert_eq!(db.logged_count().await.expect("count query succeeds"), 1);
+        .unwrap();
+        let backup = temp.path().join("backup.sqlite3");
+        db.backup(&backup).await.unwrap();
+        assert!(db.backup(&backup).await.is_err());
+        drop(db);
+        assert_eq!(
+            Database::open(&path)
+                .unwrap()
+                .summary()
+                .await
+                .unwrap()
+                .attempts,
+            2
+        );
+        assert_eq!(
+            Database::open(&backup)
+                .unwrap()
+                .summary()
+                .await
+                .unwrap()
+                .attempts,
+            2
+        );
+        assert_eq!(
+            Database::read_only(&path)
+                .unwrap()
+                .summary()
+                .await
+                .unwrap()
+                .legacy_count,
+            1
+        );
+    }
+    #[tokio::test]
+    async fn concurrent_connections_and_readers_preserve_receipts() {
+        let temp = tempfile::tempdir().unwrap();
+        let path = temp.path().join("test.sqlite3");
+        let a = Database::open(&path).unwrap();
+        let b = Database::open(&path).unwrap();
+        let mut tasks = tokio::task::JoinSet::new();
+        for i in 0..32 {
+            let db = if i % 2 == 0 { a.clone() } else { b.clone() };
+            tasks.spawn(async move {
+                db.begin(format!("id-{i}"), "fixture-model".into())
+                    .await
+                    .unwrap();
+                db.summary().await.unwrap();
+            });
+        }
+        while let Some(t) = tasks.join_next().await {
+            t.unwrap();
+        }
+        assert_eq!(a.summary().await.unwrap().attempts, 32);
+    }
+    #[test]
+    fn future_version_is_rejected_without_changing_data() {
+        let t = tempfile::tempdir().unwrap();
+        let p = t.path().join("future.sqlite3");
+        let c = Connection::open(&p).unwrap();
+        c.pragma_update(None, "user_version", 99).unwrap();
+        assert!(Database::open(&p).is_err());
+        assert_eq!(
+            c.pragma_query_value(None, "user_version", |r| r.get::<_, u32>(0))
+                .unwrap(),
+            99
+        );
     }
 }
