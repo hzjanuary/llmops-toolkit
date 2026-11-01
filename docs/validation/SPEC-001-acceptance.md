@@ -68,7 +68,7 @@ unexecuted individual filter command is claimed.
 | S27 | Current full-history and working-tree secret scans without suppression | PASS | gitleaks git . --log-opts='--all --full-history' --redact; gitleaks dir . --redact (S) | 5f3a2d5b57465dafdf1b18c105783b537e30f601 |
 | S28 | Both retained lockfiles pass vulnerability/unsoundness gates | PASS | cargo-audit audit --deny unsound --file Cargo.lock; cargo-audit audit --deny unsound --file rag-harness/Cargo.lock (S) | 5f3a2d5b57465dafdf1b18c105783b537e30f601 |
 | S29 | Declared dependency-license inventory matches both locks | PASS | python3 scripts/license_inventory.py (L) | 5f3a2d5b57465dafdf1b18c105783b537e30f601 |
-| S30 | Project copyright/provenance and installed MIT grant | BLOCKED | Explicit owner declaration recorded in docs/legal/OWNER_DECLARATION.md; file audit in PROVENANCE_REVIEW.md; exact copyright-holder text unconfirmed and official LICENSE absent | 782dfab4c7c0883a633ac39fb26fa9c7154c2a06 (audit baseline; no grant activated) |
+| S30 | Project copyright/provenance and installed MIT grant | PASS | Official LICENSE contains Copyright (c) 2026 Hoang Nguyen; explicit owner confirmation in docs/legal/OWNER_DECLARATION.md; PROVENANCE_REVIEW.md; python3 scripts/license_inventory.py verifies exact grant hash and Cargo MIT | Owner-confirmed A3 grant installed after audit baseline 782dfab; exact publication SHA is recorded by fresh gate evidence |
 | S31 | Pinned Rust format, strict Clippy, locked offline tests/build | PASS | python3 scripts/verify.py --output /tmp/ragops-spec001-retention-evidence (L) | 5f3a2d5b57465dafdf1b18c105783b537e30f601 |
 | S32 | Source archive matches every Git blob/mode, excludes operator state, reproduces bytewise | PASS | python3 scripts/source_gate.py --revision HEAD --output NEW_DIRECTORY (called by verify.py) (L) | 5f3a2d5b57465dafdf1b18c105783b537e30f601 |
 | S33 | Clean build from reviewed source archive with empty target | PASS | cargo build --locked --offline --target-dir NEW_DIRECTORY (called by verify.py) (L) | 5f3a2d5b57465dafdf1b18c105783b537e30f601 |
@@ -94,3 +94,13 @@ S30 remains BLOCKED on exact public copyright identity and the actual grant.
 The same 38 criteria remain: 36 PASS / 1 BLOCKED / 1 NOT_RUN in the retained
 baseline. S35 remains NOT_RUN. New publication commits need fresh gates and may
 not inherit the old CI result. No previous immutable evidence has been edited.
+
+## Owner-confirmed A3 activation
+
+The owner has now explicitly confirmed `Copyright (c) 2026 Hoang Nguyen` and
+authorized official MIT installation. LICENSE installs that grant; the proposal
+is removed. The legal inventory verifies the exact grant hash, Cargo SPDX and
+confirmation record. S30 is now PASS. The same 38 criteria reconcile to
+**37 PASS / 0 BLOCKED / 1 NOT_RUN** on the retained proof plus the A3 legal check.
+S35 remains NOT_RUN; no mock result is promoted to live validation. Fresh exact
+publication source gates are required and will be recorded separately.

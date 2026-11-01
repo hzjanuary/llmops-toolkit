@@ -79,6 +79,12 @@ credential/database candidates were found; values were never printed. The
 pre-existing untracked spec hash matches the previous handoff and stays outside
 commits. Operator state is preserved.
 
-**A3 decision boundary:** exact public MIT copyright-holder text is required.
-Until confirmed, retain LICENSE.proposed, do not create LICENSE, keep S30 BLOCKED,
-keep the PR Draft and do not merge/tag/release. Phase D has not begun.
+## A3 resolution
+
+The owner explicitly confirmed `Copyright (c) 2026 Hoang Nguyen` and authorized
+installation of MIT. Root LICENSE now installs that exact public identity and
+full grant; the obsolete LICENSE.proposed is removed. The declaration and file
+review remain the ownership/provenance record. This resolves the expected A3
+identity blocker without inventing generic workflow authorship or removing
+third-party terms. Fresh publication gates are still required. Phase D has not
+begun and remains gated on actual publication/public archive verification.

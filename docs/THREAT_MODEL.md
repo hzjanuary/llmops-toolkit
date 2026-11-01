@@ -19,7 +19,7 @@ application's ability to secure.
 | Accidental target scan / SSRF | Offline fixtures default; exact authorization URL, literal IP, fixed path, no redirect, no link-local/mapped hosts; HTTPS + flag for non-loopback | Operator authorization is an assertion, not independently verified. Deliberate private-network targets are allowed only with explicit opt-in. Target may bill requests. |
 | False security/quality confidence | Named heuristics, abstentions/errors, separate known/unknown price | Refusal text is not exploit proof; lexical overlap is not semantic entailment. LLM judging is fallible and prompt-injectable despite instructions. |
 | Malicious file / build supply chain | Bounded regular-file reads, no symlink inputs; lockfiles; pinned Rust/actions/tools; complete-history secrets and archive gates | Local file-swap races are not sandboxed. Registry/build scripts and mutable advisory data remain trusted dependencies. No bit-identical binary-build claim. |
-| Source publication / licenses | Redacted history/tree scans, exact archive/tree manifest, declared SPDX inventory, MIT proposal only | Detection is incomplete; inherited harness rights remain unverified. CI green does not authorize release or license grants. |
+| Source publication / licenses | Redacted history/tree scans, exact archive/tree manifest, declared SPDX inventory, owner-confirmed MIT grant | Detection is incomplete; generic historical wording is not claimed independently authored. CI green does not authorize new license grants or bypass release rules. |
 
 No external LLM request, paid call or external target scan was used as proof.
 Offline tests use loopback mocks and synthetic temporary databases. No production

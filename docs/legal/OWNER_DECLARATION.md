@@ -18,11 +18,22 @@ The owner explicitly declares:
 5. The owner does not authorize attributing RAGOps project ownership to hoangnb24
    solely because an old URL or username appears in historical documents.
 
-The owner selects MIT as the proposed project license, subject to confirming the
-exact public copyright-holder text. **That exact text has not yet been supplied.**
-No official LICENSE has been installed and LICENSE.proposed remains a proposal.
-S30 remains BLOCKED until the declaration/provenance decision and an actual
-license grant with the confirmed identity are complete.
+## Confirmed public copyright and license activation
+
+The owner subsequently supplied and explicitly confirmed the exact public line:
+
+`Copyright (c) 2026 Hoang Nguyen`
+
+The owner authorizes Phase A3, official MIT installation, NOTICE/documentation
+updates, final verification/CI, normal merge and the source-only v0.1.0 pre-release
+provided all required gates pass. This confirmation is the identity authority;
+no Git metadata or username was used to choose the name.
+
+The official root LICENSE now contains that exact line and the full MIT grant.
+LICENSE.proposed has been replaced. Cargo declares MIT. Project license and
+third-party obligations remain separate. S30 can be PASS on this recorded owner
+confirmation, file-level provenance decision and installed grant; publication
+still requires fresh source checks and normal review/merge.
 
 The new publication instruction authorizes a normal PR merge and annotated
 v0.1.0 source-only GitHub pre-release only after all ownership/license/review/CI

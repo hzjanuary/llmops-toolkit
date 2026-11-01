@@ -12,7 +12,7 @@ This supersedes the earlier task's Draft-only boundary conditionally. Settings,
 bypasses, paid/live calls, external scans, binaries/images/packages, deployment,
 operator-data deletion and history rewriting remain prohibited.
 
-Current gate: Phase A3 exact public copyright-holder text is not supplied.
-Retain LICENSE.proposed; S30 stays BLOCKED. Do not start Phase D before publication
-and public ZIP/tar verification. Owner declaration and file audit are under
-../../../legal/. Existing historical evidence stays intact.
+A3 is resolved: the owner explicitly confirmed `Copyright (c) 2026 Hoang Nguyen`.
+Official MIT is installed, proposal removed and S30 can pass on that grant and
+the recorded provenance decision. Final source/review/CI and publication gates
+remain. Phase D must not start before publication and public archive verification.

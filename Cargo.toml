@@ -3,6 +3,7 @@ name = "ragops-harness"
 version = "0.1.0"
 edition = "2021"
 rust-version = "1.99"
+license = "MIT"
 description = "RAGOps Harness local OpenAI chat proxy and FinOps logger"
 
 [dependencies]

@@ -21,3 +21,9 @@ the TSV writer emitted CRLF line endings. The audit fields/source hashes were
 unchanged. A follow-up commit normalizes LF; history is not rewritten. Subsequent
 worktree/staged/base-to-HEAD diff checks PASS after that correction. No publication
 or runtime verification is inferred from these documentation-only checks.
+
+A3 resolution: owner explicitly confirmed Copyright (c) 2026 Hoang Nguyen.
+Official MIT installed, Cargo SPDX set, obsolete proposal removed. Legal check
+verifies exact license SHA-256 and declaration; S30 PASS. Earlier blocked notes
+above are historical gate observations, not the current legal status. Final
+publication checks are still pending and old CI is not assigned to these edits.

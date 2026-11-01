@@ -3685,7 +3685,12 @@
       "manifest": "rag-harness/Cargo.toml"
     }
   ],
-  "project_license": "PENDING: exact public copyright-holder text and installed MIT grant; owner declaration recorded in docs/legal/OWNER_DECLARATION.md",
+  "project_license": {
+    "copyright": "Copyright (c) 2026 Hoang Nguyen",
+    "license_sha256": "4d7986336b20626e0f4b37bdcd8010f718856bdf0fecb11f40dfdd5f705d49e1",
+    "ownership_record": "docs/legal/OWNER_DECLARATION.md",
+    "spdx": "MIT"
+  },
   "schema_version": 1,
   "scope": "declared metadata, all lockfile platforms; no dependency source is vendored"
 }

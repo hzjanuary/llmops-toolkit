@@ -1,18 +1,15 @@
 RAGOps Harness — project and third-party notices
 
 Project copyright
-The repository owner expressly declares RAGOps Harness independently developed
-and owns its RAGOps-specific application code, Rust modules, tests, product
-documentation, scripts and configuration. The exact public copyright-holder text
-is awaiting explicit confirmation; it is not inferred from Git usernames,
-authors, email addresses or old repository URLs. See:
-  docs/legal/OWNER_DECLARATION.md
-  docs/legal/PROVENANCE_REVIEW.md
+Copyright (c) 2026 Hoang Nguyen
+The public copyright-holder text is explicitly confirmed by the repository owner.
+The owner declares RAGOps independently developed and owns its RAGOps-specific
+application code, Rust modules, tests, product documentation, scripts and
+configuration. See docs/legal/OWNER_DECLARATION.md and PROVENANCE_REVIEW.md.
 
 Project license
-MIT is selected as the proposed project license. No official LICENSE grant has
-yet been installed. LICENSE.proposed remains an unapproved form pending the exact
-copyright-holder text and completion of the recorded publication decision.
+RAGOps Harness is licensed under the MIT License in the root LICENSE file.
+The project grant does not replace third-party dependency licenses or notices.
 
 Historical development workflow materials
 The historical harness-experimental URL identifies a Codex development/workflow

@@ -1,9 +1,9 @@
 # Contributing
 
 Read AGENTS.md, README.md, docs/HARNESS.md and docs/FEATURE_INTAKE.md before work.
-The owner declaration is recorded in docs/legal/OWNER_DECLARATION.md. Exact
-public copyright-holder text and the official MIT grant are still pending; do
-not represent this branch as a released OSS package or an activated license.
+The owner declaration and exact public copyright confirmation are recorded in
+docs/legal/OWNER_DECLARATION.md. The project uses the MIT License in LICENSE;
+dependency terms remain separate in NOTICE and the legal inventory.
 
 Use a feature branch and reviewable commits. Keep current product docs, story
 packets and docs/TEST_MATRIX.md synchronized. Retain historical evidence, local

@@ -2,8 +2,8 @@
 """Check declared dependency licenses and make a reproducible inventory.
 
 This does not establish ownership of project source or satisfy future binary
-redistribution obligations. Project MIT activation separately needs the confirmed
-public copyright-holder text and installed grant.
+redistribution obligations. It verifies the installed project MIT grant against
+the exact owner-confirmed public copyright identity.
 """
 import argparse
 import hashlib
@@ -27,6 +27,12 @@ ALLOWED = {
 parser = argparse.ArgumentParser()
 parser.add_argument("--write", action="store_true")
 args = parser.parse_args()
+license_bytes = Path("LICENSE").read_bytes()
+assert hashlib.sha256(license_bytes).hexdigest() == "4d7986336b20626e0f4b37bdcd8010f718856bdf0fecb11f40dfdd5f705d49e1", "project LICENSE differs from the owner-approved MIT grant"
+assert "Copyright (c) 2026 Hoang Nguyen" in license_bytes.decode(), "unconfirmed public copyright identity"
+assert tomllib.loads(Path("Cargo.toml").read_text())["package"]["license"] == "MIT", "project SPDX license must be MIT"
+assert not Path("LICENSE.proposed").exists(), "obsolete license proposal remains"
+assert "Copyright (c) 2026 Hoang Nguyen" in Path("docs/legal/OWNER_DECLARATION.md").read_text(), "owner confirmation record missing"
 inventory = []
 for manifest in ("Cargo.toml", "rag-harness/Cargo.toml"):
     data = json.loads(subprocess.check_output([
@@ -46,11 +52,11 @@ for manifest in ("Cargo.toml", "rag-harness/Cargo.toml"):
     inventory.append({"manifest": manifest, "lock_sha256": hashlib.sha256(lockpath.read_bytes()).hexdigest(),
                       "dependencies": packages})
 text = json.dumps({"schema_version": 1, "scope": "declared metadata, all lockfile platforms; no dependency source is vendored",
-                   "project_license": "PENDING: exact public copyright-holder text and installed MIT grant; owner declaration recorded in docs/legal/OWNER_DECLARATION.md",
+                   "project_license": {"spdx": "MIT", "copyright": "Copyright (c) 2026 Hoang Nguyen", "license_sha256": hashlib.sha256(license_bytes).hexdigest(), "ownership_record": "docs/legal/OWNER_DECLARATION.md"},
                    "manifests": inventory}, indent=2, sort_keys=True) + "\n"
 path = Path("docs/legal/dependency-inventory.json")
 if args.write:
     path.write_text(text)
 else:
     assert path.read_text() == text, "dependency inventory stale; regenerate with --write and review"
-print("PASS: both lockfile license inventories match reviewed declared SPDX expressions; project MIT grant remains pending exact copyright-holder confirmation")
+print("PASS: both lockfile license inventories match reviewed declared SPDX expressions; installed owner-confirmed MIT grant verified")

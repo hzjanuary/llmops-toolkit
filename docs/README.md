@@ -1,7 +1,7 @@
 # Documentation map
 
 RAGOps Harness has an implemented Rust prototype. SPEC-001 is the active secure
-local-first refactor; project licensing remains subject to owner review.
+local-first refactor; the MIT grant uses the explicitly confirmed copyright identity.
 
 - [Product contracts](product/README.md): proxy/FinOps, terminal monitor,
   evaluation and bounded safety heuristics.
@@ -13,7 +13,7 @@ local-first refactor; project licensing remains subject to owner review.
   [Vietnamese handoff](validation/SPEC-001-handoff-vi.md).
 - [Threat model](THREAT_MODEL.md), [self-hosting/privacy](SELF_HOSTING.md),
   [security policy](../SECURITY.md), [contributing/verification](../CONTRIBUTING.md),
-  [NOTICE](../NOTICE) and [license proposal](../LICENSE.proposed).
+  [NOTICE](../NOTICE) and [MIT License](../LICENSE).
 - [Governance proposals](governance/README.md): disabled main-branch rulesets,
   requiring a separate owner decision.
 - [HARNESS](HARNESS.md), [feature intake](FEATURE_INTAKE.md),
