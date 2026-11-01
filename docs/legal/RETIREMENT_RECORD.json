@@ -45,7 +45,7 @@
       "sha256": "c8e0583694bb1e0188dbe28fe0d65ac1130723c55f968b6262b906c147f72549"
     }
   ],
-  "retained": "All historical stories, decisions, acceptance evidence, active templates/protocol, scripts and migrations; root Cargo.lock dependency data unchanged",
+  "retained": "Current product stories except redundant task attachment; product decisions0004 onward; all SHA-bound validation/failures, former inventory/provenance, active verification tools and migrations. Generic workflow files and obsolete copies retired in REBRAND-001 remain recoverable from Git.",
   "reviewed_source_sha": "782dfab4c7c0883a633ac39fb26fa9c7154c2a06",
   "root_task_file": "Adopts pre-existing AGENT_REQUIREMENT.md deletion only after archiving its exact HEAD text; no operator file touched",
   "rebrand_001_retirements": [
@@ -220,5 +220,6 @@
       "category": 4
     }
   ],
-  "rebrand_001_scope": "Only obsolete local generic workflow and installer/task attachments; existing historical records above describe earlier checkpoints, not current retention promises."
+  "rebrand_001_scope": "Only obsolete local generic workflow and installer/task attachments; existing historical records above describe earlier checkpoints, not current retention promises.",
+  "retained_at_reviewed_source_checkpoint": "All historical stories, decisions, acceptance evidence, active templates/protocol, scripts and migrations; root Cargo.lock dependency data unchanged"
 }
