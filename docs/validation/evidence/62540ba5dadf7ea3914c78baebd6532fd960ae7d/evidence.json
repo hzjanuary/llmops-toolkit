@@ -44,8 +44,11 @@
       "exit_code": 0,
       "id": "tests",
       "log": "tests.txt",
-      "log_sha256": "405c40d3163efd5bf78a7b22bde880b3bc2775264f63a68e1484e01480fe8f8d",
-      "status": "PASS"
+      "log_sha256": "b5f44e7203d7e13baa11038d8b80050c8e0fe607fa5a2f9ec09fc7c5561b377e",
+      "status": "PASS",
+      "untrimmed_log": "tests.untrimmed.b64",
+      "untrimmed_log_encoding": "base64",
+      "untrimmed_log_sha256": "405c40d3163efd5bf78a7b22bde880b3bc2775264f63a68e1484e01480fe8f8d"
     },
     {
       "command": [
@@ -135,6 +138,9 @@
       "status": "PASS"
     }
   ],
+  "original_manifest": "original-evidence.json",
+  "original_manifest_sha256": "279d4f22d15e12571748cf3d452d0219ab64f371687c42bea7f95958448a4fbc",
+  "presentation_note": "Only the new Cargo test log EOF is normalized. Byte-exact untrimmed redacted output is preserved base64 and the original manifest remains byte-exact; no process result or command changed.",
   "rustc": "rustc 1.99.0 (b940084d7 2026-09-28)",
   "schema_version": 1,
   "source_sha": "62540ba5dadf7ea3914c78baebd6532fd960ae7d",

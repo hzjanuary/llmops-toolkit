@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Offline source verification with append-only SHA-bound evidence output."""
 import argparse
+import base64
 import hashlib
 import json
 import os
@@ -30,12 +31,21 @@ def check(name, command, cwd=root):
     result = subprocess.run(command, cwd=cwd, env=env, text=True, stdout=subprocess.PIPE,
                             stderr=subprocess.STDOUT, timeout=300)
     # Publish only normalized paths; keep provider/operator secrets out by design.
-    log = result.stdout.replace(str(root), "<checkout>").replace(str(output), "<evidence>")
+    untrimmed = result.stdout.replace(str(root), "<checkout>").replace(str(output), "<evidence>")
+    log = "\n".join(line.rstrip() for line in untrimmed.splitlines()).rstrip("\n")
+    if log:
+        log += "\n"
     log_path = output / (name + ".txt")
     log_path.write_text(log)
     entry = {"id": name, "command": command, "cwd": "checkout" if cwd == root else "verified-source-archive",
              "exit_code": result.returncode, "status": "PASS" if result.returncode == 0 else "FAIL",
              "log": log_path.name, "log_sha256": hashlib.sha256(log.encode()).hexdigest()}
+    if untrimmed != log:
+        raw_path = output / (name + ".untrimmed.b64")
+        raw_path.write_text(base64.b64encode(untrimmed.encode()).decode() + "\n")
+        entry["untrimmed_log_encoding"] = "base64"
+        entry["untrimmed_log"] = raw_path.name
+        entry["untrimmed_log_sha256"] = hashlib.sha256(untrimmed.encode()).hexdigest()
     evidence["checks"].append(entry)
     (output / "evidence.json").write_text(json.dumps(evidence, indent=2, sort_keys=True) + "\n")
     print(f"{entry['status']}: {name}", flush=True)

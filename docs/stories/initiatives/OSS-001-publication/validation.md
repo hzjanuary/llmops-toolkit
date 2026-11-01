@@ -46,3 +46,10 @@ extra directories, duplicate directories and unsafe paths) and an explicit
 synthetic unsafe-directory rejection regression. It reads archives without
 extracting them. This is project verification tooling, not a runtime redesign;
 new exact-source checks follow before any merge/publication.
+
+Publication-delta git diff --check FAILED on a blank final Cargo-log line in the
+new evidence copy. Original manifest and byte-exact untrimmed redacted log are
+preserved (base64 payload with original digest); only the presentation copy is
+normalized and both digests are explicit. verify.py now records this presentation
+policy at generation. No test/security outcome changed; previous historical
+proof remains untouched. Fresh exact-source checks verify this correction.

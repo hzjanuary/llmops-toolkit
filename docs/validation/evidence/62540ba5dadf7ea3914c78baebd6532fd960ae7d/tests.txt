@@ -33,4 +33,3 @@ test db::tests::concurrent_connections_and_readers_preserve_receipts ... ok
 test proxy::tests::oversized_and_malformed_success_responses_are_indeterminate ... ok
 
 test result: ok. 28 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.24s
-
