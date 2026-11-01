@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "source": "SYNTHETIC OFFLINE FIXTURE ONLY - replace with owner-reviewed text-token rates before live use",
+  "as_of": "2026-01-01",
+  "models": {
+    "fixture-model": {
+      "input_per_million": 2.0,
+      "cached_input_per_million": 1.0,
+      "output_per_million": 4.0
+    }
+  }
+}
