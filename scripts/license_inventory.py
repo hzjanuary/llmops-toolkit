@@ -34,7 +34,7 @@ assert tomllib.loads(Path("Cargo.toml").read_text())["package"]["license"] == "M
 assert not Path("LICENSE.proposed").exists(), "obsolete license proposal remains"
 assert "Copyright (c) 2026 Hoang Nguyen" in Path("docs/legal/OWNER_DECLARATION.md").read_text(), "owner confirmation record missing"
 inventory = []
-for manifest in ("Cargo.toml", "rag-harness/Cargo.toml"):
+for manifest in ("Cargo.toml",):
     data = json.loads(subprocess.check_output([
         "cargo", "metadata", "--locked", "--offline", "--format-version", "1", "--manifest-path", manifest]))
     lockpath = Path(manifest).with_name("Cargo.lock")
@@ -59,4 +59,4 @@ if args.write:
     path.write_text(text)
 else:
     assert path.read_text() == text, "dependency inventory stale; regenerate with --write and review"
-print("PASS: both lockfile license inventories match reviewed declared SPDX expressions; installed owner-confirmed MIT grant verified")
+print("PASS: retained root lockfile license inventory matches reviewed declared SPDX expressions; installed owner-confirmed MIT grant verified")

@@ -24,7 +24,6 @@ jobs:
       - name: Fetch locked build dependencies (no inference)
         run: |
           cargo fetch --locked
-          cargo fetch --locked --manifest-path rag-harness/Cargo.toml
       - name: Offline source and full flow gates
         run: python3 scripts/verify.py --output "$RUNNER_TEMP/offline-evidence"
       - name: Preserve SHA-bound source evidence
@@ -53,10 +52,9 @@ jobs:
           mkdir "$RUNNER_TEMP/security-evidence"
           "$RUNNER_TEMP/security-tools/gitleaks" git . --log-opts='--all --full-history' --redact --no-banner --report-format json --report-path "$RUNNER_TEMP/security-evidence/history.json"
           "$RUNNER_TEMP/security-tools/gitleaks" dir . --redact --no-banner --report-format json --report-path "$RUNNER_TEMP/security-evidence/tree.json"
-      - name: Dependency vulnerability and unsoundness gates (both retained crates)
+      - name: Dependency vulnerability and unsoundness gates (retained root crate)
         run: |
           "$RUNNER_TEMP/security-tools/bin/cargo-audit" audit --deny unsound --file Cargo.lock --json > "$RUNNER_TEMP/security-evidence/root-audit.json"
-          "$RUNNER_TEMP/security-tools/bin/cargo-audit" audit --deny unsound --file rag-harness/Cargo.lock --json > "$RUNNER_TEMP/security-evidence/nested-audit.json"
           git rev-parse HEAD > "$RUNNER_TEMP/security-evidence/source-sha.txt"
           sha256sum "$RUNNER_TEMP/security-evidence/"*.json > "$RUNNER_TEMP/security-evidence/SHA256SUMS"
       - name: Preserve redacted security evidence

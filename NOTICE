@@ -23,9 +23,12 @@ phrase was independently authored or inventing an external source attribution.
 
 Third-party dependencies
 Dependency names, versions, checksums, upstream repositories and declared SPDX
-licenses for both currently retained lockfiles are listed in:
+licenses for the retained root lockfile are listed in:
   docs/legal/dependency-inventory.json
-This inventory and all applicable dependency obligations remain in force.
+The complete former two-manifest inventory is preserved in
+  docs/legal/archive/dependency-inventory-before-crate-retirement.json
+The retirement/source-hash record is docs/legal/RETIREMENT_RECORD.json.
+All applicable dependency obligations remain in force.
 No registry dependency source is vendored in these source archives. Dependencies
 retain their respective copyrights and licenses. SPDX OR expressions allow a
 permitted alternative; AND expressions retain multiple obligations. Project MIT

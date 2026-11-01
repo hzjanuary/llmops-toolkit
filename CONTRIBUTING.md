@@ -13,7 +13,6 @@ publish packages/images/releases as part of a normal contribution.
 
 ```bash
 cargo fetch --locked
-cargo fetch --locked --manifest-path rag-harness/Cargo.toml
 python3 scripts/license_inventory.py
 python3 scripts/verify.py --output /tmp/ragops-evidence-UNIQUE
 ```
@@ -31,13 +30,13 @@ python3 scripts/install_security_tools.py /tmp/ragops-tools-UNIQUE
 /tmp/ragops-tools-UNIQUE/gitleaks git . --log-opts='--all --full-history' --redact
 /tmp/ragops-tools-UNIQUE/gitleaks dir . --redact
 /tmp/ragops-tools-UNIQUE/bin/cargo-audit audit --deny unsound --file Cargo.lock
-/tmp/ragops-tools-UNIQUE/bin/cargo-audit audit --deny unsound --file rag-harness/Cargo.lock
 ```
 
 Tool installation, initial crate fetching and advisory updates use network access;
 application validation performs no real provider calls or external scans. Do not
-run the nested Hello World crate as a product. It remains for a separate removal
-decision; its lockfile is still audited and included in license inventory.
+restore the retired nested Hello World crate as a product. Its former dependency
+metadata and old task text remain in the historical legal/story archives. The
+current retained root lockfile is fully audited and inventoried.
 
 A Draft PR should state the problem, resulting behavior, exact tested source SHA,
 commands/artifacts, material limits and remaining owner decisions. A green

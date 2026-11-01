@@ -60,6 +60,8 @@ if exposing the service. Application body and provider concurrency are bounded.
 
 [ADR 0010](decisions/0010-secure-local-oss-refactor.md) supersedes the unsafe
 runtime details of ADRs 0004/0005/0006/0009. All historical ADRs and stories remain
-for provenance. `rag-harness/` is a disconnected Hello World crate, not a second
-product runtime; removal is proposed, not performed. Its dependencies remain
-audited while it is retained.
+for provenance. The unused independent rag-harness/ Hello World crate is retired;
+root Cargo/runtime never depended on it. Current CI/audits/inventory cover the
+retained root crate. The complete former inventory, obsolete installer README
+and old task text remain archived with source hashes in the retirement record.
+No runtime source, database migration or active protocol/template was removed.

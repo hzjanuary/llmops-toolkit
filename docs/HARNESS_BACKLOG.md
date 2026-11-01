@@ -40,12 +40,12 @@ No backlog items yet.
 
 ## SPEC-001 follow-ups and owner decisions
 
-- Owner declaration now records RAGOps-specific ownership and corrects the
-  unsupported URL-based external ownership assumption. Confirm exact public
-  copyright-holder text before installing the official MIT grant; see legal/
-  provenance records. LICENSE.proposed is still a proposal.
-- Decide separately whether to remove the inspected unused rag-harness/ Hello
-  World crate and stale AGENT_REQUIREMENT.md; preserve Git/story evidence.
+- Resolved: owner declaration and exact public copyright confirmation recorded;
+  MIT installed for Hoang Nguyen; unsupported URL-based ownership inference
+  corrected. See legal/OWNER_DECLARATION.md and legal/PROVENANCE_REVIEW.md.
+- Resolved in focused cleanup: unused rag-harness/ crate retired with CI and
+  legal inventory updated. Root task text and full former inventory archived
+  with hashes; historical stories/evidence and active workflow remain.
 - Decide on the three proposed main-branch rulesets; do not apply automatically.
 - Review platform support beyond Linux x86_64 and establish a lower MSRV only
   with actual CI proof. No speculative compatibility claims.
@@ -64,5 +64,5 @@ No backlog items yet.
 Publication is conditional on the exact copyright identity, installed license,
 review and fresh source gates. Separate canonical Harness cleanup is a later
 post-publication task; no URL-based assumption establishes identity or authority.
-The pre-existing worktree task-file deletion must be handled explicitly in the
-later focused cleanup, never silently mixed into a provenance commit.
+The pre-existing root task-file deletion was adopted only in focused cleanup
+after its exact reviewed text was archived in the historical US-043 packet.

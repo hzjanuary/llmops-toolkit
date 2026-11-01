@@ -5,8 +5,10 @@ refactor, focused tests and source CI. The Harness v0 sections below describe
 the original generic bootstrap, not a ban on current authorized work. See
 CONTRIBUTING.md and the SPEC-001 initiative for executable validation.
 
-The project goal is to provide a reusable operating harness that lets humans and
-agents turn a future product spec into safe, validated work.
+This document is RAGOps repository collaboration guidance. The product goal is
+the local-first Rust observability/evaluation toolkit described in README.md.
+Reusable intake, story and validation templates remain local development tools,
+not an external runtime, orchestration service or installation dependency.
 
 The app is what users touch. The harness is what agents touch.
 
