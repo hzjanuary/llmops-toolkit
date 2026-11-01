@@ -1,7 +1,7 @@
-# Local operation and self-hosting
+# LLMOps Toolkit local operation and self-hosting
 
-The default deployment is one Linux user's local machine. Read SECURITY.md and
-the threat model first. No cloud backend, container image or deployment is
+The default deployment is one Linux user's local machine. Read the
+[security policy](../SECURITY.md) and [threat model](THREAT_MODEL.md) first. No cloud backend, container image or deployment is
 required or published. Tested platform: Linux x86_64, Rust 1.99.0, Python 3.12+.
 
 1. Fetch locked dependencies, build offline, and run the offline checks in README.
@@ -100,6 +100,6 @@ No external workflow installer or hidden update mechanism is required.
 
 Current LLMOPS_* environment names retain deprecated RAGOPS_* aliases: use the
 current value when present, legacy fallback when absent, accept equal pairs and
-reject conflicting pairs without logging values. See README environment table.
+reject conflicting pairs without logging values. See the [README environment table](../README.md).
 The default ragops_harness.sqlite3 filename remains unchanged intentionally; no
 branding-driven database migration, move or rename occurs.

@@ -77,6 +77,10 @@ Phạm vi: branch/PR của REBRAND-001, chưa merge vào main. Không phát hàn
     26 PASS tại nguồn có chứng cứ; commit bổ sung handoff/chứng cứ phải có CI
     riêng. Run/SHA/artifact cuối nằm trong PR metadata và báo cáo bàn giao cuối,
     không gán kết quả của bec0467 cho một SHA chưa thực sự chạy.
+    Checkpoint kế tiếp [CI41302837995](https://github.com/hzjanuary/llmops-toolkit/actions/runs/41302837995)
+    cũng PASS trên a0c5ea9233df203f12c34f025131455ff3abac12; snapshot và digest
+    đầy đủ ở rebrand-001/github-run-41302837995.json. Chỉnh navigation tài liệu
+    sau đó cần CI riêng trên HEAD cuối, không dùng lại kết quả này.
 11. **Draft PR và HEAD.** [PR #2](https://github.com/hzjanuary/llmops-toolkit/pull/2),
     base main, draft=true, merged=false. Final exact HEAD và run/artifact mới nhất
     được xác minh trong PR metadata và báo cáo cuối; source doc không giả tự-SHA.

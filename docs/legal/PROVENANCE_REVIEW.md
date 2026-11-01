@@ -33,8 +33,8 @@ review for bundled native/data components; project MIT cannot replace terms.
 
 The obsolete generic process documents/templates, decisions 0001–0003, external
 installer attachment and redundant US-043 task copy are retired from the current
-tree. Product-relevant backlog items move to MAINTENANCE.md; actual development
-commands live in DEVELOPMENT.md. [RETIREMENT_RECORD.json](RETIREMENT_RECORD.json)
+tree. Product-relevant backlog items move to [maintenance](../MAINTENANCE.md);
+actual commands live in [development](../DEVELOPMENT.md). [RETIREMENT_RECORD.json](RETIREMENT_RECORD.json)
 records each original path/Git blob/SHA-256/source/removal commit and recovery
 from history. It retains earlier nested-crate retirement evidence. No copied
 installer command is retained as an operational instruction.

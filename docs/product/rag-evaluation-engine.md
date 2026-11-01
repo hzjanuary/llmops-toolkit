@@ -39,6 +39,6 @@ are a substitute for live or human faithfulness validation.
 
 Current LLMOPS_* environment names retain deprecated RAGOPS_* aliases: use the
 current value when present, legacy fallback when absent, accept equal pairs and
-reject conflicting pairs without logging values. See README environment table.
+reject conflicting pairs without logging values. See the [README environment table](../../README.md).
 The default ragops_harness.sqlite3 filename remains unchanged intentionally; no
 branding-driven database migration, move or rename occurs.

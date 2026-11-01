@@ -3,7 +3,8 @@
 Retained decisions keep their original numbers and historical text. Current
 product contracts and later decisions supersede older unsafe/default behavior.
 Generic process decisions 0001–0003 were retired from the current source tree;
-original blobs/source hashes remain in legal/RETIREMENT_RECORD.json and Git.
+original blobs/source hashes remain in the
+[retirement record](../legal/RETIREMENT_RECORD.json) and Git.
 
 - [0004 Rust/Axum/SQLite core](0004-rust-axum-sqlite-core-proxy.md).
 - [0005 CLI safety scanner](0005-cli-red-team-scanner.md).

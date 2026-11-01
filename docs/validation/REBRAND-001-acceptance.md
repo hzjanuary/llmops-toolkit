@@ -61,3 +61,11 @@ its source SHA and every historical failure remain byte-identical.
 | R24 | Exact Git source archive and private-path integrity | PASS | python3 scripts/source_gate.py --revision TESTED_SHA --output NEW_DIRECTORY; verify_public_archives.py --self-test | 0178ea96657b4f2c3765abea6cfd15f0dc9628f3 (actual local suite; a3df205 baseline/metadata where applicable) |
 | R25 | Fresh target build from exact reviewed source archive | PASS | verify.py clean-archive-build exact command array | 0178ea96657b4f2c3765abea6cfd15f0dc9628f3 (actual local suite; a3df205 baseline/metadata where applicable) |
 | R26 | Genuine GitHub verified-source CI on exact PR HEAD | PASS | Real Source CI41295320982 all three jobs PASS; rebrand-001/github-run-41295320982.json verifies downloaded ZIP/payload digests; later final HEAD CI must be bound in PR/handoff | bec04674eb26a94feabc140c03c59d132bab2c49 (actual recorded CI source) |
+
+Additional observed checkpoint: [Source CI41302837995](rebrand-001/github-run-41302837995.json)
+PASS at **a0c5ea9233df203f12c34f025131455ff3abac12**, all three jobs. Both
+artifact ZIPs, every normal/raw log, exact source archive, 32 tests + helper and
+zero security findings were downloaded and verified. A final navigation-only
+follow-up makes current documentation paths explicit; it requires its own final
+exact-head CI, recorded in PR #2 and the final handoff, never inferred from this
+checkpoint. No runtime or dependency code changed after the complete local suite.
