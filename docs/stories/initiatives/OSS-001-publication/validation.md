@@ -15,3 +15,9 @@ NOT_RUN because publication and public archive verification have not occurred.
 
 Full Phase-C gates are NOT_RUN for new publication changes. Prior results are
 retained, not reassigned to new commits. No live LLM/paid/external scan is run.
+
+Phase-A formatting result: the initial staged git diff --check FAILED because
+the TSV writer emitted CRLF line endings. The audit fields/source hashes were
+unchanged. A follow-up commit normalizes LF; history is not rewritten. Subsequent
+worktree/staged/base-to-HEAD diff checks PASS after that correction. No publication
+or runtime verification is inferred from these documentation-only checks.
